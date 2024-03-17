@@ -1,49 +1,46 @@
 {
-  "hash": "d199d698",
-  "configHash": "5d7442f8",
+  "hash": "252b3a3f",
+  "configHash": "f3587dc4",
   "lockfileHash": "4d99ff48",
-  "browserHash": "e03f51c9",
+  "browserHash": "eab83a02",
   "optimized": {
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "6fef1606",
+      "fileHash": "c7d6a2ae",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "dca856b8",
+      "fileHash": "96cc6c54",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "bf2e7367",
-      "needsInterop": false
-    },
-    "@angular/common/http": {
-      "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
-      "file": "@angular_common_http.js",
-      "fileHash": "16ed3651",
+      "fileHash": "5d01bc0e",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "3e7b0762",
+      "fileHash": "58d65d9d",
+      "needsInterop": false
+    },
+    "@angular/common": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "f7e8a36b",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-VTR6L3OB": {
-      "file": "chunk-VTR6L3OB.js"
+    "chunk-VTJH4JM6": {
+      "file": "chunk-VTJH4JM6.js"
     },
-    "chunk-ULHBWUJ7": {
-      "file": "chunk-ULHBWUJ7.js"
-    },
-    "chunk-B5CZCWZ7": {
-      "file": "chunk-B5CZCWZ7.js"
+    "chunk-GQA3GX45": {
+      "file": "chunk-GQA3GX45.js"
     },
     "chunk-QPEF36NU": {
       "file": "chunk-QPEF36NU.js"
