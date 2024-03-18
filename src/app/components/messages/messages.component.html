@@ -2,7 +2,7 @@
     <div class="message-header">
         <h2>Mensagem do Sistema:</h2>
         <button class="Clear">
-            <fa-icon [icon]="faTimes"></fa-icon>
+            <fa-icon [icon]="faTimes" (click)="messagesService.clear()"></fa-icon>
         </button>
     </div>
     <p>{{messagesService.message}}</p>
