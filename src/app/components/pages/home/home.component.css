@@ -12,7 +12,7 @@
 .moments-container {
   display: flex;
   flex-wrap: wrap;
-  max-width: 80%;
+  max-width: 90%;
   margin: 0 auto;
   justify-content: space-between;
 }
@@ -21,6 +21,10 @@
   width: 32%;
   margin-bottom: 1em;
   text-align: center;
+}
+
+.moment:hover {
+  border: 2px solid #949ce2;
 }
 
 .moment img {
@@ -55,12 +59,14 @@ a:hover {
 .search-container form {
   width: 30%;
   position: relative;
+  border: 1px solid #949ce2;
 }
 
 .search-container fa-icon {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 12px;
+  right: 18px;
+
 }
 
 .search-container input {
