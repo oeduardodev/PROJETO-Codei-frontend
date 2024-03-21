@@ -6,7 +6,7 @@
         <p>{{moment.description}}</p>
     </div>
     <div class="actions">
-        <a href="/moments/edit/{{moment.id}}" class="edit-btn">
+        <a routerLink="/moments/edit/{{moment.id}}" class="edit-btn">
             <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
         </a>
         <button class="remove-btn" (click)="removeHandler(moment.id!)">

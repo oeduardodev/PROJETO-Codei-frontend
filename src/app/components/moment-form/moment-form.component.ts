@@ -17,8 +17,11 @@ export class MomentFormComponent implements OnInit {
 
   @Output() OnSubmit = new EventEmitter<Moment>()
   @Input() btnText!: string;
+  @Input() momentData!: Moment;
+
 
   momentForm!: FormGroup;
+
 
   ngOnInit(): void {
     this.momentForm = new FormGroup({

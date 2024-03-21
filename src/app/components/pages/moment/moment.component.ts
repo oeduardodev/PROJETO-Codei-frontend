@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MomentService } from '../../../services/moment.service';
 import { Moment } from '../../../Moments';
 import { environment } from '../../../environment/environments';
@@ -11,7 +11,7 @@ import { MessageService } from '../../../services/message.service';
 @Component({
   selector: 'app-moment',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './moment.component.html',
   styleUrl: './moment.component.css'
 })
