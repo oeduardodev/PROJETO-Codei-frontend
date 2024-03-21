@@ -27,13 +27,14 @@ li {
 
 .edit-btn,
 .remove-btn {
-    border: 1px solid #efefef;
-    padding: 0.4em 1em;
-    font-size: 1em;
+    padding: 0.5em 1em 0.5rem;
+    font-size: 0.85em;
     margin: 0 0.5em;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #0a0812;
     transition: 0.4s;
+    border: none;
+    border-radius: 5px;
 }
 
 button fa-icon,
@@ -43,26 +44,21 @@ a fa-icon {
 
 .edit-btn,
 .edit-btn path {
-    border-color: #007bff;
-    color: #007bff;
+    border-color: #e7e7e7;
+    color: #e7e7e7;
+    border-radius: 5px;
 }
 
 .edit-btn:hover,
 .edit-btn:hover path {
-    color: #fff;
-    background-color: #007bff;
-}
-
-.remove-btn,
-.remove-btn path {
-    border-color: #dc3545;
-    color: #dc3545;
+    color: #45b63a;
+    box-shadow: 2px 2px 1px #41456e;
 }
 
 .remove-btn:hover,
 .remove-btn:hover path {
-    color: #fff;
-    background-color: #dc3545;
+    color: #dc3545;
+    box-shadow: 2px 2px 1px #41456e;
 }
 
 /* FORM STYLES */

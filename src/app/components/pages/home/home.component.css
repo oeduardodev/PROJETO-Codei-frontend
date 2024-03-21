@@ -12,15 +12,18 @@
 .moments-container {
   display: flex;
   flex-wrap: wrap;
-  max-width: 90%;
+  max-width: 60rem;
   margin: 0 auto;
   justify-content: space-between;
+  margin-bottom: 3em;
 }
 
 .moment {
-  width: 32%;
-  margin-bottom: 1em;
+  width: 30%;
   text-align: center;
+  margin: 1rem;
+  box-shadow: 5px 5px 35px black;
+  border: 2px solid #120c49;
 }
 
 .moment:hover {
@@ -28,7 +31,8 @@
 }
 
 .moment img {
-  width: 100%;
+  width: 17.8rem;
+  height: 15rem;
   margin-bottom: 1em;
 }
 
