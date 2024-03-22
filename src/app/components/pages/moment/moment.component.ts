@@ -11,7 +11,7 @@ import { MessageService } from '../../../services/message.service';
 @Component({
   selector: 'app-moment',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, RouterLink],
+  imports: [CommonModule, FontAwesomeModule, RouterLink,],
   templateUrl: './moment.component.html',
   styleUrl: './moment.component.css'
 })

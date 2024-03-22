@@ -1,70 +1,79 @@
 {
-  "hash": "c3cd001a",
-  "configHash": "057c358c",
+  "hash": "46c6b91a",
+  "configHash": "59ac4093",
   "lockfileHash": "2afbdd2b",
-  "browserHash": "452d6bad",
+  "browserHash": "5b26a32c",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "5b6260fc",
+      "fileHash": "c047d358",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "1199b4b2",
+      "fileHash": "ef6a6696",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "20e438e3",
+      "fileHash": "58490df5",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "6de4ee0c",
+      "fileHash": "b4b0416c",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "01aadf88",
+      "fileHash": "6182b2b6",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "52b39a63",
+      "fileHash": "cbfb7e37",
       "needsInterop": false
     },
     "@fortawesome/angular-fontawesome": {
       "src": "../../../../../node_modules/@fortawesome/angular-fontawesome/fesm2022/angular-fontawesome.mjs",
       "file": "@fortawesome_angular-fontawesome.js",
-      "fileHash": "f1122842",
+      "fileHash": "48eb5da9",
       "needsInterop": false
     },
     "@fortawesome/free-solid-svg-icons": {
       "src": "../../../../../node_modules/@fortawesome/free-solid-svg-icons/index.mjs",
       "file": "@fortawesome_free-solid-svg-icons.js",
-      "fileHash": "42bda7a5",
+      "fileHash": "fc13f8b8",
+      "needsInterop": false
+    },
+    "tslib": {
+      "src": "../../../../../node_modules/tslib/tslib.es6.mjs",
+      "file": "tslib.js",
+      "fileHash": "8aa810b6",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-VYVGSDFG": {
-      "file": "chunk-VYVGSDFG.js"
+    "chunk-ZZIVFQUT": {
+      "file": "chunk-ZZIVFQUT.js"
     },
-    "chunk-TIXBS7O6": {
-      "file": "chunk-TIXBS7O6.js"
+    "chunk-EYKEDYT6": {
+      "file": "chunk-EYKEDYT6.js"
     },
-    "chunk-MJOIYPDU": {
-      "file": "chunk-MJOIYPDU.js"
+    "chunk-INOXIBRL": {
+      "file": "chunk-INOXIBRL.js"
     },
-    "chunk-5RIGW3RL": {
-      "file": "chunk-5RIGW3RL.js"
+    "chunk-2XFXBQKJ": {
+      "file": "chunk-2XFXBQKJ.js"
+    },
+    "chunk-AOF462FV": {
+      "file": "chunk-AOF462FV.js"
     },
     "chunk-J4B6MK7R": {
       "file": "chunk-J4B6MK7R.js"

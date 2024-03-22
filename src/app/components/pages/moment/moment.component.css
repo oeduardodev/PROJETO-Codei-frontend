@@ -42,6 +42,7 @@ img:hover {
 }
 
 .comments {
+  margin: 0 auto;
   margin-bottom: 1em;
   padding: 1.5em 0;
 }
@@ -59,21 +60,33 @@ img:hover {
 
 .comment {
   font-size: 0.9em;
+  width: 40rem;
+  background-color: #0a0812;
+  padding: 2rem;
 }
 
 .author {
-  font-size: 0.8em;
+  font-size: 1.5em;
+  margin-bottom: 0.5rem;
 }
 
 .comment-form {
+  text-align: left;
+  margin: 0 auto 0;
   margin-bottom: 3em;
 }
 
 .comment-form form {
   margin-top: 1em;
-  text-align: left;
-  max-width: 300px;
-  margin-left: 0;
+  width: 40rem;
+}
+
+.textarea-coment {
+  height: 14rem;
+}
+
+.comment-buttor {
+  margin-top: 1rem;
 }
 
 .author span {
