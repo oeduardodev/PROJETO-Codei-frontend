@@ -1,0 +1,21 @@
+.login {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    margin: 0 auto;
+    width: 70%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cadastrar {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.cadastrar span {
+    margin: .3rem;
+}

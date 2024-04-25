@@ -34,9 +34,6 @@ img:hover {
   padding: 1.2em;
 }
 
-.actions {}
-
-
 .icone {
   color: rgb(255, 255, 255);
 }
@@ -85,7 +82,7 @@ img:hover {
   height: 14rem;
 }
 
-.comment-buttor {
+.comment-button {
   margin-top: 1rem;
 }
 

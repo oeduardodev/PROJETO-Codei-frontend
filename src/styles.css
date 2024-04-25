@@ -86,7 +86,8 @@ form {
 }
 
 textarea,
-input[type="text"] {
+input[type="text"],
+input[type="email"], input[type="password"] {
     background-color: #0000005e;
     border: none;
     padding: 0.6em 1em;
