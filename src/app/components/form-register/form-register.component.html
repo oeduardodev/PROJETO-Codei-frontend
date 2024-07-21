@@ -1,17 +1,22 @@
-<form (ngSubmit)="submit()">
+<form (ngSubmit)="submit()" [formGroup]="registerForm">
     <div class="form-group">
-        <label>Email:</label>
-        <input type="email" />
-        <!-- <div *ngIf="title.invalid && formDir.submitted" class="validation-error">
-            <p *ngIf="title.errors?.['required']">O título é obrigatório.</p>
-        </div> -->
+      <label>Nome de Usuário:</label>
+      <input type="text" formControlName="username"/>
     </div>
     <div class="form-group">
-        <label>Senha:</label>
-        <input type="password" name="" id="" />
+      <label>Email:</label>
+      <input type="email" formControlName="email"/>
     </div>
     <div class="form-group">
-        <input class="login" type="submit" value="{{ btnText }}" />
-        <div class="cadastrar"> <span> ou </span> <a routerLink="/enter">Entre na sua conta.</a></div>
+      <label>Senha:</label>
+      <input type="password" formControlName="password"/>
     </div>
-</form>
+    <div class="form-group">
+      <input class="login" type="submit" value="{{ btnText }}" />
+      <div class="cadastrar">
+        <span> ou </span> 
+        <a routerLink="/enter">Entre na sua conta.</a>
+      </div>
+    </div>
+  </form>
+  

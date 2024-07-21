@@ -1,22 +1,23 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Moment } from '../../Moments';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Register } from '../../Register';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-form-register',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule],
   templateUrl: './form-register.component.html',
-  styleUrl: './form-register.component.css'
+  styleUrls: ['./form-register.component.css']
 })
-export class FormRegisterComponent {
-  @Output() OnSubmit = new EventEmitter<Moment>()
+export class FormRegisterComponent implements OnInit {
+  @Output() OnSubmit = new EventEmitter<Register>();
   @Input() btnText!: string;
-  @Input() momentData!: Moment;
   @Output() componenteRenderizado = new EventEmitter<string>();
+  @Input() registerData: Register = { username: '', email: '', password: '' }; // Inicialização com valores padrão
 
-  momentForm!: FormGroup;
+  registerForm!: FormGroup;
 
   constructor() {
     // Emitir o nome do componente renderizado assim que ele for inicializado
@@ -24,33 +25,24 @@ export class FormRegisterComponent {
   }
 
   ngOnInit(): void {
-    // this.momentForm = new FormGroup({
-    //   id: new FormControl(this.momentData ? this.momentData.id : ''),
-    //   title: new FormControl(this.momentData ? this.momentData.title : '', [Validators.required]),
-    //   description: new FormControl(this.momentData ? this.momentData.description : '', [Validators.required]),
-    //   image: new FormControl(''),
-    // });
+    // Verificação de segurança para garantir que registerData não seja indefinido
+    if (!this.registerData) {
+      this.registerData = { username: '', email: '', password: '' }; // Valores padrão
+    }
+
+    this.registerForm = new FormGroup({
+      username: new FormControl(this.registerData.username, Validators.required),
+      email: new FormControl(this.registerData.email, [Validators.required, Validators.email]),
+      password: new FormControl(this.registerData.password, Validators.required),
+    });
   }
 
-  get title() {
-    return this.momentForm.get('title')!;
-  }
-
-  get description() {
-    return this.momentForm.get('description')!;
-  }
-
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    this.momentForm.patchValue({ image: file })
-  }
   submit() {
-    if (this.momentForm.invalid) {
+    if (this.registerForm.invalid) {
       console.log('deu ruim');
       return;
     }
-
-    this.OnSubmit.emit(this.momentForm.value)
-
+    console.log("deu bom");
+    this.OnSubmit.emit(this.registerForm.value);
   }
 }

@@ -1,15 +1,42 @@
 import { Component } from '@angular/core';
-import { FormAccessComponent } from "../../form-access/form-access.component";
 import { FormRegisterComponent } from "../../form-register/form-register.component";
+import { UsersService } from '../../../services/users.service';
+import { MessageService } from '../../../services/message.service';
+import { Router } from '@angular/router';
+import { Register } from '../../../Register';
 
 @Component({
     selector: 'app-register',
     standalone: true,
     templateUrl: './register.component.html',
-    styleUrl: './register.component.css',
-    imports: [FormAccessComponent, FormRegisterComponent]
+    styleUrls: ['./register.component.css'],
+    imports: [FormRegisterComponent]
 })
 export class RegisterComponent {
   btnText = "Cadastrar";
 
+  constructor(
+    private service: UsersService,
+    private messageService: MessageService,
+    private router: Router
+  ) { }
+
+  async createHandler(register: Register) {
+      const formData = new FormData();
+
+      formData.append('username', register.username);
+      formData.append('email', register.email);
+      formData.append('password', register.password);
+
+      await this.service.register(formData).subscribe(
+        () => {
+          this.messageService.addMessage("Usuário adicionado com sucesso!");
+          this.router.navigate(['/']);
+        },
+        (error) => {
+          console.error("Erro ao adicionar usuário: ", error);
+          this.messageService.addMessage("Erro ao adicionar usuário.");
+        }
+      );
+  }
 }
