@@ -10,6 +10,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { SearchService } from '../../../services/search.service';
 
 @Component({
   selector: 'app-home',
@@ -26,9 +27,15 @@ export class HomeComponent {
   moments: Moment[] = []
 
   baseApiUrl = environment.baseApiUrl
-  constructor(private momentService: MomentService) { }
+  constructor(
+    private momentService: MomentService,
+    private searchService: SearchService
+  ) { }
 
   ngOnInit(): void {
+    this.searchService.getFilteredMoments().subscribe(moments => {
+      this.moments = moments;
+    });
     this.momentService.getMoments().subscribe((items) => {
       const data = items.data
 

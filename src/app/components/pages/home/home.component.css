@@ -19,10 +19,11 @@
 }
 
 .moment {
+  padding: 1rem;
   text-align: center;
   margin: 1rem;
-  box-shadow: 5px 5px 35px black;
-  border: 2px solid #120c49;
+  border-radius: 10px;
+  background-color: #c6c9e63f;
 }
 
 .moment:hover {
@@ -37,6 +38,7 @@
 
 .moment h3,
 .moment p {
+  text-align: left;
   margin-bottom: 1em;
 }
 
@@ -46,8 +48,13 @@
 }
 
 a {
+  width: 5rem;
+  display: flex;
   color: #949ce2;
   padding: 0.3em 0.6em;
+  align-items: end;
+  text-align: right;
+  justify-content: right;
 }
 
 a:hover {
@@ -67,9 +74,10 @@ a:hover {
 
 .search-container fa-icon {
   position: absolute;
-  top: 12px;
+  top: 8px;
   right: 18px;
-
+  background-color: none;
+  padding: 0.3rem;
 }
 
 .search-container input {
@@ -77,4 +85,5 @@ a:hover {
   margin: 0 auto;
   width: 100%;
   text-align: center;
+
 }

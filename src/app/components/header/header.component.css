@@ -2,11 +2,11 @@ nav {
     display: flex;
     justify-content: space-between;
     padding: 1rem 5rem;
-    border-bottom: 1px solid #949ce2;
 }
 
 .brand,
 .links {
+    margin-left: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,3 +38,51 @@ nav {
 .links a {
     padding: 1em 2em;
 }
+
+  
+  .moment .date {
+    font-size: 0.7em;
+    font-style: italic;
+  }
+  
+  a {
+    width: 5rem;
+    display: flex;
+    color: #949ce2;
+    padding: 0.3em 0.6em;
+    align-items: end;
+    text-align: right;
+    justify-content: right;
+  }
+  
+  a:hover {
+    background-color: #0000005e;
+  }
+  
+  .search-container {
+    display: flex;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+  
+  .search-container form {
+    margin: auto 14rem;
+    width: 30%;
+    position: relative;
+    border-radius: 25px;
+  }
+  
+  .search-container fa-icon {
+    position: absolute;
+    top: 8px;
+    right: 18px;
+    background-color: none;
+    padding: 0.3rem;
+  }
+  
+  .search-container input {
+    padding: 0.5em;
+    width: 100%;
+    border-radius: 25px;
+    background-color: #c6c9e63f;
+  }

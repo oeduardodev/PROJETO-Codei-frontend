@@ -1,5 +1,4 @@
 footer {
-    border-top: 1px solid #949ce2;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,7 +9,7 @@ footer {
 footer h3 {
     margin-bottom: 1.2em;
     padding: 1rem;
-    background-color: #0000005e;
+    background-color: #00000018;
 }
 
 footer span {
