@@ -1,18 +1,13 @@
 <nav>
-    <a class="brand" routerLink="/">
-        <img src="../../../assets/logo.png" alt="moments">
-        <h2>Moments<span>Dev</span> </h2>
-    </a>
     <div class="search-container">
         <form>
           <fa-icon class="icon" [icon]="faSearch"></fa-icon>
-          <input type="text" placeholder="Ou busque por um momento..." (input)="search($event)" />
+          <input type="text" placeholder="Busque por algo..." (input)="search($event)" />
         </form>
       </div>
-    <!-- <ul class="links">
+    <ul class="links">
         <li><a routerLink="/">Home</a></li>
         <li class="add"><a routerLink="/moments/new">Compartilhar</a></li>
         <li><a routerLink="/about">Sobre</a></li>
-        <li><a routerLink="/enter">Entrar</a></li>
-    </ul> -->
+    </ul>
 </nav>

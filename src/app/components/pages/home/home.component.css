@@ -10,6 +10,15 @@
   margin-bottom: 0.5em;
 }
 
+.aside-container {
+  position: absolute;
+  top:0px;
+  padding-top: 5rem;
+  width: 20rem;
+  background-color: #f1f2f99d;
+  height: 100vh; 
+  box-sizing: border-box; 
+}
 .moments-container {
   display: flex;
   flex-wrap: wrap;
