@@ -17,4 +17,8 @@ export class UsersService {
   register(formData: FormData): Observable<FormData> {
     return this.http.post<FormData>(this.apiUrl, formData)
   }
+
+  login(formData: FormData): Observable<FormData> {
+    return this.http.post<FormData>(this.apiUrl, formData)
+  }
 }
