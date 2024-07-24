@@ -11,13 +11,16 @@
     height: 6rem;
     border-radius: 65px;
 }
-.brand{
-margin: -25px auto 5rem auto;    
-width: 5rem;
+
+.brand {
+    margin: -45px auto 5rem auto;
+    width: 5rem;
 }
-.brand img{
+
+.brand img {
     width: 3rem;
 }
+
 .description {
     text-align: center;
     margin: 5rem auto;
@@ -35,9 +38,11 @@ width: 5rem;
 .name {
     margin-top: 1rem;
 }
-li{
+
+li {
     margin: 1rem;
 }
+
 /* .enter {
     color: rgb(240, 240, 240) !important;
     background-color: #322e49;
@@ -134,7 +139,8 @@ a:hover {
 .butn span {
     z-index: 20;
 }
-footer{
+
+footer {
     margin-top: 10rem;
     font-size: 0.7rem;
     display: flex;

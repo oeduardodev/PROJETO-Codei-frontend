@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Moment } from '../../Moments';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faFlaskVial, faHouse, faHouseCrack, faHouseFire, faHouseFlag, faHouseUser, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { MomentService } from '../../services/moment.service';
 import { environment } from '../../environment/environments';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,9 @@ import { SearchService } from '../../services/search.service';
 })
 export class HeaderComponent implements OnInit {
   faSearch = faSearch;
+  faHouse = faHouse;
+  faFlaskVial = faFlaskVial;
+  faUser = faUser
   allMoments: Moment[] = [];
 
   baseApiUrl = environment.baseApiUrl;
