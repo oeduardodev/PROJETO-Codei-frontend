@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
 import { Register } from '../../../Register';
 
 @Component({
-    selector: 'app-register',
-    standalone: true,
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css'],
-    imports: [FormRegisterComponent]
+  selector: 'app-register',
+  standalone: true,
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
+  imports: [FormRegisterComponent]
 })
 export class RegisterComponent {
   btnText = "Cadastrar";
@@ -22,21 +22,24 @@ export class RegisterComponent {
   ) { }
 
   async createHandler(register: Register) {
-      const formData = new FormData();
+    const formData = new FormData();
 
-      formData.append('username', register.username);
+    formData.append('username', register.username);
+    formData.append('password', register.password);
+
+    if (register.email) {
       formData.append('email', register.email);
-      formData.append('password', register.password);
+    }
 
-      await this.service.register(formData).subscribe(
-        () => {
-          this.messageService.addMessage("Usuário adicionado com sucesso!");
-          this.router.navigate(['/']);
-        },
-        (error) => {
-          console.error("Erro ao adicionar usuário: ", error);
-          this.messageService.addMessage("Erro ao adicionar usuário.");
-        }
-      );
+    await this.service.register(formData).subscribe(
+      () => {
+        this.messageService.addMessage("Usuário adicionado com sucesso!");
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.error("Erro ao adicionar usuário: ", error);
+        this.messageService.addMessage("Erro ao adicionar usuário.");
+      }
+    );
   }
 }

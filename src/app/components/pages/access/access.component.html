@@ -1,4 +1,5 @@
 <div class="containerForm">
     <h2><span>Entre </span>na sua conta</h2>
-    <app-form-access [btnText]="btnText"></app-form-access>
-</div>
+    <app-form-access (OnSubmit)="createHandler($event)" [btnText]="btnText"></app-form-access>
+  </div>
+  

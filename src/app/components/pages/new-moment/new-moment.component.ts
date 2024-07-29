@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { MomentFormComponent } from "../../moment-form/moment-form.component";
 import { Router } from '@angular/router';
-
-import { Moment } from '../../../Moments';
-
 import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
 
@@ -11,11 +8,11 @@ import { MessageService } from '../../../services/message.service';
     selector: 'app-new-moment',
     standalone: true,
     templateUrl: './new-moment.component.html',
-    styleUrl: './new-moment.component.css',
+    styleUrls: ['./new-moment.component.css'],
     imports: [MomentFormComponent]
 })
 export class NewMomentComponent {
-    btnText = 'Compartilhar'
+    btnText = 'Compartilhar';
 
     constructor(
         private momentService: MomentService,
@@ -23,20 +20,13 @@ export class NewMomentComponent {
         private router: Router
     ) { }
 
-    async createHander(moment: Moment) {
-        const formData = new FormData();
-
-        formData.append('title', moment.title);
-        formData.append('description', moment.description);
-
-        if (moment.image) {
-            formData.append('image', moment.image)
+    async createHandler(formData: FormData) {
+        try {
+            await this.momentService.createMoment(formData).toPromise();
+            this.messageService.addMessage("Momento adicionado com sucesso!");
+            this.router.navigate(['/']);
+        } catch (error) {
+            console.error('Error creating moment', error);
         }
-
-        await this.momentService.createMoment(formData).subscribe()
-
-        this.messageService.addMessage("Momento adicionado com sucesso!")
-
-        this.router.navigate(['/'])
     }
 }

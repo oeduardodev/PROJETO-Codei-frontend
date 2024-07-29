@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Moment } from '../../../Moments';
-
 import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MomentFormComponent } from '../../moment-form/moment-form.component';
@@ -14,9 +11,9 @@ import { MomentFormComponent } from '../../moment-form/moment-form.component';
   standalone: true,
   imports: [CommonModule, MomentFormComponent],
   templateUrl: './edit-moment.component.html',
-  styleUrl: './edit-moment.component.css'
+  styleUrls: ['./edit-moment.component.css']
 })
-export class EditMomentComponent {
+export class EditMomentComponent implements OnInit {
   moment!: Moment;
   btnText: string = 'Editar';
 
@@ -25,32 +22,22 @@ export class EditMomentComponent {
     private messageService: MessageService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get("id"));
 
     this.momentService.getMoment(id).subscribe((item) => {
       this.moment = item.data;
-    })
+    });
   }
 
-  async editHandler(momentData: Moment) {
-    const id = this.moment.id
-    const formData = new FormData()
+  async editHandler(formData: FormData) {
+    const id = this.moment.id;
 
-    formData.append('title', momentData.title)
-    formData.append('description', momentData.description)
-
-    if (momentData.image) {
-      formData.append('image', momentData.image)
-    }
-
-    await this.momentService.updateMoment(id!, formData).subscribe()
-
-    this.messageService.addMessage(`momento ${id} foi atualizado.`)
-
-    this.router.navigate(['/'])
-
+    this.momentService.updateMoment(id!, formData).subscribe(() => {
+      this.messageService.addMessage(`Momento ${id} foi atualizado.`);
+      this.router.navigate(['/']);
+    });
   }
 }

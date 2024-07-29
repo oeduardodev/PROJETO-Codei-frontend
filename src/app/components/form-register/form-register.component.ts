@@ -39,10 +39,8 @@ export class FormRegisterComponent implements OnInit {
 
   submit() {
     if (this.registerForm.invalid) {
-      console.log('deu ruim');
       return;
     }
-    console.log("deu bom");
     this.OnSubmit.emit(this.registerForm.value);
   }
 }

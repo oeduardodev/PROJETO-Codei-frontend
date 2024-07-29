@@ -1,54 +1,38 @@
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
-import { Moment } from '../../Moments';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Register } from '../../Register';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-form-access',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule],  
   templateUrl: './form-access.component.html',
-  styleUrl: './form-access.component.css'
+  styleUrls: ['./form-access.component.css']
 })
-export class FormAccessComponent {
+export class FormAccessComponent implements OnInit {
 
-  @Output() OnSubmit = new EventEmitter<Moment>()
-  @Input() btnText!: string;
-  @Input() btnTextSecundary!: string;
-  @Input() momentData!: Moment;
+  @Output() OnSubmit = new EventEmitter<Register>();
   @Output() componenteRenderizado = new EventEmitter<string>();
+  @Input() registerData: Register = { username: '', email: '', password: '' }; // Inicialização com valores padrão
+  @Input() btnText!: string;
 
-  momentForm!: FormGroup;
+  loginForm!: FormGroup;
 
-  constructor() {
-    // Emitir o nome do componente renderizado assim que ele for inicializado
-    this.componenteRenderizado.emit('form-access');
-  }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // this.momentForm = new FormGroup({
-    //   id: new FormControl(this.momentData ? this.momentData.id : ''),
-    //   title: new FormControl(this.momentData ? this.momentData.title : '', [Validators.required]),
-    //   description: new FormControl(this.momentData ? this.momentData.description : '', [Validators.required]),
-    //   image: new FormControl(''),
-    // });
-  }
+    this.componenteRenderizado.emit('form-login');
 
-  get title() {
-    return this.momentForm.get('title')!;
-  }
-
-  get description() {
-    return this.momentForm.get('description')!;
+    // Initialize form group
+    this.loginForm = new FormGroup({
+      username: new FormControl(this.registerData.username, Validators.required),
+      password: new FormControl(this.registerData.password, Validators.required),
+    });
   }
 
   submit() {
-    if (this.momentForm.invalid) {
-      console.log('deu ruim');
-      return;
-    }
-
-    this.OnSubmit.emit(this.momentForm.value)
-
+    this.OnSubmit.emit(this.loginForm.value);
   }
 }
