@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Rethink Sans", sans-serif;
-    color: #322e49;
 }
 
 a {
@@ -23,41 +22,56 @@ li {
 /* form */
 
 /* BUTTONS */
-
 .edit-btn,
 .remove-btn {
     padding: 0.5em 1em 0.5rem;
     font-size: 0.85em;
     margin: 0 0.5em;
     cursor: pointer;
-    background-color: #0a0812;
+    color: #e7e7e7 !important;
+    background-color: #8d96df;
     transition: 0.4s;
     border: none;
     border-radius: 5px;
 }
 
+.aside-container {
+    position: fixed;
+    top:0px;
+    padding-top: 5rem;
+    width: 20rem;
+    background-color: #f1f2f99d;
+    height: 105vh; 
+    box-sizing: border-box; 
+}
+
+.remove-btn {
+    border: 2px solid;
+    color: #e7e7e7 !important;
+    background-color: #212333;
+}
+
 button fa-icon,
 a fa-icon {
+    color: #e7e7e7 !important;
     margin-right: 0.2em;
 }
 
 .edit-btn,
 .edit-btn path {
-    border-color: #e7e7e7;
+    border: 2px solid;
     color: #e7e7e7;
     border-radius: 5px;
 }
 
 .edit-btn:hover,
 .edit-btn:hover path {
-    color: #45b63a;
-    box-shadow: 2px 2px 1px #41456e;
+    border: 2px solid #29263f;
 }
 
 .remove-btn:hover,
 .remove-btn:hover path {
-    color: #dc3545;
-    box-shadow: 2px 2px 1px #41456e;
+    border: 2px solid #ce333b;
 }
 
 /* FORM STYLES */
@@ -93,9 +107,11 @@ input[type="email"], input[type="password"] {
     font-weight: bold;
     cursor: pointer;
     font-size: 1.1em;
-    border: 2px solid transparent;
     transition: 0.4s;
     color: #000000;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
 }
 
 input[type="submit"] {
@@ -106,9 +122,11 @@ input[type="submit"] {
     font-weight: bold;
     cursor: pointer;
     font-size: 1.1em;
-    border: 2px solid transparent;
     border-radius: 10px;
     transition: 0.4s;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
 }
 
 input[type="file"] {
@@ -118,10 +136,12 @@ input[type="file"] {
     font-weight: bold;
     cursor: pointer;
     font-size: 0.8em;
-    border: 2px solid transparent;
     transition: 0.4s;
     margin-bottom: 2rem;
     width: 65%;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
 }
 
 input[type="submit"]:hover {
@@ -135,4 +155,9 @@ input[type="submit"]:hover {
     margin-top: 0.4em;
     border-left: 3px solid #dc3545;
     padding-left: 0.2em;
+}
+
+h1{
+    text-align: left;
+    margin-left: 12.5rem;
 }

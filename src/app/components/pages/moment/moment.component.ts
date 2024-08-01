@@ -10,14 +10,15 @@ import { Comment } from '../../../Comments';
 import { environment } from '../../../environment/environments';
 
 import { CommonModule } from '@angular/common';
-import { faTimes, faEdit, } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faEdit, faUsersRays, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommentService } from '../../../services/comment.service';
+import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
 
 @Component({
   selector: 'app-moment',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, RouterLink, ReactiveFormsModule],
+  imports: [AsideProfileComponent, CommonModule, FontAwesomeModule, RouterLink, ReactiveFormsModule],
   templateUrl: './moment.component.html',
   styleUrl: './moment.component.css'
 })
@@ -27,7 +28,7 @@ export class MomentComponent {
 
   faEdit = faEdit
   faTimes = faTimes
-
+  faRay = faUsersRays
   commentForm!: FormGroup
 
   constructor(
