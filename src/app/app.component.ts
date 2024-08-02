@@ -12,5 +12,5 @@ import { MessagesComponent } from './components/messages/messages.component';
   imports: [RouterOutlet, HeaderComponent, FooterComponent, MessagesComponent]
 })
 export class AppComponent {
-  title = 'moments-dev';
+  title = 'Codei';
 }

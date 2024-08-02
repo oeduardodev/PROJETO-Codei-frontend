@@ -28,7 +28,7 @@
                 <p *ngIf="text.errors?.['required']">O texto é obrigatório.</p>
               </div>
               <div>
-                <input formControlName="username" type="text" placeholder="Digite seu Nome ou apelido.">
+                <input formControlName="username" type="text" placeholder="Digite seu Nome ou apelido." >
                 <input class="comment-button" type="submit" value="Comentar!">
               </div>
               <div *ngIf="username.invalid && formDir.submitted" class="validation-error">

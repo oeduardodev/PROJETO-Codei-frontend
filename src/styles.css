@@ -53,9 +53,16 @@ li {
 
 button fa-icon,
 a fa-icon {
-    color: #e7e7e7 !important;
+    color: #212333 !important;
     margin-right: 0.2em;
 }
+
+button fa-icon,
+a fa-icon:hover {
+    color: #949ce2 !important;
+    margin-right: 0.2em;
+}
+
 
 .edit-btn,
 .edit-btn path {
