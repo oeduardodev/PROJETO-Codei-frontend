@@ -30,7 +30,7 @@ export class HomeComponent {
   allMoments: Moment[] = [];
   moments: Moment[] = [];
 
-  baseApiUrl = environment.baseApiUrl;
+  endpoint = environment.endpoint;
   constructor(
     private momentService: MomentService,
     private searchService: SearchService

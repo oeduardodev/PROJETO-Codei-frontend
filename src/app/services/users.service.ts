@@ -7,21 +7,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UsersService {
-  private baseApiUrl = environment.baseApiUrl;
-  private apiUrl = `${this.baseApiUrl}api/register`;
-  private apiUrlDois = `${this.baseApiUrl}api/login`;
-  private apiUrlTres = `${this.baseApiUrl}api/user`;
+
   constructor(private http: HttpClient) { }
 
   register(formData: FormData): Observable<FormData> {
-    return this.http.post<FormData>(this.apiUrl, formData);
+    return this.http.post<FormData>(environment.endpoint + environment.register, formData);
   }
 
   login(formData: FormData): Observable<FormData> {
-    return this.http.post<FormData>(this.apiUrlDois, formData);
+    return this.http.post<FormData>(environment.endpoint + environment.login, formData);
   }
   user(token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(this.apiUrlTres, { headers });
+    return this.http.get(environment.endpoint + environment.getUser, { headers });
   }
 }

@@ -11,10 +11,13 @@
       </button>
     </div>
     <div>
-      <h1>{{moment.title}}</h1> 
-      <!-- <fa-icon [icon]="faRay"></fa-icon> -->
+      <div class="cabecalho">
+        <h1>{{moment.title}}</h1> 
+        <img class="capilike" src="../../../../assets/capilike-ative.png" alt="">
+      </div>
+
       <div class="container-about-comment">
-        <img src="{{ baseApiUrl }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+        <img class="img-moment" src="{{ baseApiUrl }}/uploads/{{ moment.image }}" alt="{{ moment.title }}" />
         <div class="comment-about">
           <div class="about-moment">
             <h2>Usuario escreveu:</h2>

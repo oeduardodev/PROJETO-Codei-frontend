@@ -12,33 +12,28 @@ import { Response } from '../Response';
 })
 export class MomentService {
 
-  private BaseApiUrl = environment.baseApiUrl;
-  private apiUrl = `${this.BaseApiUrl}api/moments`;
 
   constructor(private http: HttpClient) { }
 
   getMoments(): Observable<Response<Moment[]>> {
-    return this.http.get<Response<Moment[]>>(this.apiUrl);
+    return this.http.get<Response<Moment[]>>(environment.endpoint + environment.moments);
   }
 
   getMoment(id: Number): Observable<Response<Moment>> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Response<Moment>>(url);
+    return this.http.get<Response<Moment>>(`${environment.endpoint}${environment.moments}/${id}`);
   }
 
   createMoment(formData: FormData): Observable<FormData> {
     const token = localStorage.getItem('authToken') || '';
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<FormData>(this.apiUrl, formData, { headers });
+    return this.http.post<FormData>((environment.endpoint + environment.moments), formData, { headers });
   }
 
   removeMoment(id: Number) {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url);
+    return this.http.delete(`${environment.endpoint}${environment.moments}/${id}`);
   }
 
   updateMoment(id: Number, formData: FormData) {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.put<FormData>(url, formData);
+    return this.http.put<FormData>(`${environment.endpoint}${environment.moments}/${id}`, formData);
   }
 }

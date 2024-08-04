@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Moment } from '../../Moments';
-import { faFlaskVial, faHouse, faHouseCrack, faHouseFire, faHouseFlag, faHouseUser, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faFlaskVial, faHouse, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { MomentService } from '../../services/moment.service';
 import { environment } from '../../environment/environments';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   faUser = faUser
   allMoments: Moment[] = [];
 
-  baseApiUrl = environment.baseApiUrl;
+  baseApiUrl = environment.endpoint;
 
   constructor(private momentService: MomentService, private searchService: SearchService) {}
 

@@ -11,7 +11,19 @@ h1 {
   margin-left: 24rem;
 }
 
-img {
+.cabecalho{
+  cursor: pointer;
+  width: 54%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.capilike{
+  width: 55px;
+}
+
+.img-moment {
   width: 650px;
   height: 500px;
   margin: 0 0 2rem;
@@ -20,7 +32,7 @@ img {
   align-items: left;
   margin-left: 24rem;
   border-radius: 15px;
-  box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.479);
+  box-shadow: 2px 2px 20px #929ae169;
 }
 
 .actions {

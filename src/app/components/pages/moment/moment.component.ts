@@ -22,7 +22,7 @@ import { AsideProfileComponent } from '../../aside-profile/aside-profile.compone
 })
 export class MomentComponent {
   moment?: Moment;
-  baseApiUrl = environment.baseApiUrl;
+  baseApiUrl = environment.endpoint;
   userNameLog!: string;
   
   faEdit = faEdit;
