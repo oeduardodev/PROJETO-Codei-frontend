@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommentService } from '../../../services/comment.service';
 import { UsersService } from '../../../services/users.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
+import { LikeService } from '../../../services/like.service';
 
 @Component({
   selector: 'app-moment',
@@ -24,7 +25,8 @@ export class MomentComponent {
   moment?: Moment;
   baseApiUrl = environment.endpoint;
   userNameLog!: string;
-  
+  likeAtive: boolean = false; 
+
   faEdit = faEdit;
   faTimes = faTimes;
   faRay = faUsersRays;
@@ -38,7 +40,8 @@ export class MomentComponent {
     private messagesService: MessageService,
     private router: Router,
     private commentService: CommentService,
-    private userService: UsersService
+    private userService: UsersService,
+    private likeService: LikeService
   ) { }
 
   ngOnInit(): void {
@@ -48,7 +51,6 @@ export class MomentComponent {
     });
 
     this.userService.user(this.token).subscribe((user) => {
-      console.log(user.username);
       this.userNameLog = user.username;
 
       // Set the username form control to the user's name and disable the input
@@ -65,6 +67,17 @@ export class MomentComponent {
 
     this.momentService.getMoment(id).subscribe((item) => {
       this.moment = item.data;
+
+      if (this.moment && this.moment.id !== undefined) {
+        this.likeService.getLike(this.moment.id, this.token).subscribe(
+          (like) => {
+            console.log(like);
+            this.likeAtive = like.liked; 
+          }
+        );
+      } else {
+        console.error('Moment or Moment ID is undefined.');
+      }
     });
   }
 
@@ -98,4 +111,29 @@ export class MomentComponent {
     this.messagesService.addMessage("Momento excluido com sucesso!");
     this.router.navigate(['/']);
   }
+
+  sendLike() {
+    if (this.moment && this.moment.id !== undefined) {
+      this.likeService.sendLike(this.moment.id, this.token).subscribe();
+      this.likeService.getLike(this.moment.id, this.token).subscribe(
+        (like) => {
+          this.likeAtive = like.liked; 
+          console.log(like);
+        }
+      )
+    } else {
+      console.error('Moment ID is undefined. Cannot send like.');
+    }
+  }
+
+  updateLikeImage(): string {
+    if (this.moment && this.moment.id !== undefined) {
+      return this.likeAtive
+        ? '../../../../assets/capilike-ative.png'
+        : '../../../../assets/capilike.png';
+    } else {
+      console.error('Moment ID is undefined. Cannot get like image.');
+      return '../../../../assets/capilike.png'; 
+    }
+  }  
 }

@@ -30,6 +30,10 @@ export const environment = {
      */
     comment: 'api/comments',
     
+    like:'api/moments/${id}/like',
+
+    getLike:'api/moments/${id}/like',
+
     /**
      * Rota para gerenciar 'moments' (momentos)
      * Usada para criar, listar, atualizar ou deletar momentos
