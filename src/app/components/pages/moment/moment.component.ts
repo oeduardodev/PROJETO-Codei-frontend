@@ -114,18 +114,44 @@ export class MomentComponent {
 
   sendLike() {
     if (this.moment && this.moment.id !== undefined) {
+      // Inverta o estado de likeAtive imediatamente
+      this.likeAtive = !this.likeAtive;
+  
+      // Atualize a imagem imediatamente após a inversão
+      const imageElement = document.querySelector('.capilike') as HTMLImageElement;
+      if (imageElement) {
+        imageElement.src = this.updateLikeImage();
+      }
+  
+      // Envie a requisição de like para o servidor
       this.likeService.sendLike(this.moment.id, this.token).subscribe();
+  
+      // Opcional: Atualize o estado de like após obter a resposta do servidor
       this.likeService.getLike(this.moment.id, this.token).subscribe(
         (like) => {
           this.likeAtive = like.liked; 
           console.log(like);
+          
+          // Atualize a imagem novamente após receber a resposta do servidor
+          if (imageElement) {
+            imageElement.src = this.updateLikeImage();
+          }
         }
-      )
+      );
     } else {
       console.error('Moment ID is undefined. Cannot send like.');
     }
+  
+    // Animação de clique (opcional)
+    const imageElement = document.querySelector('.capilike');
+    if (imageElement) {
+      imageElement.classList.add('clicked');
+      setTimeout(() => {
+        imageElement.classList.remove('clicked');
+      }, 200); // O tempo deve corresponder à duração da transição em CSS
+    }
   }
-
+  
   updateLikeImage(): string {
     if (this.moment && this.moment.id !== undefined) {
       return this.likeAtive
@@ -135,5 +161,5 @@ export class MomentComponent {
       console.error('Moment ID is undefined. Cannot get like image.');
       return '../../../../assets/capilike.png'; 
     }
-  }  
-}
+  }
+}  
