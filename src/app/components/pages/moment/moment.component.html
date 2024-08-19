@@ -13,16 +13,19 @@
     <div>
       <div class="cabecalho">
         <h1>{{ moment?.title }}</h1>
-        <img
+        <div class="capilike">
+          <p>{{moment?.likes_count}}</p>
+          <img
           class="capilike"
-          [src]="updateLikeImage()"
-          alt="Like"
-          (click)="sendLike()"
-        />
+            [src]="updateLikeImage()"
+            alt="Like"
+            (click)="sendLike()"
+          />
+        </div>
       </div>
       
       <div class="container-about-comment">
-        <img class="img-moment" src="{{ baseApiUrl }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+        <img class="img-moment" src="{{ baseApiUrl }}uploads/{{ moment.image }}" alt="{{ moment.title }}" (click)="sendLike()" />
         <div class="comment-about">
           <div class="about-moment">
             <h2>Usuario escreveu:</h2>

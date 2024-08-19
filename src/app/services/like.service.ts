@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { environment } from '../environment/environments';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LikeService {
+  private likeStatusSubject = new Subject<boolean>(); // Adicionando Subject
+  likeStatus$ = this.likeStatusSubject.asObservable(); // Observable para se inscrever no componente
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  sendLike(momentId: number, token: string): Observable <any> {
+  sendLike(momentId: number, token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const likeUrl = `${environment.endpoint}${environment.like.replace('${id}', momentId.toString())}`;
-    console.log(likeUrl)
     return this.http.post(likeUrl, {}, { headers });
   }
-  getLike(momentId: number, token: string): Observable <any>{
+
+  getLike(momentId: number, token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(`${environment.endpoint}${environment.like.replace('${id}', momentId.toString())}`, { headers });
+  }
+
+  updateLikeStatus(liked: boolean) {
+    this.likeStatusSubject.next(liked); // Emitir novo estado de like
   }
 }

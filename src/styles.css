@@ -41,7 +41,7 @@ li {
     padding-top: 5rem;
     width: 20rem;
     background-color: #f1f2f99d;
-    height: 105vh; 
+    height: 100%; 
     box-sizing: border-box; 
 }
 

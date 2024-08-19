@@ -45,6 +45,7 @@ export class MomentComponent {
   ) { }
 
   ngOnInit(): void {
+    this.getMoment()
     this.commentForm = new FormGroup({
       text: new FormControl("", [Validators.required]),
       username: new FormControl("", [Validators.required])
@@ -62,7 +63,9 @@ export class MomentComponent {
         this.commentForm.get('username')?.disable();
       }
     });
-  
+  }
+
+  getMoment() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     this.momentService.getMoment(id).subscribe((item) => {
@@ -71,7 +74,6 @@ export class MomentComponent {
       if (this.moment && this.moment.id !== undefined) {
         this.likeService.getLike(this.moment.id, this.token).subscribe(
           (like) => {
-            console.log(like);
             this.likeAtive = like.liked; 
           }
         );
@@ -112,7 +114,7 @@ export class MomentComponent {
     this.router.navigate(['/']);
   }
 
-  sendLike() {
+  async sendLike() {
     if (this.moment && this.moment.id !== undefined) {
       // Inverta o estado de likeAtive imediatamente
       this.likeAtive = !this.likeAtive;
@@ -125,7 +127,6 @@ export class MomentComponent {
   
       // Envie a requisição de like para o servidor
       this.likeService.sendLike(this.moment.id, this.token).subscribe();
-  
       // Opcional: Atualize o estado de like após obter a resposta do servidor
       this.likeService.getLike(this.moment.id, this.token).subscribe(
         (like) => {
@@ -138,16 +139,20 @@ export class MomentComponent {
           }
         }
       );
+      this.getMoment()
     } else {
       console.error('Moment ID is undefined. Cannot send like.');
     }
-  
+
     // Animação de clique (opcional)
     const imageElement = document.querySelector('.capilike');
+    
     if (imageElement) {
       imageElement.classList.add('clicked');
       setTimeout(() => {
         imageElement.classList.remove('clicked');
+        this.getMoment()
+
       }, 200); // O tempo deve corresponder à duração da transição em CSS
     }
   }
