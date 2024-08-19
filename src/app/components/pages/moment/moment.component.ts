@@ -130,9 +130,7 @@ export class MomentComponent {
       // Opcional: Atualize o estado de like após obter a resposta do servidor
       this.likeService.getLike(this.moment.id, this.token).subscribe(
         (like) => {
-          this.likeAtive = like.liked; 
-          console.log(like);
-          
+          this.likeAtive = like.liked;           
           // Atualize a imagem novamente após receber a resposta do servidor
           if (imageElement) {
             imageElement.src = this.updateLikeImage();
