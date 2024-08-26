@@ -25,7 +25,7 @@ export class MomentComponent {
   moment?: Moment;
   baseApiUrl = environment.endpoint;
   userNameLog!: string;
-  likeAtive: boolean = false; 
+  likeAtive: boolean = false;
 
   faEdit = faEdit;
   faTimes = faTimes;
@@ -45,22 +45,27 @@ export class MomentComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getMoment()
+    this.getMoment();
+    this.setupCommentForm();
+    this.getUser();
+  }
+
+  setupCommentForm() {
     this.commentForm = new FormGroup({
       text: new FormControl("", [Validators.required]),
       username: new FormControl("", [Validators.required])
     });
+  }
 
+  getUser() {
     this.userService.user(this.token).subscribe((user) => {
       this.userNameLog = user.username;
-
-      // Set the username form control to the user's name and disable the input
-      this.commentForm.patchValue({
-        username: this.userNameLog
-      });
-
+      console.log(this.userNameLog)
       if (this.userNameLog) {
-        this.commentForm.get('username')?.disable();
+        this.commentForm.patchValue({
+          username: this.userNameLog
+        });
+        this.commentForm.get('username')?.disable();  // Desabilitar o campo se o usuário estiver ladogo
       }
     });
   }
@@ -70,11 +75,13 @@ export class MomentComponent {
 
     this.momentService.getMoment(id).subscribe((item) => {
       this.moment = item.data;
+      console.log(this.moment)
+      console.log('Moment with user:', this.moment?.user);
 
       if (this.moment && this.moment.id !== undefined) {
         this.likeService.getLike(this.moment.id, this.token).subscribe(
           (like) => {
-            this.likeAtive = like.liked; 
+            this.likeAtive = like.liked;
           }
         );
       } else {
@@ -88,25 +95,50 @@ export class MomentComponent {
   }
 
   get username() {
-    return this.commentForm.get("username")!;
+    if (this.userNameLog) {
+      return
+    }
+    this.commentForm.get("username")!;
   }
 
   async onSubmit(formDirective: FormGroupDirective) {
     if (this.commentForm.invalid) {
       return;
     }
-
-    const data: Comment = this.commentForm.value;
-
-    data.momentId = Number(this.moment!.id);
-
-    await this.commentService.createComment(data).subscribe((comment) => this.moment!.comments!.push(comment.data));
+  
+    // Habilitar o campo username temporariamente se estiver desabilitado
+    const usernameControl = this.commentForm.get('username');
+    if (usernameControl?.disabled) {
+      usernameControl.enable();
+    }
+  
+    // Verifica se o campo `username` está vazio e preenche com `userNameLog` se necessário
+    if (!usernameControl || !usernameControl.value.trim()) {
+      this.commentForm.patchValue({ username: this.userNameLog });
+    }
+  
+    const data: Comment = {
+      ...this.commentForm.value,
+      momentId: Number(this.moment!.id)
+    };
+  
+    // Desabilitar o campo username novamente se necessário
+    if (this.userNameLog) {
+      usernameControl?.disable();
+    }
+  
+    await this.commentService.createComment(data).subscribe((comment) => {
+      this.moment!.comments!.push(comment.data);
+    });
+  
     this.messagesService.addMessage("Comentário Adicionado");
-
+  
     this.commentForm.reset();
     formDirective.resetForm();
+    this.getMoment(); 
+    this.getUser();
   }
-
+  
   async removeHandler(id: number) {
     await this.momentService.removeMoment(id).subscribe();
 
@@ -118,19 +150,19 @@ export class MomentComponent {
     if (this.moment && this.moment.id !== undefined) {
       // Inverta o estado de likeAtive imediatamente
       this.likeAtive = !this.likeAtive;
-  
+
       // Atualize a imagem imediatamente após a inversão
       const imageElement = document.querySelector('.capilike') as HTMLImageElement;
       if (imageElement) {
         imageElement.src = this.updateLikeImage();
       }
-  
+
       // Envie a requisição de like para o servidor
       this.likeService.sendLike(this.moment.id, this.token).subscribe();
       // Opcional: Atualize o estado de like após obter a resposta do servidor
       this.likeService.getLike(this.moment.id, this.token).subscribe(
         (like) => {
-          this.likeAtive = like.liked;           
+          this.likeAtive = like.liked;
           // Atualize a imagem novamente após receber a resposta do servidor
           if (imageElement) {
             imageElement.src = this.updateLikeImage();
@@ -144,17 +176,16 @@ export class MomentComponent {
 
     // Animação de clique (opcional)
     const imageElement = document.querySelector('.capilike');
-    
+
     if (imageElement) {
       imageElement.classList.add('clicked');
       setTimeout(() => {
         imageElement.classList.remove('clicked');
         this.getMoment()
-
-      }, 200); // O tempo deve corresponder à duração da transição em CSS
+      }, 200); 
     }
   }
-  
+
   updateLikeImage(): string {
     if (this.moment && this.moment.id !== undefined) {
       return this.likeAtive
@@ -162,7 +193,7 @@ export class MomentComponent {
         : '../../../../assets/capilike.png';
     } else {
       console.error('Moment ID is undefined. Cannot get like image.');
-      return '../../../../assets/capilike.png'; 
+      return '../../../../assets/capilike.png';
     }
   }
 }  

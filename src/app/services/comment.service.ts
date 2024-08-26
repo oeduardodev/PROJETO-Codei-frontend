@@ -14,7 +14,7 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   createComment(data: Comment): Observable<Response<Comment>> {
-    return this.http.post<Response<Comment>>(`${environment.endpoint}/${data.momentId}/${environment.comment}`, data);
+    return this.http.post<Response<Comment>>(`${environment.endpoint}${environment.comment.replace('${id}', data.momentId.toString())}`, data);
   }
 }
 

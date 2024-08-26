@@ -28,7 +28,7 @@
         <img class="img-moment" src="{{ baseApiUrl }}uploads/{{ moment.image }}" alt="{{ moment.title }}" (click)="sendLike()" />
         <div class="comment-about">
           <div class="about-moment">
-            <h2>Usuario escreveu:</h2>
+            <h2>{{ moment?.user?.username }} escreveu:</h2>
             <p>{{moment.description}}</p>
           </div>
           <div class="comment-form">
@@ -42,11 +42,11 @@
                 <input formControlName="username" type="text" placeholder="Digite seu Nome ou apelido." >
                 <input class="comment-button" type="submit" value="Comentar!">
               </div>
-              <div *ngIf="username.invalid && formDir.submitted" class="validation-error">
+              <!-- <div *ngIf="username.invalid && formDir.submitted" class="validation-error">
                 <p *ngIf="username.errors?.['required']">O nome é obrigatório.</p>
-              </div>
+              </div>  -->
             </form>
-          </div>
+          </div>          
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
     <div class="comments">
       <div class="container" *ngIf="moment.comments && moment.comments.length > 0; else noCommentsTemplate">
         <div class="comment-container small" *ngFor="let comment of moment.comments; let i = index">
-          <p class="author"><span>foto</span> {{ comment.username }} </p>
+          <p class="author"><img src="../../../../assets/profile-default-img.png" alt="" class="img-profile">&commat;{{ comment.username }} </p>
           <p class="comment">{{ comment.text }}</p>
         </div>
       </div>

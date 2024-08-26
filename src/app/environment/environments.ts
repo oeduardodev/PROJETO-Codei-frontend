@@ -28,7 +28,7 @@ export const environment = {
      * Rota para comentários
      * Usada para criar, atualizar ou obter comentários
      */
-    comment: 'api/comments',
+    comment: 'api/moments/${id}/comments',
     
     like:'api/moments/${id}/like',
 

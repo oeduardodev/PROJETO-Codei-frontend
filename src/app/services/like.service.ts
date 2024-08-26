@@ -7,8 +7,8 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class LikeService {
-  private likeStatusSubject = new Subject<boolean>(); // Adicionando Subject
-  likeStatus$ = this.likeStatusSubject.asObservable(); // Observable para se inscrever no componente
+  private likeStatusSubject = new Subject<boolean>(); 
+  likeStatus$ = this.likeStatusSubject.asObservable(); 
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +24,6 @@ export class LikeService {
   }
 
   updateLikeStatus(liked: boolean) {
-    this.likeStatusSubject.next(liked); // Emitir novo estado de like
+    this.likeStatusSubject.next(liked); 
   }
 }
