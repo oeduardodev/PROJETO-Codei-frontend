@@ -1,20 +1,22 @@
-<div class="aside-container">   
-<app-aside-profile></app-aside-profile>
-</div>
-<div class="home-container">  
-  <h1>Veja o que andam compartilhando por aí</h1>
-  <div *ngIf="moments.length > 0; else noMoments">
-    <div class="moments-container">
-      <div class="moment" *ngFor="let moment of moments">
-        <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
-        <h3>{{ moment.title }}</h3>
-        <p class="date">Em: {{ moment.created_at }}</p>
-        <p>Comentários: {{ moment.comments!.length }}</p>
-        <p><a routerLink="moments/{{ moment.id }}">Detalhes</a></p>
+<div class="layout-container">
+  <div class="aside-container">
+    <app-aside-profile></app-aside-profile>
+  </div>
+  <div class="home-container">
+    <h1>Veja o que andam compartilhando por aí</h1>
+    <div *ngIf="moments.length > 0; else noMoments">
+      <div class="moments-container">
+        <div class="moment" *ngFor="let moment of moments">
+          <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+          <h3>{{ moment.title }}</h3>
+          <p class="date">Em: {{ moment.created_at }}</p>
+          <p>Comentários: {{ moment.comments!.length }}</p>
+          <p><a routerLink="moments/{{ moment.id }}">Detalhes</a></p>
+        </div>
       </div>
     </div>
+    <ng-template #noMoments>
+      <h1>Não há Momentos!</h1>
+    </ng-template>
   </div>
-  <ng-template #noMoments>
-    <h1>Não há Momentos!</h1>
-  </ng-template>
 </div>

@@ -21,7 +21,7 @@
     <textarea
       id="description"
       formControlName="description"
-      placeholder="O que aconteceu lá?"
+      placeholder="O que aconteceu?"
     ></textarea>
     <div
       *ngIf="description.invalid && formDir.submitted"
@@ -31,8 +31,8 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="image">Coloque a foto que mais marcou:</label>
-    <input type="file" id="image" (change)="onFileSelected($event)" />
+    <label for="image" class="labelImage">Escolha uma imagem para esse momento</label>
+    <input type="file" id="image" class="subImage" (change)="onFileSelected($event)" />
     <input type="submit" value="{{ btnText }}" />
   </div>
 </form>

@@ -1,30 +1,47 @@
+.layout-container {
+  display: flex;
+}
+
 .home-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: space-between;
   flex-direction: column;
   margin-top: 4rem;
+  margin-left: 20rem;
+  width: 85%;
 }
 
 .home-container h1 {
-  margin-bottom: 0.5em;
+  margin-bottom: 1rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin: 0 auto;
 }
 
 .aside-container {
-  position: absolute;
-  top:0px;
-  padding-top: 5rem;
+  position: fixed;
+  top: 0;
   width: 20rem;
   background-color: #f1f2f99d;
-  height: 105vh; 
-  box-sizing: border-box; 
+  height: 100%;
+  box-sizing: border-box;
+  margin-right: 50px;
+  z-index: -1;
+  flex-shrink: 0;
+  padding-top: 5rem;
 }
+
 .moments-container {
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
   justify-content: space-between;
-  margin-bottom: 3em;
+  margin-top: 3em;
+  flex-grow: 1;
+  width: 90%;
 }
 
 .moment {
@@ -33,6 +50,7 @@
   margin: 1rem;
   border-radius: 10px;
   background-color: #c6c9e63f;
+  border: 2px solid transparent;
 }
 
 .moment:hover {
@@ -40,7 +58,7 @@
 }
 
 .moment img {
-  width: 17.8rem;
+  width: 15rem;
   height: 15rem;
   margin-bottom: 1em;
 }
@@ -67,7 +85,7 @@ a {
 }
 
 a:hover {
-  background-color: #0000005e;
+  background-color: #8c80fc5e;
 }
 
 .search-container {
@@ -94,5 +112,66 @@ a:hover {
   margin: 0 auto;
   width: 100%;
   text-align: center;
+}
 
+@media (max-width: 1024px) {
+  .moment img {
+    width: 25rem;
+    height: 25rem;
+    margin-bottom: 1em;
+  }
+
+  .moments-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: space-between;
+    margin-top: 3em;
+    flex-grow: 1;
+    width: 100%;
+    margin-left: 15px;
+  }
+
+  .home-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .aside-container {
+    display: none;
+  }
+
+  .home-container {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+  }
+
+  .home-container h1 {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width:768px) {
+
+  .moment img {
+    width: 15rem;
+    height: 15rem;
+    margin-bottom: 1em;
+    margin: 0 auto;
+  }
+
+  .moments-container{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+    margin-top: 3em;
+    flex-grow: 1;
+    margin-left: 0;
+
+  }
 }

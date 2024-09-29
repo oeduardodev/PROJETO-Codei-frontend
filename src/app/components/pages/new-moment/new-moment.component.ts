@@ -3,13 +3,14 @@ import { MomentFormComponent } from "../../moment-form/moment-form.component";
 import { Router } from '@angular/router';
 import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
+import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
 
 @Component({
     selector: 'app-new-moment',
     standalone: true,
     templateUrl: './new-moment.component.html',
     styleUrls: ['./new-moment.component.css'],
-    imports: [MomentFormComponent]
+    imports: [MomentFormComponent, AsideProfileComponent]
 })
 export class NewMomentComponent {
     btnText = 'Compartilhar';

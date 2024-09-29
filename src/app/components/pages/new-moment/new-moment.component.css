@@ -9,5 +9,26 @@ h2 span {
 }
 
 .containerForm {
-    margin: 4rem;
+    margin-left: 45% !important;
+    margin: 3rem;
+    width: 30%;
+    margin: 5rem auto;
+}
+
+@media (max-width: 1024px) {
+    .containerForm {
+        margin-left: 6.5rem !important;
+        margin: 3rem;
+        width: 80%;
+        margin: 5rem auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .containerForm {
+        margin-left: 1.5rem !important;
+        margin: 3rem;
+        width: 90%;
+        margin: 5rem auto;
+    }
 }

@@ -1,24 +1,31 @@
 <nav>
-  <div class="search-container">
-    <form>
-      <fa-icon class="icon" [icon]="faSearch"></fa-icon>
-      <input type="text" placeholder="Busque por algo..." (input)="search($event)" />
-    </form>
+  <div class="menu">
+    <fa-icon  class="icon" [icon]="faBars"></fa-icon>
   </div>
+  
+  <form class="search">
+    <input type="text" placeholder="Busque por algo..." (input)="search($event)" />
+    <fa-icon class="icon" [icon]="faSearch"></fa-icon>
+  </form>
+
   <ul class="links">
-    <li> 
-      <a  class="butn butn__new" routerLink="/moments/new">Compartilhar</a></li>
-      <div class="link-icons">
-        <li>
-          <a routerLink="/">
-            <fa-icon class="icon" [icon]="faHouse"></fa-icon>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/about">
-          <fa-icon class="icon" [icon]="faUser"></fa-icon>
+    <li>
+      <a class="butn butn__new button-text" routerLink="/moments/new">Compartilhar</a>
+    </li>
+    <li>
+      <fa-icon class="butn butn__new button-icon" routerLink="/moments/new" [icon]="faShare"></fa-icon>
+    </li>
+    <div class="link-icons">
+      <li>
+        <a routerLink="/">
+          <fa-icon class="icon" [icon]="faHouse"></fa-icon>
         </a>
-        </li>
-      </div>
+      </li>
+      <li>
+        <a routerLink="/about">
+          <fa-icon class="icon user-button" [icon]="faUser"></fa-icon>
+        </a>
+      </li>
+    </div>
   </ul>
 </nav>

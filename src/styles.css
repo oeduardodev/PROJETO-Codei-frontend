@@ -83,7 +83,6 @@ a fa-icon:hover {
 
 /* FORM STYLES */
 form {
-    width: 450px;
     margin: 0 auto;
 }
 
@@ -108,7 +107,6 @@ form {
 textarea,
 input[type="text"],
 input[type="email"], input[type="password"] {
-    background-color: #0000001c;
     border: none;
     padding: 0.6em 1em;
     font-weight: bold;
@@ -145,7 +143,6 @@ input[type="file"] {
     font-size: 0.8em;
     transition: 0.4s;
     margin-bottom: 2rem;
-    width: 65%;
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
@@ -167,4 +164,11 @@ input[type="submit"]:hover {
 h1{
     text-align: left;
     margin-left: 12.5rem;
+}
+
+
+@media (max-width: 1024px) {
+    .aside-container {
+        display: none;
+    }
 }

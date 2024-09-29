@@ -1,32 +1,38 @@
-.moment {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-  width: 100%;
-}
-
-h1 {
+h3 {
   margin-bottom: 1rem;
-  margin-left: 24rem;
+  font-size: 2rem;
 }
 
-.cabecalho{
-  cursor: pointer;
-  width: 54%;
+form {
+  margin: 0;
+  width: 80%;
+
+}
+
+.header-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  width: 35rem;
   justify-content: space-between;
+  vertical-align: middle;
 }
 
-.capilike{
+.capilike-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.capilike {
   display: flex;
   align-items: center;
   width: 55px;
   transition: transform 0.3s ease-in-out;
 }
 
-.capilike p{
+.capilike p {
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -36,22 +42,15 @@ h1 {
   transform: rotate(-3turn);
 }
 
-
 .img-moment {
-  min-width: 650px;
-  min-height: 500px;
-  width: 650px;
-  height: 500px;
-  margin: 0 0 2rem;
-  align-content: left;
-  align-items: left;
-  margin-left: 24rem;
+  width: 35rem;
+  align-self: flex-start;
   border-radius: 15px;
   box-shadow: 2px 2px 20px #929ae169;
 }
 
-.img-profile{
-  width: 1.8rem;
+.img-profile {
+  width: 1.5rem;
   margin-right: 5px;
   background-color: #e7e7e7;
   border-radius: 50%;
@@ -73,16 +72,16 @@ h1 {
   align-items: center;
   margin-bottom: 1em;
   padding: 1.5em 0;
-  width: 77%;
-  margin-left: 24rem;
 }
 
-h3, .count-comment{
+h3,
+.count-comment {
   text-align: left;
-  margin-left: 25rem;
+  margin-top: 2rem;
+
 }
 
-span{
+span {
   font-weight: bolder;
 }
 
@@ -90,29 +89,30 @@ h2 {
   text-align: left;
 }
 
-.about-moment {
-  padding-right: 1rem;
-  margin-bottom: 1rem;
-  height: 500px;
-  max-height:500px ;
-  overflow:auto; 
+
+.about-moment p {
+  font-size: 1.1rem;
 }
 
 .about-moment::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
+
 .about-moment::-webkit-scrollbar-button {
   width: 13px;
   height: 13px;
 }
+
 .about-moment::-webkit-scrollbar-thumb {
   background: #29263f;
   border-radius: 47px;
 }
+
 .about-moment::-webkit-scrollbar-thumb:active {
   background: #000000;
 }
+
 .about-moment::-webkit-scrollbar-track {
   background: #f1f2f9;
   border: 0px none #ffffff;
@@ -124,8 +124,6 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-
 }
 
 .comment-container {
@@ -143,58 +141,63 @@ h2 {
 }
 
 .comment-about {
-  text-align: justify;
-  width: 45rem;  
-  margin-left: 5rem;
-  height: 570px;
-  max-height:570px ;
+  margin-left: 2rem;
   display: flex;
   flex-direction: column;
+}
+
+.description {
+  width: 80%;
+  height: 300px;
+  overflow: auto;
 }
 
 .author {
   display: inline-flex;
   align-items: center;
-  font-size: 1.1em;
+  font-size: 1em;
   margin-bottom: 0.5rem;
   padding-right: 1rem !important;
-  background-color: #29263f;
+  background-color: #262c64;
   padding: 0.4rem;
   border-radius: 25px;
-  max-width: 100%;
 }
-
 
 .comment-form {
   text-align: left;
-  margin: 0 auto 0;
-  margin-bottom: 3em;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+}
+
+.username-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
 }
 
 .comment-form form {
   margin-top: 1em;
-  width: 45rem;
 }
 
 input {
-  width: 35rem;
+  height: 3rem;
   border-radius: 10px;
   background-color: #f1f2f9;
+  width: 60%;
 }
 
 .textarea-coment {
   height: 6rem;
   border-radius: 10px;
   background-color: #f1f2f9;
+  width: 100%;
 }
 
 .comment-button {
   background-color: #29263f;
   color: #e7e7e7;
-  width: 10rem;
-  margin-top: 1rem;
   border: 2px solid transparent;
-
+  width: 60%;
 }
 
 .comment-button:hover {
@@ -212,4 +215,200 @@ input {
 
 .author span {
   font-weight: bold;
+}
+
+.layout-container {
+  display: flex;
+  /* Alinha os elementos em linha */
+}
+
+.aside-container {
+  position: fixed;
+  top: 0;
+  width: 20rem;
+  background-color: #f1f2f99d;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.moment {
+  flex: 1;
+  /* Permite que .moment ocupe o espaço restante */
+  z-index: 2;
+  /* Mantém o .moment na frente, se necessário */
+
+  margin-left: 25rem;
+
+}
+
+@media (max-width:1290px) {
+  .img-moment {
+    width: 20rem;
+    align-self: flex-start;
+    border-radius: 15px;
+    box-shadow: 2px 2px 20px #929ae169;
+  }
+
+  .description {
+    height: 140px;
+    overflow: auto;
+  }
+
+  .header-container {
+    width: 20rem;
+  }
+
+  form {
+    margin: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .moment {
+
+  
+    margin-left: 0rem;
+  
+  }
+  
+  .header-container {
+    box-sizing: border-box;
+    /* Garante que padding não afete a largura */
+    width: 65%;
+    padding: 0 2rem;
+  }
+
+  .tewt {
+    margin-left: 2rem;
+    margin-top: 1rem;
+  }
+
+  .aside-container {
+    display: none;
+    /* Continua ocultando para economizar espaço */
+  }
+
+  .description {
+    width: 100%;
+    /* Ocupa toda a largura disponível */
+    padding: 0 1rem;
+    /* Adiciona espaçamento interno para texto */
+    height: auto;
+    /* Ajusta a altura para o conteúdo */
+    overflow: auto;
+    /* Permite rolar o conteúdo, se necessário */
+  }
+
+  .container-about-comment {
+    display: flex;
+    flex-direction: column;
+    margin: 0 1rem;
+    /* Espaçamento para evitar que encoste nas bordas */
+  }
+
+  .comments {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1em;
+    padding: 1.5em 0;
+    margin-left: 2rem;
+  }
+
+
+  h3,
+  .count-comment {
+    text-align: left;
+    margin-left: 0;
+    /* Remove margem desnecessária */
+    margin-top: 2rem;
+    padding: 0 1rem;
+    /* Adiciona espaçamento interno para o título */
+  }
+
+  h2 {
+    text-align: left;
+    margin-left: 2rem;
+  }
+
+  .comment-about {
+    margin: 0 1rem;
+    /* Espaçamento para os comentários */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .img-moment {
+    width: 60%;
+    height: auto;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+    margin-top: 1rem;
+  }
+
+  .comment-form {
+    padding: 0 1rem;
+    /* Adiciona espaçamento interno para o formulário */
+  }
+
+  .comment-button {
+    width: 44%;
+    /* Botão ocupa toda a largura disponível */
+    margin-top: 0.5rem;
+    /* Espaçamento entre o botão e os campos de entrada */
+  }
+
+  .username-container {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+  }
+}
+
+@media (max-width:425px) {
+  .img-moment {
+    width: 91%;    
+    height: auto;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+
+  .header-container {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 2rem;
+    word-break: break-word;
+  }
+
+  .comment-form form {
+    margin-top: 1em;
+    width: 100%;
+  }
+
+  .username-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    height: 3rem;
+    border-radius: 10px;
+    background-color: #f1f2f9;
+    width: 100%;
+  }
+
+  .textarea-coment {
+    height: 6rem;
+    border-radius: 10px;
+    background-color: #f1f2f9;
+    width: 100%;
+  }
+
+  .comment-button {
+    width: 50%;    
+    margin-top: 1rem;
+  }
+
 }
