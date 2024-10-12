@@ -1,0 +1,281 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+}
+
+h2,
+p {
+    margin-bottom: 1em;
+}
+
+h3 {
+    font-size: 2rem;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+
+}
+
+.profile a {
+    text-decoration: underline;
+}
+
+.butn-add {
+    border: none;
+    cursor: pointer;
+    font-weight: bolder;
+    color: white;
+    background-color: #949ce2;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    border-radius: 3px;
+    margin-left: 1rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+
+.butn-add:hover {
+    color: #373e86;
+}
+
+.header-profile {
+    display: flex;
+    width: 45rem;
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+}
+
+.container {
+    display: flex;
+    width: 45rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.tech-list {
+    background-color: #edeeff;
+    width: 45rem;
+    min-height: 15rem;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0.5rem;
+}
+
+.tech-list span {
+    width: 6rem;
+    font-size: 1rem;
+    background-color: #373d8628;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.tech-container {
+    margin-top: 4rem;
+}
+
+.level-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+
+.profile-image {
+    width: 15rem;
+    background-color: rgba(160, 160, 160, 0.212);
+    border-radius: 50%;
+    margin-right: 2rem;
+}
+
+.layout-container {
+    display: flex;
+}
+
+.home-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 4rem;
+    margin-left: 20rem;
+    width: 85%;
+}
+
+.home-container h1 {
+    margin-bottom: 1rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+}
+
+.aside-container {
+    position: fixed;
+    top: 0;
+    width: 20rem;
+    background-color: #f1f2f99d;
+    height: 100%;
+    box-sizing: border-box;
+    margin-right: 50px;
+    z-index: -1;
+    flex-shrink: 0;
+    padding-top: 5rem;
+}
+
+.moments-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: space-between;
+    margin-top: 3em;
+    flex-grow: 1;
+    width: 90%;
+}
+
+.moment {
+    padding: 1rem;
+    text-align: center;
+    margin: 1rem;
+    border-radius: 10px;
+    background-color: #c6c9e63f;
+    border: 2px solid transparent;
+}
+
+.moment:hover {
+    border: 2px solid #949ce2;
+}
+
+.moment img {
+    width: 15rem;
+    height: 15rem;
+    margin-bottom: 1em;
+}
+
+.moment h3,
+.moment p {
+    text-align: left;
+    margin-bottom: 1em;
+}
+
+.moment .date {
+    font-size: 0.7em;
+    font-style: italic;
+}
+
+.detalhes {
+    width: 5rem;
+    display: flex;
+    color: #949ce2;
+    padding: 0.3em 0.6em;
+    align-items: end;
+    text-align: right;
+    justify-content: right;
+}
+
+a:hover {
+    background-color: #8c80fc5e;
+}
+
+.search-container {
+    margin-bottom: 2em;
+    width: 100%;
+}
+
+.search-container form {
+    width: 30%;
+    position: relative;
+    border: 1px solid #949ce2;
+}
+
+.search-container fa-icon {
+    position: absolute;
+    top: 8px;
+    right: 18px;
+    background-color: none;
+    padding: 0.3rem;
+}
+
+.search-container input {
+    padding: 0.5em;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+.container-my-moments {
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 5rem;
+}
+
+.container-my-moments h4{
+    margin-top: 1rem;
+    font-size: 3rem;
+}
+
+.container-end-moments {
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+    align-items: center;
+    justify-items: center;
+}
+
+.butn {
+    cursor: pointer;
+    font-weight: bolder;
+    color: white;
+    background-color: #949ce2;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-radius: 3px;
+}
+
+.butn:hover {
+    color: #373e86;
+}
+
+@media (max-width:768px) {
+    .butn-add {
+        margin-left: 0rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.7rem;
+    }
+
+    h3 {
+        font-size: 2rem;
+
+    }
+
+    .header-profile {
+
+        width: 85vw;
+
+    }
+
+    .container {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .moment {
+        width: 25rem;
+        margin: 0 auto;
+        margin-bottom: 3rem;
+
+    }
+
+    .tech-list {
+        flex-wrap: wrap;
+        width: 85vw;
+    }
+}
