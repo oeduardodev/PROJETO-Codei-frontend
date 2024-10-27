@@ -60,7 +60,6 @@ export class MomentComponent {
   getUser() {
     this.userService.user(this.token).subscribe((user) => {
       this.userNameLog = user.username;
-      console.log(this.userNameLog)
       if (this.userNameLog) {
         this.commentForm.patchValue({
           username: this.userNameLog
@@ -75,8 +74,6 @@ export class MomentComponent {
 
     this.momentService.getMoment(id).subscribe((item) => {
       this.moment = item.data;
-      console.log(this.moment)
-      console.log('Moment with user:', this.moment?.user);
 
       if (this.moment && this.moment.id !== undefined) {
         this.likeService.getLike(this.moment.id, this.token).subscribe(

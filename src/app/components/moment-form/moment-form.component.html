@@ -1,38 +1,58 @@
 <form (ngSubmit)="submit()" [formGroup]="momentForm" #formDir="ngForm">
   <input type="hidden" formControlName="id" />
-  <div class="form-group">
-    <input type="hidden" formControlName="id" />
-  </div>
+
   <div class="form-group">
     <label for="title">Título:</label>
+    <div *ngIf="title.invalid && formDir.submitted" class="validation-error">
+      <p *ngIf="title.errors?.['required']">O título é obrigatório.</p>
+    </div>
     <input
       type="text"
       id="title"
       formControlName="title"
       placeholder="Coloque um título"
+      maxlength="45"
       required
     />
-    <div *ngIf="title.invalid && formDir.submitted" class="validation-error">
-      <p *ngIf="title.errors?.['required']">O título é obrigatório.</p>
-    </div>
   </div>
+
   <div class="form-group">
     <label for="description">Descrição:</label>
+    <div
+    *ngIf="description.invalid && formDir.submitted"
+    class="validation-error"
+  >
+    <p *ngIf="description.errors?.['required']">A descrição é obrigatória.</p>
+  </div>
     <textarea
       id="description"
       formControlName="description"
       placeholder="O que aconteceu?"
+      maxlength="4000"
+      required
     ></textarea>
-    <div
-      *ngIf="description.invalid && formDir.submitted"
-      class="validation-error"
-    >
-      <p *ngIf="description.errors?.['required']">A descrição é obrigatória.</p>
-    </div>
   </div>
+
   <div class="form-group">
     <label for="image" class="labelImage">Escolha uma imagem para esse momento</label>
-    <input type="file" id="image" class="subImage" (change)="onFileSelected($event)" />
+    <div *ngIf="!croppedImage && formDir.submitted" class="validation-error">
+      <p *ngIf="!croppedImage">A imagem é obrigatória.</p>
+    </div>
+    <input
+      type="file"
+      id="image"
+      class="subImage"
+      (change)="onFileSelected($event)"
+      required
+    />
+  </div>
+
+  <!-- Imagem de pré-visualização e cropper -->
+  <div class="image-preview" [hidden]="!imageUrl">
+    <img #imageCropper [src]="imageUrl" alt="Imagem selecionada" />
+  </div>
+
+  <div class="form-group">
     <input type="submit" value="{{ btnText }}" />
   </div>
 </form>

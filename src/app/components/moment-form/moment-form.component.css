@@ -1,7 +1,17 @@
 form{
     padding-bottom: 0.5rem;
+    background-color: #f3f4ff7a;
+    padding: 2rem;
+    border-radius: 15px;
+    border-bottom: 4px solid #322e49;
 }
 
+label{
+    font-size: 1.4rem;
+}
+input::placeholder,textarea::placeholder{
+    color: #949ce2;
+}
 textarea, #title{
     border: none;
     padding: 0.6em 1em;
@@ -9,10 +19,9 @@ textarea, #title{
     cursor: pointer;
     font-size: 1.1em;
     transition: 0.4s;
-    color: #000000;
     border: 0 none;
     outline: 0;
-    background-color: #f3f3f3;
+    background-color: #eeefff;
     resize: none;
     border-radius: 5px;
 }
@@ -24,7 +33,8 @@ textarea{
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     text-align: center;
-    background-color:#f3f3f3; 
+    color: #949ce2;
+    background-color: #eeefff;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -33,4 +43,15 @@ textarea{
 
 .labelImage{
     text-align: center;
+}
+
+.share:hover{
+    background-color: #8993eb;
+    color: #322e49;
+}
+
+.image-preview{
+    height: 400px;
+    width: 100%;
+    margin-bottom: 3rem;
 }
