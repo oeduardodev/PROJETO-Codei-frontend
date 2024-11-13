@@ -3,8 +3,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
-import { Moment } from '../../../Moments';
-import { Comment } from '../../../Comments';
+import { Moment } from '../../../models/Moments';
+import { Comment } from '../../../models/Comments';
 import { environment } from '../../../environment/environments';
 import { CommonModule } from '@angular/common';
 import { faTimes, faEdit, faUsersRays } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +13,7 @@ import { CommentService } from '../../../services/comment.service';
 import { UsersService } from '../../../services/users.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
 import { LikeService } from '../../../services/like.service';
+import { AuthorizationService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-moment',
@@ -41,7 +42,8 @@ export class MomentComponent {
     private router: Router,
     private commentService: CommentService,
     private userService: UsersService,
-    private likeService: LikeService
+    private likeService: LikeService,
+    private authService: AuthorizationService
   ) { }
 
   ngOnInit(): void {
@@ -58,13 +60,15 @@ export class MomentComponent {
   }
 
   getUser() {
-    this.userService.user(this.token).subscribe((user) => {
+    const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
+  
+    this.userService.getUser(headers).subscribe((user) => {
       this.userNameLog = user.username;
       if (this.userNameLog) {
         this.commentForm.patchValue({
           username: this.userNameLog
         });
-        this.commentForm.get('username')?.disable();  // Desabilitar o campo se o usuário estiver ladogo
+        this.commentForm.get('username')?.disable();  // Desabilita o campo se o usuário estiver logado
       }
     });
   }

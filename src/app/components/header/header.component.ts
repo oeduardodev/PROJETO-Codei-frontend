@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Moment } from '../../Moments';
+import { Moment } from '../../models/Moments';
 import { faFlaskVial, faHouse, faSearch, faUser, faBars, faShareFromSquare  } from '@fortawesome/free-solid-svg-icons';
 import { MomentService } from '../../services/moment.service';
 import { environment } from '../../environment/environments';

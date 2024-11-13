@@ -1,13 +1,55 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { UsersService } from '../../../services/users.service';
+import { AuthorizationService } from '../../../services/auth.service';
+import { Profile } from '../../../models/Profiles';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrls: ['./profile.component.css'] 
 })
-export class ProfileComponent {
 
+export class ProfileComponent {
+  profileData: Profile | null = null;
+  technologies: any[] = [];
+  levels: any[] = [];
+  profileName: string[] = [];
+  moments: any[]=[];
+
+  constructor(
+    private service: UsersService,
+    private authService: AuthorizationService
+  ) {}
+
+  ngOnInit() {
+    this.getMyProfile();
+  }
+
+  getMyProfile() {
+    const headers = this.authService.getAuthorizationHeaders();
+  
+    this.service.getUser(headers).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.profileData = response.profile;
+  
+        // Verifica se moments é um array; se for um objeto, transforma em um array com um elemento
+        this.moments = Array.isArray(response.profile.moments) ? response.profile.moments : [response.profile.moments];
+        console.log(this.moments);
+  
+        this.profileName = response.username;
+        if (this.profileData) {
+          this.technologies = this.profileData.technologies || [];
+          this.levels = this.profileData.levels || [];
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching profile:', err);
+      }
+    });
+  }  
 }

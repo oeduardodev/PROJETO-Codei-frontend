@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../environment/environments';
 import { Observable } from 'rxjs';
+import { environment } from '../environment/environments';
+import { AuthorizationService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthorizationService
+  ) { }
 
   register(formData: FormData): Observable<FormData> {
     return this.http.post<FormData>(environment.endpoint + environment.register, formData);
@@ -17,8 +20,8 @@ export class UsersService {
   login(formData: FormData): Observable<FormData> {
     return this.http.post<FormData>(environment.endpoint + environment.login, formData);
   }
-  user(token: string): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  getUser(headers: HttpHeaders): Observable<any> {
     return this.http.get(environment.endpoint + environment.getUser, { headers });
-  }
+  }  
 }

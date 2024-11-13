@@ -3,7 +3,7 @@ import { FormRegisterComponent } from "../../form-register/form-register.compone
 import { UsersService } from '../../../services/users.service';
 import { MessageService } from '../../../services/message.service';
 import { Router } from '@angular/router';
-import { Register } from '../../../Register';
+import { Register } from '../../../models/Register';
 
 @Component({
   selector: 'app-register',

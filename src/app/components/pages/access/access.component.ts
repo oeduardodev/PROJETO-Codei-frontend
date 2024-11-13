@@ -7,7 +7,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormAccessComponent } from "../../form-access/form-access.component";
 import { UsersService } from '../../../services/users.service';
 import { MessageService } from '../../../services/message.service';
-import { Register } from '../../../Register';
+import { Register } from '../../../models/Register';
 
 @Component({
   selector: 'app-access',

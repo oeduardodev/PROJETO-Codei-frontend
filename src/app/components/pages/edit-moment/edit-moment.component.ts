@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Moment } from '../../../Moments';
+import { Moment } from '../../../models/Moments';
 import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
 import { ActivatedRoute, Router } from '@angular/router';

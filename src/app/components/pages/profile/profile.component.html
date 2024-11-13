@@ -1,75 +1,47 @@
-<div class="profile">
+<div *ngIf="profileData" class="profile">
     <div class="container">
         <div>
-            <img class="profile-image" src="../../../../assets/logo.png" alt="">
+            <img *ngIf="profileData.photo !== null" class="profile-image" [src]="profileData.photo" alt="">
+            <img class="profile-image-default" src="../../../../assets/profile-default-img.png" alt="">
+            
             <div class="level-container">
                 <span>Level: </span>
-                <strong>Gambiarrento</strong>
+                <strong>{{ levels[0] || "jovemscript" }}  </strong>           
             </div>
         </div>
  
         <div class="header-profile">
-            <h3>Nome de Usuario <button class="butn-add">Adicionar</button></h3> 
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis modi ea totam? Incidunt accusantium
-                autems, nulla, eum iste consectes, nulla, eum iste consecte
-                perspiciatis laborum eius, nulla, eum iste consectetur voluptatum in voluptatem nemo dolorem veritatis
-                inventore amet consectetur adipisicing elit. Corpoamet consectetur adipisicing elit. Corpo soluta.</p>
+            <h3>{{ profileName }}<button class="butn">Adicionar</button></h3> 
+            <p>{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão!   "}}</p>
         </div>
     </div>
 
     <div class="tech-container">
         <h3>Tecnologias</h3>
         <div class="tech-list">
-            <span>Python</span>
-            <span>javascript</span>
-            <span> react</span>
-            <span> node</span>
+            <span *ngFor="let tech of technologies">
+              <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+            </span>
+            <span class="msg-tech-off">sem tecnologias por aqui.😔 </span>
         </div>
+        
     </div>
 </div>
+
 <div class="container-my-moments">
     <h4>Momentos</h4>
     <div class="moments-container">
-        <div class="moment">
-            <img src="../../../../assets/capilike.png" alt="texto" />
-            <h3>titulo</h3>
-            <p class="date">Em: 29 de outubro</p>
-            <p>Comentários: 5</p>
-            <p><a routerLink="/">Detalhes</a></p>
-        </div>
-        <div class="moment">
-            <img src="../../../../assets/capilike.png" alt="texto" />
-            <h3>titulo</h3>
-            <p class="date">Em: 29 de outubro</p>
-            <p>Comentários: 5</p>
-            <p><a routerLink="/">Detalhes</a></p>
-        </div>
-        <div class="moment">
-            <img src="../../../../assets/capilike.png" alt="texto" />
-            <h3>titulo</h3>
-            <p class="date">Em: 29 de outubro</p>
-            <p>Comentários: 5</p>
-            <p><a routerLink="/">Detalhes</a></p>
-        </div>
-        <div class="moment">
-            <img src="../../../../assets/capilike.png" alt="texto" />
-            <h3>titulo</h3>
-            <p class="date">Em: 29 de outubro</p>
-            <p>Comentários: 5</p>
-            <p><a routerLink="/">Detalhes</a></p>
-        </div>
-        <div class="moment">
-            <img src="../../../../assets/capilike.png" alt="texto" />
-            <h3>titulo</h3>
-            <p class="date">Em: 29 de outubro</p>
-            <p>Comentários: 5</p>
-            <p><a class="detalhes" routerLink="/">Detalhes</a></p>
-        </div>
-
+      <div class="moment" *ngFor="let moment of moments">
+        <img [src]="moment.image || '../../../../assets/capilike.png'" alt="Moment image" />
+        <h3>{{ moment.title }}</h3>
+        <p class="date">Em: {{ moment.created_at | date:'dd MMMM' }}</p>
+        <p><a [routerLink]="['/moment', moment.id]">Detalhes</a></p>
+      </div>
+      <div *ngIf="!moments" class="container-end-moments">
+        <p>OPS... sem publicações por aqui.</p>
+      </div>
     </div>
-    <div class="container-end-moments">
-        <p>OPS... as publicações acabaram por aqui</p>
-    </div>
-    <a class="butn">Voltar ao Feed</a>
+    <button class="butn" routerLink="/">Voltar ao Feed</button>
+  </div>
+  
 
-</div>

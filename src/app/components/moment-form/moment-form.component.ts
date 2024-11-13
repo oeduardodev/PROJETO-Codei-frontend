@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Moment } from '../../Moments';
+import { Moment } from '../../models/Moments';
 import { HttpClient } from '@angular/common/http';
 import { UsersService } from '../../services/users.service';
 import Cropper from 'cropperjs';
+import { AuthorizationService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-moment-form',
@@ -31,7 +32,8 @@ export class MomentFormComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthorizationService
   ) { }
 
   ngOnInit(): void {
@@ -79,7 +81,9 @@ export class MomentFormComponent implements OnInit {
   }
 
   getUserInfo() {
-    this.usersService.user(this.token).subscribe(
+    const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
+
+    this.usersService.getUser(headers).subscribe(
       (data) => {
         this.userId = data.id;
         this.momentForm.patchValue({ user_id: this.userId });
@@ -89,7 +93,7 @@ export class MomentFormComponent implements OnInit {
       }
     );
   }
-
+  
   get title() {
     return this.momentForm.get('title')!;
   }

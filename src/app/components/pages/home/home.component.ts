@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { MomentService } from '../../../services/moment.service';
 import { environment } from '../../../environment/environments';
-import { Moment } from '../../../Moments';
+import { Moment } from '../../../models/Moments';
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';

@@ -35,31 +35,50 @@
 }
 
 .moments-container {
+  margin-left: 3rem !important;
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto;
   justify-content: space-between;
   margin-top: 3em;
   flex-grow: 1;
 }
 
 .moment {
-  padding: 1rem;
   text-align: center;
-  margin: 1rem;
-  border-radius: 10px;
-  background-color: #c6c9e63f;
-  border: 2px solid transparent;
+  margin: 0.5rem;
+  transition: opacity 0.25s ease-out;
 }
 
-.moment:hover {
-  border: 2px solid #949ce2;
+.moment:hover .details {
+  display: flex; 
+  opacity: 1; 
 }
+
+.details {
+  color: #eeeeee;
+  display: flex;
+  opacity: 0;   
+  margin-top: -120px;
+  margin-left: 20px;
+  width: 140px;
+  height: 140px;
+  background-color: #949ce2;
+  z-index: 200;
+  position: absolute;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: opacity 0.25s ease-out; 
+}
+
 
 .moment img {
   width: 15rem;
   height: 15rem;
   margin-bottom: 1em;
+  border-radius: 20px;
+}
+.moment img:hover {
+box-shadow: 0px 5px 20px #949ce278;
 }
 
 .moment h3,
@@ -71,20 +90,6 @@
 .moment .date {
   font-size: 0.7em;
   font-style: italic;
-}
-
-a {
-  width: 5rem;
-  display: flex;
-  color: #949ce2;
-  padding: 0.3em 0.6em;
-  align-items: end;
-  text-align: right;
-  justify-content: right;
-}
-
-a:hover {
-  background-color: #8c80fc5e;
 }
 
 .search-container {

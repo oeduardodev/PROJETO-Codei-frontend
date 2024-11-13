@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { Register } from '../../Register';
+import { Register } from '../../models/Register';
 import { CommonModule } from '@angular/common';
 
 @Component({

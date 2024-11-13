@@ -1,3 +1,5 @@
+@import "../../../../../node_modules/devicon/devicon.min.css";
+
 .profile {
     display: flex;
     flex-direction: column;
@@ -5,6 +7,34 @@
     justify-content: center;
     padding: 2em;
 }
+
+.icone-lang {
+    color: #373e86;
+    font-size: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden; 
+    margin: 2rem;
+    animation: colorShift 8.1s infinite ease-in-out; 
+}
+
+@keyframes colorShift {
+    0% { color: #373e86; }
+    15% { color: #4a529e; }
+    30% { color: #5c64b6; }
+    45% { color: #6e78ce; }
+    60% { color: #5b62c5; }
+    75% { color: #6e78ce; }
+    90% { color: #4a529e; }
+    100% { color: #373e86; }
+}
+
+.text-color-animation {
+    animation: colorShift 5s linear infinite;
+}
+
+
 
 h2,
 p {
@@ -49,6 +79,10 @@ h3 {
     display: flex;
     flex-direction: column;
     padding: 2em;
+    p{
+        font-style: italic;
+        opacity: 70%    ;
+    }
 }
 
 .container {
@@ -64,20 +98,26 @@ h3 {
     min-height: 15rem;
     display: flex;
     justify-content: space-around;
-    border-radius: 0.5rem;
+    border-radius: 20px;
+    box-shadow:5px 5px 0px 0px #929cff;
+    .msg-tech-off{
+        font-size: 2rem;
+        font-weight: bolder;
+        color: #4a529e;
+    }
 }
 
 .tech-list span {
-    width: 6rem;
+    width: 100%;
     font-size: 1rem;
-    background-color: #373d8628;
-    padding: 1rem;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
 .tech-container {
+    flex-wrap: wrap;
     margin-top: 4rem;
 }
 
@@ -87,11 +127,16 @@ h3 {
 }
 
 
-.profile-image {
+.profile-image, .profile-image-default {
     width: 15rem;
     background-color: rgba(160, 160, 160, 0.212);
     border-radius: 50%;
-    margin-right: 2rem;
+    margin-right: 0rem;
+}
+
+.profile-image-default{
+    opacity: 80%;
+    background-color:#edeeff;
 }
 
 .layout-container {
@@ -134,13 +179,14 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
-    justify-content: space-between;
+    justify-content: center;    
     margin-top: 3em;
     flex-grow: 1;
     width: 90%;
 }
 
 .moment {
+    margin: 0.3rem !important;
     padding: 1rem;
     text-align: center;
     margin: 1rem;
@@ -216,33 +262,50 @@ a:hover {
     padding-bottom: 5rem;
 }
 
-.container-my-moments h4{
+.container-my-moments h4 {
     margin-top: 1rem;
     font-size: 3rem;
 }
 
 .container-end-moments {
-    margin-top: 5rem;
+    opacity: 80%;
     margin-bottom: 3rem;
     align-items: center;
     justify-items: center;
 }
 
 .butn {
+    border: none;
     cursor: pointer;
     font-weight: bolder;
     color: white;
-    background-color: #949ce2;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.8rem;
-    padding-bottom: 0.8rem;
+    background-color: #373e86;
+    padding: 0.8rem 1rem;
+    margin: 1rem;
     border-radius: 3px;
+    transition: all 0.3s ease; /* Transição de 1 segundo para todos os estilos */
 }
 
 .butn:hover {
     color: #373e86;
+    background-color: #b8bef7;
 }
+
+/* Animação de pulsar */
+@keyframes pulsar {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Aplicando a animação de pulsar */
+.butn:active {
+    animation: pulsar 1s infinite; /* Efeito pulsar */
+}
+
 
 @media (max-width:768px) {
     .butn-add {
