@@ -11,7 +11,7 @@
         </div>
  
         <div class="header-profile">
-            <h3>{{ profileName }}<button class="butn">Adicionar</button></h3> 
+            <h3>{{ profileName || 'sem nome'}}<button class="butn">Adicionar</button></h3> 
             <p>{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão!   "}}</p>
         </div>
     </div>

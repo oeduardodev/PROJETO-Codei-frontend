@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../services/users.service';
 import { AuthorizationService } from '../../../services/auth.service';
 import { Profile } from '../../../models/Profiles';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +22,7 @@ export class ProfileComponent {
   moments: any[]=[];
 
   constructor(
-    private service: UsersService,
+    private service: ProfileService,
     private authService: AuthorizationService
   ) {}
 
@@ -32,13 +33,13 @@ export class ProfileComponent {
   getMyProfile() {
     const headers = this.authService.getAuthorizationHeaders();
   
-    this.service.getUser(headers).subscribe({
+    this.service.getMyProfile().subscribe({
       next: (response: any) => {
         console.log(response);
         this.profileData = response.profile;
   
         // Verifica se moments é um array; se for um objeto, transforma em um array com um elemento
-        this.moments = Array.isArray(response.profile.moments) ? response.profile.moments : [response.profile.moments];
+        this.moments = response.moments
         console.log(this.moments);
   
         this.profileName = response.username;
