@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../services/users.service';
 import { AuthorizationService } from '../../../services/auth.service';
 import { Profile } from '../../../models/Profiles';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +22,7 @@ export class ProfileComponent {
   moments: any;
 
   constructor(
-    private service: UsersService,
+    private service: ProfileService,
     private authService: AuthorizationService
   ) {}
 
@@ -32,7 +33,7 @@ export class ProfileComponent {
   getMyProfile() {
     const headers = this.authService.getAuthorizationHeaders();
   
-    this.service.getUser(headers).subscribe({
+    this.service.getMyProfile().subscribe({
       next: (response: any) => {
         console.log(response);
         this.profileData = response;
