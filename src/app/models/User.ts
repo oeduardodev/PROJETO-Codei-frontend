@@ -10,6 +10,7 @@ export class User {
   updatedAt: string | null = null;
   profile: Profile | null = null;
   moments: any | null = null;
+  photo: string | null = null;
 
   constructor(data: any) {
     this.id = data.id;
@@ -19,7 +20,7 @@ export class User {
     this.isAdmin = data.is_admin;
     this.createdAt = data.created_at;
     this.updatedAt = data.updated_at;
-
+    this.photo = data.photo;
     // Dados do perfil
     this.profile = new Profile(data.profile);
 

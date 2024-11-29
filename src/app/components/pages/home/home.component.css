@@ -29,7 +29,7 @@
   height: 100%;
   box-sizing: border-box;
   margin-right: 50px;
-  z-index: -1;
+  z-index: 1;
   flex-shrink: 0;
   padding-top: 5rem;
 }
@@ -46,14 +46,17 @@
 .moment {
   text-align: center;
   margin: 0.5rem;
-  transition: opacity 0.25s ease-out;
 }
 
 .moment:hover .details {
   display: flex; 
   opacity: 1; 
+  flex-direction: column;
 }
-
+.counts{
+  display: flex;
+  flex-direction: row;
+}
 .details {
   color: #eeeeee;
   display: flex;
@@ -61,13 +64,12 @@
   margin-top: -120px;
   margin-left: 20px;
   width: 140px;
-  height: 140px;
+  height: 170px;
   background-color: #949ce2;
   z-index: 200;
   position: absolute;
   padding: 1rem;
   border-radius: 10px;
-  transition: opacity 0.25s ease-out; 
 }
 
 

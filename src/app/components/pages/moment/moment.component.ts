@@ -14,6 +14,7 @@ import { UsersService } from '../../../services/users.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
 import { LikeService } from '../../../services/like.service';
 import { AuthorizationService } from '../../../services/auth.service';
+import { User } from '../../../models/User';
 
 @Component({
   selector: 'app-moment',
@@ -25,7 +26,8 @@ import { AuthorizationService } from '../../../services/auth.service';
 export class MomentComponent {
   moment?: Moment;
   baseApiUrl = environment.endpoint;
-  userNameLog!: string;
+  
+  userNameLog: any;
   likeAtive: boolean = false;
 
   faEdit = faEdit;
@@ -62,7 +64,7 @@ export class MomentComponent {
   getUser() {
     const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
   
-    this.userService.getUser(headers).subscribe((user) => {
+    this.userService.getUser(headers).subscribe((user:User) => {
       this.userNameLog = user.username;
       if (this.userNameLog) {
         this.commentForm.patchValue({
@@ -78,6 +80,7 @@ export class MomentComponent {
 
     this.momentService.getMoment(id).subscribe((item) => {
       this.moment = item.data;
+      console.log(this.moment)
 
       if (this.moment && this.moment.id !== undefined) {
         this.likeService.getLike(this.moment.id, this.token).subscribe(

@@ -11,8 +11,12 @@
             <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
             <div class="details">
               <h3>{{ moment.title }}</h3>
+              <div class="counts">
+                <p>💬{{ moment.comments!.length }}</p>
+                <p>😻{{ moment.likes_count }}</p>
+              </div>
               <p class="date">{{ moment.created_at }}</p>
-              <p>{{ moment.comments!.length }}</p>
+
             </div>
           </a>
         </div>

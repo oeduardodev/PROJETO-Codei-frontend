@@ -22,15 +22,18 @@ export class RegisterComponent {
   ) { }
 
   async createHandler(register: Register) {
-    const formData = new FormData();
+    console.log('register', register)
 
+    const formData = new FormData();
     formData.append('username', register.username);
     formData.append('password', register.password);
 
     if (register.email) {
       formData.append('email', register.email);
     }
-
+    if (register.photo) {
+      formData.append('photo', register.photo);
+    }
     await this.service.register(formData).subscribe(
       () => {
         this.messageService.addMessage("Usuário adicionado com sucesso!");

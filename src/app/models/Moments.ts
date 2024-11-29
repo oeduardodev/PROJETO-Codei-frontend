@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export interface Moment {
   id?: number;
   title: string;
@@ -7,5 +9,5 @@ export interface Moment {
   created_at?: string;
   updated_at?: string;
   comments?: [{ text: string; username: string }];
-  user?: { username: string; email: string }; // Ajuste para objeto único
+  user?: User
 }

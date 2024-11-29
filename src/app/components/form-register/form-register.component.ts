@@ -15,7 +15,7 @@ export class FormRegisterComponent implements OnInit {
   @Output() OnSubmit = new EventEmitter<Register>();
   @Input() btnText!: string;
   @Output() componenteRenderizado = new EventEmitter<string>();
-  @Input() registerData: Register = { username: '', email: '', password: '' }; // Inicialização com valores padrão
+  @Input() registerData: Register = { username: '', email: '', password: '',  }; // Inicialização com valores padrão
 
   registerForm!: FormGroup;
 
@@ -24,21 +24,22 @@ export class FormRegisterComponent implements OnInit {
     this.componenteRenderizado.emit('form-register');
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     // Verificação de segurança para garantir que registerData não seja indefinido
     if (!this.registerData) {
-      this.registerData = { username: '', email: '', password: '' }; // Valores padrão
+      this.registerData = { username: '', email: '', password: ''  }; // Valores padrão
     }
 
     this.registerForm = new FormGroup({
       username: new FormControl(this.registerData.username, Validators.required),
       email: new FormControl(this.registerData.email, [Validators.required, Validators.email]),
-      password: new FormControl(this.registerData.password, Validators.required),
+      password: new FormControl(this.registerData.password, Validators.required), 
     });
   }
 
   submit() {
     if (this.registerForm.invalid) {
+      console.log("formulario invalido")
       return;
     }
     this.OnSubmit.emit(this.registerForm.value);

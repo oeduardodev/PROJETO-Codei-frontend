@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SearchService } from '../../../services/search.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
+import { NgxTypedJsModule } from 'ngx-typed-js';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,8 @@ import { AsideProfileComponent } from '../../aside-profile/aside-profile.compone
     AsideProfileComponent,
     FontAwesomeModule,
     CommonModule,
-    RouterLink
+    RouterLink,
+    NgxTypedJsModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

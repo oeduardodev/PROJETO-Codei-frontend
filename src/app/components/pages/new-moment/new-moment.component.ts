@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
+import Typed from 'typed.js';
 
 @Component({
     selector: 'app-new-moment',
@@ -20,7 +21,18 @@ export class NewMomentComponent {
         private messageService: MessageService,
         private router: Router
     ) { }
-
+    ngOnInit(){
+        const options = {
+            strings: ['Código', 'Pensamento', 'Momento'],
+            typeSpeed: 50,
+            backSpeed: 90,
+            showCursor: true,
+            cursorChar: '|',
+            loop: true
+       };
+           
+       const typed = new Typed('.typed-element', options);
+    }
     async createHandler(formData: FormData) {
         try {
             await this.momentService.createMoment(formData).toPromise();

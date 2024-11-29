@@ -18,7 +18,7 @@ export class ProfileComponent {
   technologies: any[] = [];
   levels: any[] = [];
   profileName: string[] = [];
-  moments: any[]=[];
+  moments: any;
 
   constructor(
     private service: UsersService,
@@ -35,10 +35,11 @@ export class ProfileComponent {
     this.service.getUser(headers).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.profileData = response.profile;
-  
+        this.profileData = response;
+        console.log(this.profileData)
+        
         // Verifica se moments é um array; se for um objeto, transforma em um array com um elemento
-        this.moments = Array.isArray(response.profile.moments) ? response.profile.moments : [response.profile.moments];
+        this.moments = this.profileData?.moments
         console.log(this.moments);
   
         this.profileName = response.username;
