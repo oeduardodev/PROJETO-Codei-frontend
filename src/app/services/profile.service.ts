@@ -17,14 +17,9 @@ export class ProfileService {
     private authService: AuthorizationService
   ) { }
 
-  getMyProfile(): Observable<Response<Profile>> {
+  getMyProfile(): Observable<any> {
     const headers = this.authService.getAuthorizationHeaders();
-    return this.http.get<Response<Profile>>(`${environment.endpoint}${environment.getMyProfile}`, { headers }).pipe(
-      catchError(error => {
-        console.error('Erro ao obter perfil:', error);
-        return throwError(error);
-      })
-    );
+    return this.http.get(`${environment.endpoint}${environment.getMyProfile}`, { headers })
   }
   
 }

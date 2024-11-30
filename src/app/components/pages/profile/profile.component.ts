@@ -33,7 +33,6 @@ export class ProfileComponent {
 
   getMyProfile() {
     const headers = this.authService.getAuthorizationHeaders();
-  
     this.service.getMyProfile().subscribe({
       next: (response: any) => {
         console.log(response);

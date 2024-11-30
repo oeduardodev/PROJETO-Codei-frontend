@@ -11,12 +11,15 @@
 
 
 <p class="name">
-  nome do teste
+  {{userProfile.username}}
 </p>
 <div class="description">
-  <p>Crie uma conta e comece a codar momentos também</p>
+  <p *ngIf="!userProfile">Crie uma conta e comece a codar momentos também!</p>
+  <p *ngIf="userProfile">Conclua seu perfil ver suas notificações!</p>
   <div class="menu">
-      <a href="enter" class='butn butn__new'><span> Entrar</span></a>
+      <a href="enter" class='butn butn__new' *ngIf="!userProfile && !perfilCompleted"><span> Entrar</span></a>
+      <a href="profile" class='butn butn__new' *ngIf="userProfile && !perfilCompleted"><span> Concluir Perfil</span></a>
+      <p href="profile" class='butn butn__new' *ngIf="perfilCompleted">Notificações</p>
     <li><a routerLink="/enter">Mensagens</a></li>
     <li><a routerLink="/enter">Configurações</a></li>
   </div>
