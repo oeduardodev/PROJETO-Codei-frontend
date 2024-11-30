@@ -34,7 +34,9 @@
     animation: colorShift 5s linear infinite;
 }
 
-
+.loading{
+    overflow: hidden;
+}
 
 h2,
 p {

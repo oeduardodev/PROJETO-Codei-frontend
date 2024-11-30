@@ -5,11 +5,12 @@ import { UsersService } from '../../../services/users.service';
 import { AuthorizationService } from '../../../services/auth.service';
 import { Profile } from '../../../models/Profiles';
 import { ProfileService } from '../../../services/profile.service';
+import { LoadingComponent } from "../../../loading/loading.component";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, LoadingComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'] 
 })

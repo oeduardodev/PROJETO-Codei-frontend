@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div class="container-my-moments">
+<div *ngIf="profileData" class="container-my-moments">
     <h4>Momentos</h4>
     <div class="moments-container">
       <div class="moment" *ngFor="let moment of moments">
@@ -44,4 +44,6 @@
     <button class="butn" routerLink="/">Voltar ao Feed</button>
   </div>
   
-
+<div *ngIf="!profileData" class="loading">
+  <app-loading></app-loading>
+</div>
