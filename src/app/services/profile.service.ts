@@ -21,5 +21,8 @@ export class ProfileService {
     const headers = this.authService.getAuthorizationHeaders();
     return this.http.get(`${environment.endpoint}${environment.getMyProfile}`, { headers })
   }
+  getProfileById(id:number):Observable<any>{
+    return this.http.get(`${environment.endpoint}${environment.getProfileId.replace('${id}', id.toString())}`)
+  }
   
 }

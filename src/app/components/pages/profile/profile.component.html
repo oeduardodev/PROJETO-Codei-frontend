@@ -11,7 +11,7 @@
         </div>
  
         <div class="header-profile">
-            <h3>{{ profileName || 'sem nome'}}<button class="butn">Adicionar</button></h3> 
+            <h3>{{ profileName || 'sem nome'}}<button *ngIf="externalProfileId" class="butn">Adicionar</button><button *ngIf="!externalProfileId" class="butn">Editar</button></h3> 
             <p>{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão!   "}}</p>
         </div>
     </div>
@@ -32,12 +32,12 @@
     <h4>Momentos</h4>
     <div class="moments-container">
       <div class="moment" *ngFor="let moment of moments">
-        <img [src]="moment.image || '../../../../assets/capilike.png'" alt="Moment image" />
+        <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
         <h3>{{ moment.title }}</h3>
         <p class="date">Em: {{ moment.created_at | date:'dd MMMM' }}</p>
         <p><a [routerLink]="['/moment', moment.id]">Detalhes</a></p>
       </div>
-      <div *ngIf="!moments" class="container-end-moments">
+      <div *ngIf="moments.length === 0" class="container-end-moments">
         <p>OPS... sem publicações por aqui.</p>
       </div>
     </div>

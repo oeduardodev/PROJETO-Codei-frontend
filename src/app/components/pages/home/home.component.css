@@ -163,6 +163,12 @@ box-shadow: 0px 5px 20px #949ce278;
 
 @media (max-width:768px) {
 
+  .moment .details {
+    display: flex; 
+    opacity: 1; 
+    flex-direction: column;
+  }
+
   .moment img {
     width: 15rem;
     height: 15rem;
@@ -173,11 +179,9 @@ box-shadow: 0px 5px 20px #949ce278;
   .moments-container{
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
-    justify-content: center;
+    justify-content: center !important;;
     margin-top: 3em;
     flex-grow: 1;
-    margin-left: 0;
-
+    margin-left: 0rem !important;
   }
 }

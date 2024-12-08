@@ -15,6 +15,7 @@ import { AsideProfileComponent } from '../../aside-profile/aside-profile.compone
 import { LikeService } from '../../../services/like.service';
 import { AuthorizationService } from '../../../services/auth.service';
 import { User } from '../../../models/User';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-moment',
@@ -45,6 +46,7 @@ export class MomentComponent {
     private commentService: CommentService,
     private userService: UsersService,
     private likeService: LikeService,
+    private profileService: ProfileService,
     private authService: AuthorizationService
   ) { }
 
@@ -52,6 +54,9 @@ export class MomentComponent {
     this.getMoment();
     this.setupCommentForm();
     this.getUser();
+
+    
+    console.log()
   }
 
   setupCommentForm() {
@@ -80,8 +85,19 @@ export class MomentComponent {
 
     this.momentService.getMoment(id).subscribe((item) => {
       this.moment = item.data;
-      console.log(this.moment)
 
+    
+        this.moment = new Moment(item.data);      
+        console.log(this.moment.userId);
+      
+        if (this.moment.userId) {
+          this.profileService.getProfileById(this.moment.userId).subscribe((data) => {
+            console.log("Dados do perfil:", data);
+          });
+        } else {
+          console.error('User ID is undefined.');
+        }
+   
       if (this.moment && this.moment.id !== undefined) {
         this.likeService.getLike(this.moment.id, this.token).subscribe(
           (like) => {

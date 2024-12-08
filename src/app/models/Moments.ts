@@ -1,13 +1,31 @@
+import { Profile } from "./Profiles";
 import { User } from "./User";
 
-export interface Moment {
-  id?: number;
-  title: string;
-  description: string;
-  image: string;
-  likes_count: number;
-  created_at?: string;
-  updated_at?: string;
-  comments?: [{ text: string; username: string }];
-  user?: User
+export class Moment {
+  id: any;
+  title: string = '';
+  description: string = '';
+  image: string = '';
+  likes_count: number = 0;
+  created_at: string;
+  updated_at: string;
+  comments: { text: string; username: string }[] = [];
+  user: User;
+  userId: number ;
+  profile: Profile ;
+
+  constructor(data: any) {
+    this.id = data.id || null;
+    this.title = data.title || '';
+    this.description = data.description || '';
+    this.image = data.image || '';
+    this.likes_count = data.likes_count || 0;
+    this.created_at = data.created_at 
+    this.updated_at = data.updated_at 
+    this.comments = data.comments || [];
+    this.profile = data.profile 
+    this.user = data.user;
+    this.userId = data.user_id ;
+  }
+
 }

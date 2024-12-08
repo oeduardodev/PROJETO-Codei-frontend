@@ -25,9 +25,10 @@
       <img class="img-moment" src="{{ baseApiUrl }}uploads/{{ moment.image }}" alt="{{ moment.title }}"
         (click)="sendLike()" />
       <div class="comment-about">
-        <img class="profilePhoto" src="{{ moment.user?.photo || '/assets/profile-default-img.png' }}" alt="" srcset="">
-        <h2>&commat;{{ moment.user?.username }} </h2>
-        <span>escreveu:</span>
+        <div class="container-profile" [routerLink]="['/profile/', moment.userId]">
+          <img class="img-profile" src="{{ moment.user.photo || '/assets/profile-default-img.png' }}" alt="" srcset="">
+          <h2>&commat;{{ moment.user.username }} </h2>
+        </div>
         <p class="description">{{ moment.description }}</p>
         <div class="comment-form">
           <h2>Deixe um comentário</h2>

@@ -50,12 +50,20 @@ form {
 }
 
 .img-profile {
-  width: 1.5rem;
+  width: 2.5rem;
   margin-right: 5px;
   background-color: #e7e7e7;
   border-radius: 50%;
+  opacity: 1;
+  border: 2px solid #929ae169;
 }
 
+.container-profile{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
 .actions {
   display: none;
   padding-bottom: 1em;

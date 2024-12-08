@@ -10,7 +10,7 @@
 
   <ul class="links">
     <li>
-      <a class="butn butn__new button-text" routerLink="/moments/new">Compartilhar</a>
+      <a class="butn butn__new button-text"  [routerLink]="userLogged ? '/moments/new' : '/login'">Compartilhar</a>
     </li>
     <li>
       <fa-icon class="butn butn__new button-icon" routerLink="/moments/new" [icon]="faShare"></fa-icon>
@@ -22,7 +22,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/profile">
+        <a [routerLink]="!userLogged ? '/profile' : '/login'">
           <fa-icon class="icon user-button" [icon]="faUser"></fa-icon>
         </a>
       </li>
