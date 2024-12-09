@@ -16,16 +16,20 @@
       <fa-icon class="butn butn__new button-icon" routerLink="/moments/new" [icon]="faShare"></fa-icon>
     </li>
     <div class="link-icons">
-      <li>
+      <!-- Exibe faUser apenas na rota '/' -->
+      <li *ngIf="currentRoute === '/'">
+        <a [routerLink]="userLogged ? '/profile' : '/login'">
+          <fa-icon class="icon user-button" [icon]="faUser"></fa-icon>
+        </a>
+      </li>
+    
+      <!-- Exibe faHouse apenas nas rotas '/profile' ou '/login' -->
+      <li *ngIf="currentRoute === '/profile' || currentRoute === '/login'">
         <a routerLink="/">
           <fa-icon class="icon" [icon]="faHouse"></fa-icon>
         </a>
       </li>
-      <li>
-        <a [routerLink]="!userLogged ? '/profile' : '/login'">
-          <fa-icon class="icon user-button" [icon]="faUser"></fa-icon>
-        </a>
-      </li>
     </div>
+    
   </ul>
 </nav>

@@ -27,10 +27,9 @@ export class AsideProfileComponent {
   getUserData() {
     this.profileService.getMyProfile().subscribe((profile: Profile) => {
       this.userProfile = profile
-      console.log(this.userProfile)
     })
 
-    if(this.userProfile.photo && this.userProfile.technologies && this.userProfile.bio){
+    if(this.userProfile?.photo && this.userProfile?.technologies && this.userProfile?.bio){
       this.perfilCompleted = true
     }
   }

@@ -22,8 +22,6 @@ export class RegisterComponent {
   ) { }
 
   async createHandler(register: Register) {
-    console.log('register', register)
-
     const formData = new FormData();
     formData.append('username', register.username);
     formData.append('password', register.password);

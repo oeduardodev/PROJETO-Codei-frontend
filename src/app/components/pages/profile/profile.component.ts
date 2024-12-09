@@ -49,13 +49,10 @@ export class ProfileComponent {
   getMyProfile() {
     this.service.getMyProfile().subscribe({
       next: (response: any) => {
-        console.log(response);
         this.profileData = response.profile;
-        console.log(this.profileData)
         
         // Verifica se moments é um array; se for um objeto, transforma em um array com um elemento
         this.moments = this.profileData?.moments
-        console.log(this.moments);
   
         this.profileName = response.username;
         if (this.profileData) {
@@ -72,13 +69,10 @@ export class ProfileComponent {
   getOthersProfiles() {
     this.service.getProfileById(this.externalProfileId).subscribe(
       (response)=>{
-        console.log(response);
         this.profileData = response.profile;
-        console.log(this.profileData)
         
         // Verifica se moments é um array; se for um objeto, transforma em um array com um elemento
         this.moments = this.profileData?.moments
-        console.log(this.moments);
   
         this.profileName = response.username;
         if (this.profileData) {

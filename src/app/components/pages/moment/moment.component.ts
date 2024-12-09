@@ -54,9 +54,6 @@ export class MomentComponent {
     this.getMoment();
     this.setupCommentForm();
     this.getUser();
-
-    
-    console.log()
   }
 
   setupCommentForm() {
@@ -84,15 +81,9 @@ export class MomentComponent {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     this.momentService.getMoment(id).subscribe((item) => {
-      this.moment = item.data;
-
-    
         this.moment = new Moment(item.data);      
-        console.log(this.moment.userId);
-      
         if (this.moment.userId) {
           this.profileService.getProfileById(this.moment.userId).subscribe((data) => {
-            console.log("Dados do perfil:", data);
           });
         } else {
           console.error('User ID is undefined.');

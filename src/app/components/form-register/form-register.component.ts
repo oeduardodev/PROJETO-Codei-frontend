@@ -39,7 +39,6 @@ export class FormRegisterComponent implements OnInit {
 
   submit() {
     if (this.registerForm.invalid) {
-      console.log("formulario invalido")
       return;
     }
     this.OnSubmit.emit(this.registerForm.value);

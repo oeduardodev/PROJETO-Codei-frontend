@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { Moment } from '../../models/Moments';
 import { faFlaskVial, faHouse, faSearch, faUser, faBars, faShareFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { MomentService } from '../../services/moment.service';
@@ -9,7 +9,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchService } from '../../services/search.service';
 import { UsersService } from '../../services/users.service';
 import { AuthorizationService } from '../../services/auth.service';
-import { User } from '../../models/User';
 
 @Component({
   selector: 'app-header',
@@ -22,22 +21,24 @@ export class HeaderComponent implements OnInit {
   faSearch = faSearch;
   faHouse = faHouse;
   faFlaskVial = faFlaskVial;
-  faUser = faUser
-  faBars = faBars
-  faShare = faShareFromSquare
+  faUser = faUser;
+  faBars = faBars;
+  faShare = faShareFromSquare;
   allMoments: Moment[] = [];
   userLogged: boolean = false;
   baseApiUrl = environment.endpoint;
+  currentRoute: string = '';
 
   constructor(
     private momentService: MomentService,
     private searchService: SearchService,
     private authService: AuthorizationService,
-    private userService: UsersService
-  ) { }
+    private userService: UsersService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.getUser()
+    this.getUser();
 
     this.momentService.getMoments().subscribe((items) => {
       const data = items.data;
@@ -48,26 +49,35 @@ export class HeaderComponent implements OnInit {
       this.allMoments = data;
       this.searchService.setFilteredMoments(data); // Set initial moments
     });
+
+    // Atualize a rota ativa sempre que houver mudanças na navegação
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.urlAfterRedirects;
+      }
+    });
   }
 
   search(e: Event): void {
     const target = e.target as HTMLInputElement;
     const value = target.value.toLowerCase();
 
-    const filteredMoments = this.allMoments.filter(moment => moment.title.toLowerCase().includes(value));
+    const filteredMoments = this.allMoments.filter(moment =>
+      moment.title.toLowerCase().includes(value)
+    );
     this.searchService.setSearchTerm(value);
     this.searchService.setFilteredMoments(filteredMoments);
   }
 
-  getUser() {
+  getUser(): void {
     const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
 
     this.userService.getUser(headers).subscribe(
-      (sucess) => {
-        this.userLogged = true
+      () => {
+        this.userLogged = true;
       },
-      (err) => {
-        this.userLogged = false
+      () => {
+        this.userLogged = false;
       }
     );
   }

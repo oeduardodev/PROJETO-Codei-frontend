@@ -1,21 +1,23 @@
 export class Profile {
-  userId: number | null = null;
-  photo: string | null = null;
-  username: string | null = null;
-  bio: string | null = null;
+  userId: number = 0;
+  photo: string = '';
+  username: string = '';
+  bio: string = '';
   technologies: string[] = [];
   friends: string[] = [];
   levels: string[] = [];
   moments: any[] = [];
 
   constructor(data: any) {
-    this.userId = data.profile.user_id || null;
-    this.photo = data.profile.photo || null;
-    this.username = data.username || null; // O username está fora de "profile"
-    this.bio = data.profile.bio || null;
-    this.technologies = data.profile.technologies || [];
-    this.friends = data.profile.friends || [];
-    this.levels = data.profile.levels || [];
-    this.moments = data.profile.moments || [];
+    const profile = data?.profile || {}; // Garantir que `profile` seja um objeto, mesmo que vazio
+
+    this.userId = profile.user_id ?? 0;
+    this.photo = profile.photo ?? '';
+    this.username = data?.username ?? '';
+    this.bio = profile.bio ?? '';
+    this.technologies = profile.technologies ?? [];
+    this.friends = profile.friends ?? [];
+    this.levels = profile.levels ?? [];
+    this.moments = profile.moments ?? [];
   }
 }
