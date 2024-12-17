@@ -20,8 +20,8 @@
       <a href="login" class='butn butn__new' *ngIf="!userProfile && !perfilCompleted"><span> Entrar</span></a>
       <a href="profile" class='butn butn__new' *ngIf="userProfile && !perfilCompleted"><span> Concluir Perfil</span></a>
       <p href="profile" class='butn butn__new' *ngIf="perfilCompleted">Notificações</p>
-    <li><a routerLink="/login">Mensagens</a></li>
-    <li><a routerLink="/login">Configurações</a></li>
+    <li><a routerLink="/login" *ngIf="perfilCompleted">Mensagens</a></li>
+    <li><a routerLink="/login" *ngIf="perfilCompleted">Configurações</a></li>
   </div>
 </div>
 

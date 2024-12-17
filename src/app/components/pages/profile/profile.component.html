@@ -5,14 +5,19 @@
             <img class="profile-image-default" src="../../../../assets/profile-default-img.png" alt="">
             
             <div class="level-container">
-                <span>Level: </span>
+                <span>status: </span>
                 <strong>{{ levels[0] || "jovemscript" }}  </strong>           
             </div>
         </div>
  
         <div class="header-profile">
-            <h3>{{ profileName || 'sem nome'}}<button *ngIf="externalProfileId" class="butn">Adicionar</button><button *ngIf="!externalProfileId" class="butn">Editar</button></h3> 
-            <p>{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão!   "}}</p>
+            <h3>{{ profileName || 'sem nome'}}
+              <button *ngIf="externalProfileId" class="butn">Adicionar</button>
+              <button (click)="editOn = true" *ngIf="!externalProfileId && !editOn" class="butn">Editar</button>
+              <button (click)="editOn = false" *ngIf="editOn" class="butn">Concluir</button>
+            </h3> 
+            <p *ngIf="!editOn">{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão!   "}}</p>
+            <textarea *ngIf="editOn" name="" id="" placeholder="Escreva uma descrição legal para seu perfil."  maxlength="200"></textarea>
         </div>
     </div>
 
@@ -22,27 +27,45 @@
             <span *ngFor="let tech of technologies">
               <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
             </span>
-            <span class="msg-tech-off">sem tecnologias por aqui.😔 </span>
+            <span *ngIf="!editOn" class="msg-tech-off">sem tecnologias por aqui.😔 </span>
+            <div class="edit-techs" *ngIf="editOn">
+              <span  class="msg-tech-off">Digite a tecnologia que voce domina. 😎 </span>
+              <div>
+                <input type="text" placeholder="javascript"> <button class="butn">adicionar</button>
+              </div>
+            </div>
         </div>
         
     </div>
 </div>
 
 <div *ngIf="profileData" class="container-my-moments">
-    <h4>Momentos</h4>
-    <div class="moments-container">
-      <div class="moment" *ngFor="let moment of moments">
-        <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
-        <h3>{{ moment.title }}</h3>
-        <p class="date">Em: {{ moment.created_at | date:'dd MMMM' }}</p>
-        <p><a [routerLink]="['/moment', moment.id]">Detalhes</a></p>
-      </div>
-      <div *ngIf="moments.length === 0" class="container-end-moments">
-        <p>OPS... sem publicações por aqui.</p>
+  <h4>Momentos</h4>
+  <div class="moments-container">
+    <div class="moment" *ngFor="let moment of moments">
+      <a class="link-moment" routerLink="/moments/{{ moment.id }}">
+        <div class="overlay">
+          <span>visualizar</span>
+          <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+        </div>
+      </a>
+      <p class="date">Em: {{ moment.created_at | date:'dd/MM/yy' }}</p>
+      <h3>{{ moment.title }}</h3>
+      <div class="actions">
+        <a routerLink="/moments/edit/{{ moment.id }}" class="edit-btn">
+          <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
+        </a>
+        <button class="remove-btn" (click)="removeHandler(moment.id!)">
+          <fa-icon [icon]="faTimes"></fa-icon> Excluir
+        </button>
       </div>
     </div>
-    <button class="butn" routerLink="/">Voltar ao Feed</button>
+    <div *ngIf="moments.length === 0" class="container-end-moments">
+      <p>OPS... sem publicações por aqui.</p>
+    </div>
   </div>
+  <button class="butn" routerLink="/">Voltar ao Feed</button>
+</div>
   
 <div *ngIf="!profileData" class="loading">
   <app-loading></app-loading>

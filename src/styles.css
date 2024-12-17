@@ -8,7 +8,6 @@
 a {
     text-decoration: none;
     color: #322e49;
-    transition: .45s;
 }
 
 a:hover {
@@ -30,7 +29,6 @@ li {
     cursor: pointer;
     color: #e7e7e7 !important;
     background-color: #8d96df;
-    transition: 0.4s;
     border: none;
     border-radius: 5px;
 }
@@ -45,10 +43,12 @@ li {
     box-sizing: border-box; 
 }
 
-.remove-btn {
+.remove-btn,
+.remove-btn path {
     border: 2px solid;
-    color: #e7e7e7 !important;
+    color: #ffffff !important;
     background-color: #212333;
+    
 }
 
 button fa-icon,
@@ -66,19 +66,18 @@ a fa-icon:hover {
 
 .edit-btn,
 .edit-btn path {
-    border: 2px solid;
-    color: #e7e7e7;
+    color: #29263f !important;
     border-radius: 5px;
 }
 
 .edit-btn:hover,
 .edit-btn:hover path {
-    border: 2px solid #29263f;
+    color: #29263f !important;
 }
 
 .remove-btn:hover,
 .remove-btn:hover path {
-    border: 2px solid #ce333b;
+    background-color:  #7e191e;
 }
 
 /* FORM STYLES */

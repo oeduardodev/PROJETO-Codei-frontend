@@ -39,8 +39,33 @@
 }
 
 h2,
-p {
+p,
+textarea {
+    overflow: hidden;
+    height: 100px; 
+    resize: none;
+    line-height: 20px;
+    min-height: 100px;
+    font-weight: 400;
+    font-style: italic;
+    padding: 0;
     margin-bottom: 1em;
+    color:#777 ;
+}
+
+textarea{
+    border: 1px solid rgb(180, 180, 180);
+    padding: .5rem;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.edit-techs{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    margin-top: 60px;
 }
 
 h3 {
@@ -194,18 +219,72 @@ h3 {
     margin: 1rem;
     border-radius: 10px;
     background-color: #c6c9e63f;
-    border: 2px solid transparent;
+    width: 280px;
+
+    p{
+        height: 1rem !important;
+        min-height: 20px;
+    }
 }
 
-.moment:hover {
-    border: 2px solid #949ce2;
+
+.link-moment:hover{
+    color: none !important;
+    background-color: transparent !important;
 }
 
-.moment img {
+.link-moment {
+    position: relative; /* Necessário para o posicionamento do span */
+    display: inline-block; /* Para ajustar o tamanho ao conteúdo */
+}
+
+.link-moment .overlay {
+    position: relative; /* Permite que o span seja posicionado sobre a imagem */
+}
+
+.link-moment img {
     width: 15rem;
     height: 15rem;
     margin-bottom: 1em;
+    border-radius: 10px;
+    display: block; /* Evita espaços adicionais */
 }
+
+.link-moment img:hover {
+    border: 4px solid #929cff;
+}
+
+.link-moment .overlay span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: #6771c5c2;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    /* text-transform: uppercase; */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    /* Garantindo centralização vertical e horizontal */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Ajuste do tamanho da div */
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+}
+
+.link-moment .overlay:hover span {
+    opacity: 1;
+}
+
 
 .moment h3,
 .moment p {
@@ -310,10 +389,27 @@ a:hover {
 
 
 @media (max-width:768px) {
-    .butn-add {
+    .tech-list {
+        background-color: #edeeff;
+        width: 85vw;
+        flex-wrap: wrap;
+        min-height: 15rem;
+        display: flex;
+        justify-content: space-around;
+        border-radius: 20px;
+        box-shadow:5px 5px 0px 0px #929cff;
+        .msg-tech-off{
+            font-size: 1.4rem;
+            font-weight: bolder;
+            color: #4a529e;
+        }
+    }
+    
+    .butn-add, .butn {
         margin-left: 0rem;
         margin-top: 0.5rem;
         margin-bottom: 0.7rem;
+        margin-right: 0rem;
     }
 
     h3 {
@@ -339,8 +435,11 @@ a:hover {
 
     }
 
-    .tech-list {
-        flex-wrap: wrap;
-        width: 85vw;
+    .edit-techs{
+        div{
+            input{
+                width: 140px;;
+            }
+        }
     }
 }

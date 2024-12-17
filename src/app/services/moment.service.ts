@@ -30,7 +30,9 @@ export class MomentService {
   }
 
   removeMoment(id: Number) {
-    return this.http.delete(`${environment.endpoint}${environment.moments}/${id}`);
+    const token = localStorage.getItem('authToken') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${environment.endpoint}${environment.moments}/${id}`, { headers });
   }
 
   updateMoment(id: Number, formData: FormData) {

@@ -4,15 +4,6 @@
   </div>
 
   <div class="moment" *ngIf="moment">
-    <div class="actions">
-      <a routerLink="/moments/edit/{{ moment.id }}" class="edit-btn">
-        <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
-      </a>
-      <button class="remove-btn" (click)="removeHandler(moment.id!)">
-        <fa-icon [icon]="faTimes"></fa-icon> Excluir
-      </button>
-    </div>
-
     <div class="header-container">
       <h3>{{ moment.title }}</h3>
       <div class="capilike-container">

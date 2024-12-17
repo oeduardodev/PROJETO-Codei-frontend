@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { environment } from '../../../environment/environments';
@@ -8,11 +8,15 @@ import { Profile } from '../../../models/Profiles';
 import { ProfileService } from '../../../services/profile.service';
 import { AuthorizationService } from '../../../services/auth.service';
 import { LoadingComponent } from "../../../loading/loading.component";
+import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MomentService } from '../../../services/moment.service';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink, CommonModule, LoadingComponent],
+  imports: [RouterLink, CommonModule, LoadingComponent, FontAwesomeModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'] 
 })
@@ -25,11 +29,20 @@ export class ProfileComponent {
   moments: any;
   externalProfileId: number = 0;
   endpoint = environment.endpoint;
+  editOn: boolean = false;
+  dateMoment: Date = new Date();
 
+  faEdit = faEdit;
+  faTimes = faTimes;
+  
   constructor(
     private service: ProfileService,
     private authService: AuthorizationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private momentService: MomentService,
+    private messagesService: MessageService,
+    private router: Router,
+    
 
   ) {}
 
@@ -73,7 +86,6 @@ export class ProfileComponent {
         
         // Verifica se moments é um array; se for um objeto, transforma em um array com um elemento
         this.moments = this.profileData?.moments
-  
         this.profileName = response.username;
         if (this.profileData) {
           this.technologies = this.profileData.technologies || [];
@@ -82,4 +94,18 @@ export class ProfileComponent {
       }
     );
   }  
+  
+
+  editChange(){
+    this.editOn = true
+  }
+
+    
+  removeHandler(id: number) {
+   this.momentService.removeMoment(id).subscribe();
+
+    this.messagesService.addMessage("Momento excluido com sucesso!");
+    this.router.navigate(['/']);
+  }
+
 }
