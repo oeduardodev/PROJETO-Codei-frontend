@@ -1,42 +1,64 @@
 <div *ngIf="profileData" class="profile">
-    <div class="container">
-        <div>
-            <img *ngIf="profileData.photo !== null" class="profile-image" [src]="profileData.photo" alt="">
-            <img class="profile-image-default" src="../../../../assets/profile-default-img.png" alt="">
-            
-            <div class="level-container">
-                <span>status: </span>
-                <strong>{{ levels[0] || "jovemscript" }}  </strong>           
-            </div>
-        </div>
- 
-        <div class="header-profile">
-            <h3>{{ profileName || 'sem nome'}}
-              <button *ngIf="externalProfileId" class="butn">Adicionar</button>
-              <button (click)="editOn = true" *ngIf="!externalProfileId && !editOn" class="butn">Editar</button>
-              <button (click)="editOn = false" *ngIf="editOn" class="butn">Concluir</button>
-            </h3> 
-            <p *ngIf="!editOn">{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão!   "}}</p>
-            <textarea *ngIf="editOn" name="" id="" placeholder="Escreva uma descrição legal para seu perfil."  maxlength="200"></textarea>
-        </div>
+  <div class="container">
+    <div>
+      <div *ngIf="!profileData.photo" class="select-photo" [ngClass]="{ 'edit-mode': editOn }">
+        <img class="profile-image-default" src="../../../../assets/profile-default-img.png" alt="" (click)="triggerFileInput()" />
+        <fa-icon *ngIf="editOn" [icon]="faEdit" class="photo-edit"></fa-icon>
+        <input #fileInput type="file" class="subImage" (change)="onFileSelected($event)" style="display: none;" />
+      </div>
+
+      <div class="level-container">
+        <span>status: </span>
+        <strong *ngIf="!editOn">{{ selectedLevel || "jovemscript" }}</strong>
+        <select *ngIf="editOn" [(ngModel)]="selectedLevel">
+          <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+        </select>
+
+      </div>
     </div>
 
-    <div class="tech-container">
-        <h3>Tecnologias</h3>
-        <div class="tech-list">
-            <span *ngFor="let tech of technologies">
-              <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-            </span>
-            <span *ngIf="!editOn" class="msg-tech-off">sem tecnologias por aqui.😔 </span>
-            <div class="edit-techs" *ngIf="editOn">
-              <span  class="msg-tech-off">Digite a tecnologia que voce domina. 😎 </span>
-              <div>
-                <input type="text" placeholder="javascript"> <button class="butn">adicionar</button>
-              </div>
-            </div>
-        </div>
-        
+    <div class="header-profile">
+      <div class="profile-name">
+        <input type="text" [(ngModel)]="profileData.username" *ngIf="editOn">
+        <h3 *ngIf="!editOn">{{ profileData.username || 'sem nome' }}</h3>
+        <button *ngIf="externalProfileId" class="butn">Adicionar</button>
+        <button (click)="editOn = true" *ngIf="!externalProfileId && !editOn" class="butn">Editar</button>
+        <button (click)="sendProfile(); editOn = false" *ngIf="editOn" class="butn">Concluir</button>
+      </div>
+      <p *ngIf="!editOn">{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão! "}}</p>
+      <textarea [(ngModel)]="profileData.bio" *ngIf="editOn" name="" id=""
+        placeholder="Escreva uma descrição legal para seu perfil." maxlength="200"></textarea>
     </div>
+  </div>
+
+  <div class="tech-container">
+    <h3>Tecnologias</h3>
+    <div class="tech-list-container" [ngClass]="{ 'empty-list': techListEdit}">
+      <span *ngIf="profileData.technologies.length <= 0" class="msg-tech-off">sem tecnologias por aqui.😔</span>
+
+      <div class="edit-techs" *ngIf="editOn">
+        <span class="msg-tech-off">Digite a tecnologia que você domina. 😎</span>
+        <div>
+          <input type="text" [(ngModel)]="newTech" placeholder="javascript">
+          <button class="butn" (click)="addTechnology()">adicionar</button>
+        </div>
+      </div>
+      <div class="container-tech-list">
+        <div class="tech-list">
+          <span *ngFor="let tech of technologies">
+            <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+          </span>
+          <!-- Duplicação para efeito contínuo -->
+          <span *ngFor="let tech of technologies">
+            <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
 </div>
 
 <div *ngIf="profileData" class="container-my-moments">
@@ -49,9 +71,8 @@
           <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
         </div>
       </a>
-      <p class="date">Em: {{ moment.created_at | date:'dd/MM/yy' }}</p>
-      <h3>{{ moment.title }}</h3>
-      <div class="actions">
+      <h5>{{ moment.title }}</h5>
+      <div class="actions" *ngif="this.id">
         <a routerLink="/moments/edit/{{ moment.id }}" class="edit-btn">
           <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
         </a>
@@ -59,6 +80,8 @@
           <fa-icon [icon]="faTimes"></fa-icon> Excluir
         </button>
       </div>
+      <p class="date">Em: {{ moment.created_at | date:'dd/MM/yy' }}</p>
+
     </div>
     <div *ngIf="moments.length === 0" class="container-end-moments">
       <p>OPS... sem publicações por aqui.</p>
@@ -66,7 +89,19 @@
   </div>
   <button class="butn" routerLink="/">Voltar ao Feed</button>
 </div>
-  
+
+<div class="overlay" *ngIf="imageUrl">
+  <div class="container-image" >
+    <span class="close-btn" (click)="imageUrl = null">x</span>
+    <div class="image-preview">
+        <img #imageCropper [src]="imageUrl" alt="Imagem selecionada" />
+    </div>
+    <button class="butn-send">Enviar</button>
+  </div>
+</div>
+
+
 <div *ngIf="!profileData" class="loading">
   <app-loading></app-loading>
 </div>
+

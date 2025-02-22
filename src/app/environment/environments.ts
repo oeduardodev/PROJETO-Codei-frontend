@@ -40,6 +40,10 @@ export const environment = {
      */
     moments: 'api/moments',
 
+    /**
+     * Rota para gerenciar 'perfis'
+     * Usada para capturar perfis ou atualizar.
+     */
     getMyProfile: 'api/profile/me',
 
     getProfiles:'api/profile/',

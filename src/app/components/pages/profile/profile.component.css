@@ -14,27 +14,50 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden; 
+    overflow: hidden;
     margin: 2rem;
-    animation: colorShift 8.1s infinite ease-in-out; 
+    animation: colorShift 8.1s infinite ease-in-out;
 }
 
 @keyframes colorShift {
-    0% { color: #373e86; }
-    15% { color: #4a529e; }
-    30% { color: #5c64b6; }
-    45% { color: #6e78ce; }
-    60% { color: #5b62c5; }
-    75% { color: #6e78ce; }
-    90% { color: #4a529e; }
-    100% { color: #373e86; }
+    0% {
+        color: #373e86;
+    }
+
+    15% {
+        color: #4a529e;
+    }
+
+    30% {
+        color: #5c64b6;
+    }
+
+    45% {
+        color: #6e78ce;
+    }
+
+    60% {
+        color: #5b62c5;
+    }
+
+    75% {
+        color: #6e78ce;
+    }
+
+    90% {
+        color: #4a529e;
+    }
+
+    100% {
+        color: #373e86;
+    }
 }
 
 .text-color-animation {
     animation: colorShift 5s linear infinite;
 }
 
-.loading{
+.loading {
     overflow: hidden;
 }
 
@@ -42,7 +65,7 @@ h2,
 p,
 textarea {
     overflow: hidden;
-    height: 100px; 
+    height: 100px;
     resize: none;
     line-height: 20px;
     min-height: 100px;
@@ -50,17 +73,67 @@ textarea {
     font-style: italic;
     padding: 0;
     margin-bottom: 1em;
-    color:#777 ;
+    color: #777;
 }
 
-textarea{
+.subImage{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    text-align: center;
+    color: #949ce2;
+    background-color: #eeefff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-image {
+    background: linear-gradient(to bottom, #373e86, #ffffff);
+    left: 35%;
+    top: 14%;    
+    padding: 1rem;
+    box-shadow: 10px 10px 30px;
+    border-radius: 5px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: auto;
+}
+
+.close-btn {
+    color: #b4bcff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    align-self: flex-end;
+    background-color: #eeefff;
+    height: 100%;
+    width: 2rem;
+    padding-bottom: 0.2rem;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.close-btn:hover{
+    color: #8282ff;
+
+
+}
+.image-preview{
+    width: 500px;
+    height: 500px !important;
+    padding-top: 1rem;
+}
+textarea {
     border: 1px solid rgb(180, 180, 180);
     padding: .5rem;
     border-radius: 10px;
     font-size: 15px;
 }
 
-.edit-techs{
+.edit-techs {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -99,17 +172,22 @@ h3 {
 .butn-add:hover {
     color: #373e86;
 }
-
+.butn-send {
+    margin-left: 0rem !important;
+    margin-top: 2rem !important;
+    width: 100%;
+}
 .header-profile {
     display: flex;
-    width: 45rem;
-    display: flex;
+    width: 28rem;
     flex-direction: column;
+    justify-content: space-between;
     padding: 2em;
-    p{
-        font-style: italic;
-        opacity: 70%    ;
-    }
+}
+
+.header-profile p {
+    font-style: italic;
+    opacity: 70%;
 }
 
 .container {
@@ -119,22 +197,93 @@ h3 {
     justify-content: center;
 }
 
-.tech-list {
+.tech-list-container {
     background-color: #edeeff;
     width: 45rem;
     min-height: 15rem;
     display: flex;
     justify-content: space-around;
+    flex-direction: column;
     border-radius: 20px;
-    box-shadow:5px 5px 0px 0px #929cff;
-    .msg-tech-off{
+    box-shadow: 5px 5px 0px 0px #929cff;
+
+    .msg-tech-off {
         font-size: 2rem;
         font-weight: bolder;
         color: #4a529e;
     }
 }
 
-.tech-list span {
+@keyframes scrollIcons {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+
+    /* Move apenas metade, pois os ícones foram duplicados */
+}
+
+.container-tech-list {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    /* Esconde os ícones que saem do container */
+    white-space: nowrap;
+    /* Mantém tudo na mesma linha */
+    position: relative;
+}
+
+.tech-list {
+    display: flex;
+    flex-direction: row;
+    animation: scrollIcons 10s linear infinite;
+    /* Ajuste a velocidade conforme necessário */
+}
+
+/* Pausa ao passar o mouse */
+.container-tech-list:hover .tech-list {
+    animation-play-state: paused;
+}
+
+.profile-name {
+    input {
+        border: 1px solid #929cff;
+        border-radius: 10px;
+        height: 3.4rem;
+    }
+}
+
+.profile-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.empty-list {
+    display: block !important;
+    padding-top: 0.5px;
+}
+
+.tech-list {
+    display: flex;
+    flex-direction: row;
+}
+
+.empty-list .icone-lang {
+    color: #373e86;
+    font-size: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    margin: 2rem;
+    animation: colorShift 4s infinite ease-in-out;
+}
+
+.tech-list-container span {
     width: 100%;
     font-size: 1rem;
     text-align: center;
@@ -153,17 +302,69 @@ h3 {
     text-align: center;
 }
 
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo preto com 70% de opacidade */
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-.profile-image, .profile-image-default {
+.edit-mode{
+    opacity: 70% ;
+}
+
+.select-photo {
+    border: 2px solid #373e86;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.select-photo {
+    border-radius: 50%;
+    border: 2px solid #373e86;
+    position: relative;
+    cursor: pointer;
+}
+
+.select-photo:hover {
+}
+
+.photo-edit {
+    position: absolute;
+    font-size: 2rem;
+    top: 40%;
+    left: 80%;
+    opacity: 0;
+    /* Esconde o ícone */
+    transition: opacity 0.3s ease-in-out;
+    /* Efeito suave */
+    color: #37377f;
+}
+
+.select-photo:hover .photo-edit {
+    opacity: 0.5;
+}
+
+
+.profile-image,
+.profile-image-default {
     width: 15rem;
     background-color: rgba(160, 160, 160, 0.212);
     border-radius: 50%;
     margin-right: 0rem;
 }
 
-.profile-image-default{
-    opacity: 80%;
-    background-color:#edeeff;
+.profile-image-default {
+    opacity: 100%;
+    background-color: #edeeff;
 }
 
 .layout-container {
@@ -206,7 +407,7 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
-    justify-content: center;    
+    justify-content: center;
     margin-top: 3em;
     flex-grow: 1;
     width: 90%;
@@ -221,33 +422,38 @@ h3 {
     background-color: #c6c9e63f;
     width: 280px;
 
-    p{
+    p {
         height: 1rem !important;
         min-height: 20px;
     }
 }
 
 
-.link-moment:hover{
+.link-moment:hover {
     color: none !important;
     background-color: transparent !important;
 }
 
 .link-moment {
-    position: relative; /* Necessário para o posicionamento do span */
-    display: inline-block; /* Para ajustar o tamanho ao conteúdo */
+    margin-bottom: 1em;
+
+    position: relative;
+    /* Necessário para o posicionamento do span */
+    display: inline-block;
+    /* Para ajustar o tamanho ao conteúdo */
 }
 
 .link-moment .overlay {
-    position: relative; /* Permite que o span seja posicionado sobre a imagem */
+    position: relative;
+    /* Permite que o span seja posicionado sobre a imagem */
 }
 
 .link-moment img {
     width: 15rem;
     height: 15rem;
-    margin-bottom: 1em;
     border-radius: 10px;
-    display: block; /* Evita espaços adicionais */
+    display: block;
+    /* Evita espaços adicionais */
 }
 
 .link-moment img:hover {
@@ -293,8 +499,10 @@ h3 {
 }
 
 .moment .date {
+    text-align: center;
     font-size: 0.7em;
     font-style: italic;
+    margin-top: 1rem;
 }
 
 .detalhes {
@@ -349,13 +557,13 @@ a:hover {
 }
 
 .container-end-moments {
-    opacity: 80%;
+    opacity: 100%;
     margin-bottom: 3rem;
     align-items: center;
     justify-items: center;
 }
 
-.butn {
+.butn,.butn-send {
     border: none;
     cursor: pointer;
     font-weight: bolder;
@@ -364,7 +572,8 @@ a:hover {
     padding: 0.8rem 1rem;
     margin: 1rem;
     border-radius: 3px;
-    transition: all 0.3s ease; /* Transição de 1 segundo para todos os estilos */
+    transition: all 0.3s ease;
+    /* Transição de 1 segundo para todos os estilos */
 }
 
 .butn:hover {
@@ -374,9 +583,12 @@ a:hover {
 
 /* Animação de pulsar */
 @keyframes pulsar {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.1);
     }
@@ -384,12 +596,13 @@ a:hover {
 
 /* Aplicando a animação de pulsar */
 .butn:active {
-    animation: pulsar 1s infinite; /* Efeito pulsar */
+    animation: pulsar 1s infinite;
+    /* Efeito pulsar */
 }
 
 
 @media (max-width:768px) {
-    .tech-list {
+    .tech-list-container {
         background-color: #edeeff;
         width: 85vw;
         flex-wrap: wrap;
@@ -397,15 +610,17 @@ a:hover {
         display: flex;
         justify-content: space-around;
         border-radius: 20px;
-        box-shadow:5px 5px 0px 0px #929cff;
-        .msg-tech-off{
+        box-shadow: 5px 5px 0px 0px #929cff;
+
+        .msg-tech-off {
             font-size: 1.4rem;
             font-weight: bolder;
             color: #4a529e;
         }
     }
-    
-    .butn-add, .butn {
+
+    .butn-add,
+    .butn {
         margin-left: 0rem;
         margin-top: 0.5rem;
         margin-bottom: 0.7rem;
@@ -435,10 +650,11 @@ a:hover {
 
     }
 
-    .edit-techs{
-        div{
-            input{
-                width: 140px;;
+    .edit-techs {
+        div {
+            input {
+                width: 140px;
+                ;
             }
         }
     }

@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Moment } from '../../models/Moments';
-import { HttpClient } from '@angular/common/http';
 import { UsersService } from '../../services/users.service';
 import Cropper from 'cropperjs';
 import { AuthorizationService } from '../../services/auth.service';

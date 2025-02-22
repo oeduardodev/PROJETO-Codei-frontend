@@ -1,5 +1,5 @@
 export class Profile {
-  userId: number = 0;
+  user_id: number = 0;
   photo: string = '';
   username: string = '';
   bio: string = '';
@@ -9,9 +9,9 @@ export class Profile {
   moments: any[] = [];
 
   constructor(data: any) {
-    const profile = data?.profile || {}; // Garantir que `profile` seja um objeto, mesmo que vazio
+    const profile = data?.profile || {}; 
 
-    this.userId = profile.user_id ?? 0;
+    this.user_id = profile.user_id ?? 0;
     this.photo = profile.photo ?? '';
     this.username = data?.username ?? '';
     this.bio = profile.bio ?? '';
