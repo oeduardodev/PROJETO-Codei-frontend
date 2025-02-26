@@ -72,7 +72,7 @@
         </div>
       </a>
       <h5>{{ moment.title }}</h5>
-      <div class="actions" *ngif="this.id">
+      <div class="actions" *ngIf="!externalProfileId">
         <a routerLink="/moments/edit/{{ moment.id }}" class="edit-btn">
           <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
         </a>

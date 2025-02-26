@@ -73,7 +73,7 @@ textarea {
     font-style: italic;
     padding: 0;
     margin-bottom: 1em;
-    color: #777;
+    color: #d9d9d9;
 }
 
 .subImage{
@@ -198,7 +198,7 @@ h3 {
 }
 
 .tech-list-container {
-    background-color: #edeeff;
+    background-color: #12121c;
     width: 45rem;
     min-height: 15rem;
     display: flex;
@@ -206,7 +206,7 @@ h3 {
     flex-direction: column;
     border-radius: 20px;
     box-shadow: 5px 5px 0px 0px #929cff;
-
+    overflow: hidden;
     .msg-tech-off {
         font-size: 2rem;
         font-weight: bolder;
@@ -248,18 +248,19 @@ h3 {
     animation-play-state: paused;
 }
 
-.profile-name {
+
     input {
+        color: #12121c;
         border: 1px solid #929cff;
         border-radius: 10px;
         height: 3.4rem;
     }
-}
 
 .profile-name {
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 100%;
 }
 
 .empty-list {
@@ -334,7 +335,8 @@ h3 {
     cursor: pointer;
 }
 
-.select-photo:hover {
+.select-photo.edit-mode:hover {
+    border: 2px solid #929cff;
 }
 
 .photo-edit {
@@ -364,7 +366,7 @@ h3 {
 
 .profile-image-default {
     opacity: 100%;
-    background-color: #edeeff;
+    background-color: #12121c;
 }
 
 .layout-container {
@@ -394,7 +396,7 @@ h3 {
     position: fixed;
     top: 0;
     width: 20rem;
-    background-color: #f1f2f99d;
+    background-color: #292c43b0;
     height: 100%;
     box-sizing: border-box;
     margin-right: 50px;
@@ -602,8 +604,11 @@ a:hover {
 
 
 @media (max-width:768px) {
+    .profile-name input {
+        width: 100%;    
+    }
     .tech-list-container {
-        background-color: #edeeff;
+        background-color: #12121c;
         width: 85vw;
         flex-wrap: wrap;
         min-height: 15rem;

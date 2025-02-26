@@ -1,11 +1,9 @@
 .loading{
-    background-color: rgb(231, 231, 231);
     height: 91.4vh;    
     align-items: center;
     justify-content: center;
     display: flex;
     overflow: hidden;
-    background: rgb(255, 255, 255);
     box-shadow: 0 4px 30px rgb(236, 236, 236);
     backdrop-filter: blur(8.3px);
     -webkit-backdrop-filter: blur(8.3px);
@@ -17,11 +15,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(../../assets/ng-load-back.png);
-    opacity: 0.1;
     background-size: cover;
     background-position: center;
-    filter: blur(7.7px); /* Aplica o blur na imagem */
     z-index: -1; /* Certifique-se de que o blur fique atrás do conteúdo */
 }
 img{

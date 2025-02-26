@@ -50,7 +50,7 @@ li {
 
 /* .enter {
     color: rgb(240, 240, 240) !important;
-    background-color: #322e49;
+    background-color: #5e638d;
     padding: 0.5rem 2rem;
     position: relative; 
     transition: ease-in 0.2s;
@@ -80,7 +80,7 @@ a:hover {
 .butn:visited {
     margin-bottom: 3rem;
     color: rgb(240, 240, 240) !important;
-    background-color: #322e49;
+    background-color: #5e638d;
     padding: 0.5rem 2rem;
     position: relative;
     transition: ease-in 0.2s;

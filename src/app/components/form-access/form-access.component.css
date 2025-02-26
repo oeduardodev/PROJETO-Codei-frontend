@@ -11,12 +11,12 @@
 
 .login:hover{
     background-color: #8993eb;
-    color: #322e49;
+    color: #5e638d;
 }
 
 a{
     color: #8993eb;
-    border-bottom: 1px solid #c4d6ff26;
+    border-bottom: 1px solid #12121c;
 }
 
 a:hover{
@@ -71,5 +71,5 @@ form {
     padding: 2rem;
     text-align: center;
     border-radius: 15px;
-    background-color: #c4d6ff26;
+    background-color: #12121c;
 }

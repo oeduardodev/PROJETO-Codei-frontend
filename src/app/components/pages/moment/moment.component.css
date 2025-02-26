@@ -63,6 +63,7 @@ form {
   display: flex;
   flex-direction: row;
   margin-bottom: 1rem;
+  margin-left: 0rem;
 }
 .actions {
   display: none;
@@ -150,6 +151,7 @@ h2 {
 
 .comment-about {
   margin-left: 2rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -188,6 +190,7 @@ h2 {
 }
 
 input {
+  color: #29263f;
   height: 3rem;
   border-radius: 10px;
   background-color: #f1f2f9;
@@ -205,7 +208,7 @@ input {
   background-color: #29263f;
   color: #e7e7e7;
   border: 2px solid transparent;
-  width: 60%;
+  width: 40%;
 }
 
 .comment-button:hover {
@@ -234,7 +237,7 @@ input {
   position: fixed;
   top: 0;
   width: 20rem;
-  background-color: #f1f2f99d;
+  background-color: #292c43b0;
   height: 100%;
   box-sizing: border-box;
   z-index: 1;
@@ -251,6 +254,9 @@ input {
 }
 
 @media (max-width:1290px) {
+  .container-profile{
+    margin-left: 1rem;
+  }
   .img-moment {
     width: 20rem;
     align-self: flex-start;
@@ -273,16 +279,16 @@ input {
 }
 
 @media (max-width: 1024px) {
-  .moment {
+  .comment-about {
+    margin-left: 0rem !important;
+  }
 
-  
+  .moment {
     margin-left: 0rem;
-  
   }
   
   .header-container {
     box-sizing: border-box;
-    /* Garante que padding não afete a largura */
     width: 65%;
     padding: 0 2rem;
   }
@@ -321,7 +327,7 @@ input {
     align-items: center;
     margin-bottom: 1em;
     padding: 1.5em 0;
-    margin-left: 2rem;
+    font-size: 0.8rem;
   }
 
 
@@ -337,11 +343,9 @@ input {
 
   h2 {
     text-align: left;
-    margin-left: 2rem;
   }
 
   .comment-about {
-    margin: 0 1rem;
     /* Espaçamento para os comentários */
     display: flex;
     flex-direction: column;
@@ -415,7 +419,7 @@ input {
   }
 
   .comment-button {
-    width: 50%;    
+    width: 60%;    
     margin-top: 1rem;
   }
 

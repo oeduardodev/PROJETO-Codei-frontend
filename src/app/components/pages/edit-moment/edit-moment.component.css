@@ -7,3 +7,18 @@ h2 {
   h2 span {
     color: #949ce2;
   }
+
+  .containerForm {
+    width: 60%;
+    margin: 4rem auto;
+}
+
+@media screen and (max-width: 768px) {
+    h2 {
+        font-size: 1.7rem;
+    }
+    .containerForm {
+      width: 90%;
+      margin: 4rem auto;
+  }
+}

@@ -22,6 +22,6 @@ h2 span {
 
 .containerForm {
     align-items: center;
-    margin: 4rem;
-    margin-top: 8%;
+    margin: 3rem auto;
+    width: 90%;
 }

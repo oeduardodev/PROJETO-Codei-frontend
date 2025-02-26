@@ -1,9 +1,9 @@
 form{
     padding-bottom: 0.5rem;
-    background-color: #f3f4ff7a;
+    background-color: #12121c;
     padding: 2rem;
     border-radius: 15px;
-    border-bottom: 4px solid #322e49;
+    border-bottom: 4px solid #5e638d;
 }
 
 label{
@@ -14,6 +14,7 @@ input::placeholder,textarea::placeholder{
 }
 textarea, #title{
     border: none;
+    color: #12121c;
     padding: 0.6em 1em;
     font-weight: bold;
     cursor: pointer;
@@ -47,7 +48,7 @@ textarea{
 
 .share:hover{
     background-color: #8993eb;
-    color: #322e49;
+    color: #5e638d;
 }
 
 .image-preview{
