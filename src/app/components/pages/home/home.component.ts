@@ -11,11 +11,13 @@ import { RouterLink } from '@angular/router';
 import { SearchService } from '../../../services/search.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
 import { NgxTypedJsModule } from 'ngx-typed-js';
+import { AsideFriendsComponent } from '../../aside-friends/aside-friends.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
+    AsideFriendsComponent,
     AsideProfileComponent,
     FontAwesomeModule,
     CommonModule,
