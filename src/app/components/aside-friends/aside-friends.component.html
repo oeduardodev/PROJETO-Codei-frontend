@@ -1,15 +1,9 @@
-<div>
+<div #container>
     <ul>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li><img src="/assets/profile-default-img.png" alt=""></li>
-        <li class="add">+</li>
+      <li class="friend" *ngFor="let friend of friendsListComplate" #firstChild>
+        <img [src]="friend.photo || 'assets/profile-default-img.png'" [title]="friend.username" alt="profile-img">              
+      </li>
+      <li class="add">+</li>
     </ul>
 </div>
+  

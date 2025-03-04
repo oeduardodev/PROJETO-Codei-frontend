@@ -50,5 +50,16 @@ export const environment = {
 
     getProfileId:'api/profile/${id}',
 
-    updateProfile:'api/profile/${id}'
+    updateProfile:'api/profile/${id}',
+
+
+    /**
+     * Rota para gerenciar 'amigos'
+     * Usada para capturar amigos ou atualizar.
+     *
+     */
+    getFriends: 'api/friends',
+    getFriendsById: 'api/friends/${id}',    
+    addFriend: 'api/friends/${id}',
+    removeFriend: 'api/friends/${id}',
 }
