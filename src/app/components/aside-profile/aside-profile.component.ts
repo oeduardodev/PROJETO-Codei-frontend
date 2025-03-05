@@ -21,14 +21,14 @@ export class AsideProfileComponent {
     private profileService: ProfileService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {  
     this.getUserData()
   }
   getUserData() {
-    this.profileService.getMyProfile().subscribe((profile: Profile) => {
-      this.userProfile = profile
-    })
-
+    this.profileService.getMyProfile().subscribe((data: any) => {
+      this.userProfile = new Profile(data.profile);
+    });
+    
     if(this.userProfile?.photo && this.userProfile?.technologies && this.userProfile?.bio){
       this.perfilCompleted = true
     }

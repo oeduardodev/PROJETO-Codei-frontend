@@ -92,10 +92,9 @@ export class ProfileComponent {
       next: (response: any) => {
         this.profileData = response.profile;
         this.moments = this.profileData?.moments;
-        this.profileName = response.username;
 
         if (this.profileData) {
-          this.profileData.username = response.username;
+          console.log(this.profileData);
 
           this.technologies = this.profileData.technologies || [];
           this.levels = this.profileData.levels || [];
@@ -114,10 +113,8 @@ export class ProfileComponent {
     this.service.getProfileById(this.externalProfileId).subscribe((response) => {
       this.profileData = response.profile;
       this.moments = this.profileData?.moments;
-      this.profileName = response.username;
 
       if (this.profileData) {
-        this.profileData.username = response.username;
 
         this.technologies = this.profileData.technologies || [];
         this.levels = this.profileData.levels || [];

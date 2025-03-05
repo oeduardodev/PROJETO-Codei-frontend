@@ -9,15 +9,13 @@ export class Profile {
   moments: any[] = [];
 
   constructor(data: any) {
-    const profile = data?.profile || {}; 
-
-    this.user_id = profile.user_id ?? 0;
-    this.photo = profile.photo ?? '';
-    this.username = data?.username ?? '';
-    this.bio = profile.bio ?? '';
-    this.technologies = profile.technologies ?? [];
-    this.friends = profile.friends ?? [];
-    this.levels = profile.levels ?? [];
-    this.moments = profile.moments ?? [];
+    this.user_id = data.user_id ?? 0;
+    this.photo = data.photo ?? '';
+    this.username = data.username ?? '';
+    this.bio = data.bio ?? '';
+    this.technologies = data.technologies ?? [];
+    this.friends = data.friends ?? [];
+    this.levels = data.levels ?? [];
+    this.moments = data.moments ?? [];
   }
 }

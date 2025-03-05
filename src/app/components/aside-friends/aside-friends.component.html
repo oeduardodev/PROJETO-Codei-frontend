@@ -1,9 +1,14 @@
-<div #container>
-    <ul>
-      <li class="friend" *ngFor="let friend of friendsListComplate" #firstChild>
-        <img [src]="friend.photo || 'assets/profile-default-img.png'" [title]="friend.username" alt="profile-img">              
-      </li>
-      <li class="add">+</li>
-    </ul>
+<div class="friends-continer" #container>
+  <ul>
+    <li class="friend" *ngFor="let friend of friendsListComplate" (click)="openChat(friend)">
+      <img [src]="friend.photo || 'assets/profile-default-img.png'" [title]="friend.username" alt="profile-img">              
+    </li>
+    <li class="add">+</li>
+  </ul>
 </div>
-  
+
+<div class="chat-container" [ngClass]="{ 'active': selectedFriend }">
+  <app-chat *ngIf="selectedFriend" [friend]="selectedFriend"></app-chat>
+</div>
+
+

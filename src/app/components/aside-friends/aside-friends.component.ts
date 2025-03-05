@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } fr
 import { FriendsService } from '../../services/friends.service';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from '../../services/profile.service';
+import { ChatComponent } from '../chat/chat.component';
 
 @Component({
   selector: 'app-aside-friends',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,ChatComponent],
   templateUrl: './aside-friends.component.html',
   styleUrls: ['./aside-friends.component.css']
 })
@@ -17,6 +18,8 @@ export class AsideFriendsComponent implements OnInit, AfterViewInit {
   
   @ViewChild('container') container!: ElementRef;
   @ViewChild('firstChild') firstChild!: ElementRef;
+  
+  selectedFriend: any = null;
 
   constructor(
     private friendsService: FriendsService,
@@ -52,5 +55,10 @@ export class AsideFriendsComponent implements OnInit, AfterViewInit {
     } else {
       this.renderer.setStyle(firstChildElement, 'margin-top', '0');
     }
+  }
+
+
+  openChat(friend: any) {
+    this.selectedFriend = friend;
   }
 }

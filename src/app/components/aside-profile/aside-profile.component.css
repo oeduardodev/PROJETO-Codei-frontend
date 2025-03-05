@@ -10,10 +10,7 @@
     width: 6rem;
     height: 6rem;
     border-radius: 65px;
-    border: 5px solid #888eff2f;
-}
-.foto img {
-    opacity: 60%;
+    border: 3px solid #888eff2f;
 }
 
 .brand {

@@ -1,14 +1,14 @@
 <div *ngIf="profileData" class="profile">
   <div class="container">
     <div>
-      <div *ngIf="!profileData.photo" class="select-photo" [ngClass]="{ 'edit-mode': editOn }">
-        <img class="profile-image-default" src="../../../../assets/profile-default-img.png" alt="" (click)="triggerFileInput()" />
+      <div class="select-photo" [ngClass]="{ 'edit-mode': editOn }">
+        <img class="profile-image-default" [src]="profileData.photo || '/assets/profile-default-img.png'" (click)="triggerFileInput()" />
         <fa-icon *ngIf="editOn" [icon]="faEdit" class="photo-edit"></fa-icon>
         <input #fileInput type="file" class="subImage" (change)="onFileSelected($event)" style="display: none;" />
       </div>
 
       <div class="level-container">
-        <span>status: </span>
+        <span>status: </span> 
         <strong *ngIf="!editOn">{{ selectedLevel || "jovemscript" }}</strong>
         <select *ngIf="editOn" [(ngModel)]="selectedLevel">
           <option *ngFor="let level of levels" [value]="level">{{ level }}</option>

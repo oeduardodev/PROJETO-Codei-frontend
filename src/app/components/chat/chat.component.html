@@ -1,0 +1,26 @@
+<div class="chat-container">
+    <div class="header-chat">
+        <div>
+            <img [src]="friend.photo || '/assets/profile-default-img.png'" alt="Profile image" srcset=""/>
+            <h3>{{friend.username}}</h3>
+        </div>
+        <div class="icons-container">
+            <fa-icon [icon]="faXmark"></fa-icon>
+            <fa-icon [icon]="faWindowMinimize"></fa-icon>
+        </div>
+    </div>
+    <div class="messages-container">
+        <div *ngFor="let message of messages" class="message"
+            [ngClass]="{'me': message.senderId === userId, 'other': message.senderId !== userId}">
+            <span class="text">{{ message.content }}</span>
+            <span class="timestamp">{{ message.createdAt | date:'shortTime' }}</span>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <input [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." (keyup.enter)="sendMessage()"
+            type="text" />
+        <button type="button" (click)="sendMessage()"> <fa-icon [icon]="faPlane"></fa-icon>
+        </button>
+    </div>
+</div>

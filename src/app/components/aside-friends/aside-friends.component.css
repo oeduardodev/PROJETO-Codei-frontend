@@ -8,9 +8,10 @@ img {
     border-radius: 50%;
     margin-top: 0.5rem;
     border: 1px solid #16162b;
+    cursor: pointer;
 }
 
-div {
+.friends-continer {
     position: relative;
     z-index: 5000;
     overflow: auto;
@@ -63,4 +64,17 @@ div {
     100% {
         background-position: 100% 0;
     }
+}
+
+.chat-container {
+    display: none;
+    position: fixed;
+    bottom: 345px;
+    right: 120px;
+    width: 300px;
+}
+
+/* Exibe o chat quando um amigo for selecionado */
+.chat-container.active {
+    display: block;
 }
