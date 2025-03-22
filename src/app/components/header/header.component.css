@@ -4,6 +4,8 @@ nav {
   align-items: center;
   padding-right: 1rem;
   padding-bottom: 0rem;
+  z-index: 1000;
+  position: relative;
 }
 
 .button-text {
@@ -91,7 +93,7 @@ i {
   vertical-align: middle;
   display: flex;
   flex-direction: row;
-  margin-right: 3rem;
+  margin-right: 4rem;
 }
 
 .link-icons li a {

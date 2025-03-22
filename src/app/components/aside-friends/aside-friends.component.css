@@ -1,9 +1,17 @@
+aside {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    height: 100%;
+}
+
 li:first-child {
     transition: margin-top 0.3s ease;
 }
 
 img {
-    width: 5rem;
+    width: 3.5rem;
     background-color: #a2a2e917;
     border-radius: 50%;
     margin-top: 0.5rem;
@@ -13,7 +21,6 @@ img {
 
 .friends-continer {
     position: relative;
-    z-index: 5000;
     overflow: auto;
     scrollbar-width: none;
     margin-top: 3rem;
@@ -21,21 +28,17 @@ img {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 6rem;
+    width: 4rem;
     border-left: 1px solid #48486d;
-    border-top: 1px solid #48486d;
-    border-bottom: 1px solid #48486d;
     background-color: #292c43b0;
-    max-height: 80vh;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    height: 100vh;    
 }
 
 
 .add {
     display: flex;
-    width: 5rem;
-    height: 5rem;
+    width: 3.5rem;
+    height:3.5rem;
     background-color: #7e87d9;
     border-radius: 50%;
     margin-top: 0.5rem;
@@ -48,6 +51,7 @@ img {
     padding-bottom: 3px;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
+    margin-bottom: 5px;
 }
 
 .add:hover {
@@ -66,15 +70,61 @@ img {
     }
 }
 
-.chat-container {
-    display: none;
-    position: fixed;
-    bottom: 345px;
-    right: 120px;
-    width: 300px;
+
+.chats-container {
+    display: flex;
+    position: sticky;
+    top: 0;
+    width: calc(100vw - 385px);
+        overflow-x: auto;
+    white-space: nowrap;
+    align-items: flex-start;
+    flex-direction: row;    
+    border-radius: 0px;
+    overflow: auto;
+    scrollbar-color: #7e87d9 #1c1935;
+    flex-direction: row-reverse;
 }
 
-/* Exibe o chat quando um amigo for selecionado */
-.chat-container.active {
-    display: block;
+
+
+.chat {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    min-width: 280px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
 }
+
+.chat.fixed {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+}
+
+.chats-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+
+fa-icon {
+    color: #1c1935;
+    background-color: #7e87d9;
+    border-radius: 5%;
+    padding: 0.2rem 0.4rem;
+    margin-bottom: 19px;
+    opacity: 0;
+}
+
+.arrowVisible {
+    opacity: 1;
+}
+

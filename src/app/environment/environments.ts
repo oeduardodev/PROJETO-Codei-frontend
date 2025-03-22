@@ -3,54 +3,54 @@ export const environment = {
     production: false,
 
     // URL base para o servidor de API local
-    endpoint: 'http://localhost:3333/',
+    endpoint: 'http://localhost:3333/api',
 
     /**
      * Rota para autenticação de login
      * Usada para enviar as credenciais do usuário e obter um token de autenticação
      */
-    login: 'api/login',
+    login: '/auth/login',
 
     /**
      * Rota para registro de usuários
      * Usada para criar uma nova conta de usuário
      */
-    register: 'api/register',
+    register: '/auth/register',
 
 
     /**
      * Rota para obter informações do usuário
      * Usada para recuperar dados do perfil do usuário autenticado
      */
-    getUser: 'api/user',
+    getUser: '/auth/user',
 
     /**
      * Rota para comentários
      * Usada para criar, atualizar ou obter comentários
      */
-    comment: 'api/moments/${id}/comments',
+    comment: '/moments/${id}/comments',
     
-    like:'api/moments/${id}/like',
+    like:'/moments/${id}/like',
 
-    getLike:'api/moments/${id}/like',
+    getLike:'/moments/${id}/like',
 
     /**
      * Rota para gerenciar 'moments' (momentos)
      * Usada para criar, listar, atualizar ou deletar momentos
      */
-    moments: 'api/moments',
+    moments: '/moments',
 
     /**
      * Rota para gerenciar 'perfis'
      * Usada para capturar perfis ou atualizar.
      */
-    getMyProfile: 'api/profile/me',
+    getMyProfile: '/profile/me',
 
-    getProfiles:'api/profile/',
+    getProfiles:'/profile/',
 
-    getProfileId:'api/profile/${id}',
+    getProfileId:'/profile/${id}',
 
-    updateProfile:'api/profile/${id}',
+    updateProfile:'/profile/${id}',
 
 
     /**
@@ -58,8 +58,11 @@ export const environment = {
      * Usada para capturar amigos ou atualizar.
      *
      */
-    getFriends: 'api/friends',
-    getFriendsById: 'api/friends/${id}',    
-    addFriend: 'api/friends/${id}',
-    removeFriend: 'api/friends/${id}',
+    getFriends: '/friends',
+
+    getFriendsById: '/friends/${id}',
+
+    addFriend: '/friends/${id}',
+    
+    removeFriend: '/friends/${id}',
 }

@@ -1,64 +1,66 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FriendsService } from '../../services/friends.service';
 import { CommonModule } from '@angular/common';
-import { ProfileService } from '../../services/profile.service';
 import { ChatComponent } from '../chat/chat.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-aside-friends',
   standalone: true,
-  imports: [CommonModule,ChatComponent],
+  imports: [CommonModule, ChatComponent, FontAwesomeModule],
   templateUrl: './aside-friends.component.html',
   styleUrls: ['./aside-friends.component.css']
 })
-export class AsideFriendsComponent implements OnInit, AfterViewInit {
+export class AsideFriendsComponent implements OnInit {
 
-  friends: any;
-  friendsListComplate: any;
-  
-  @ViewChild('container') container!: ElementRef;
-  @ViewChild('firstChild') firstChild!: ElementRef;
-  
-  selectedFriend: any = null;
+  friendsListComplate: any[] = [];
+  selectedFriends: any[] = []; 
+  selectedFriendsChats: { [key: string]: any[] } = {};  
+  faArrowLeft = faArrowLeft
+  faArrowRight = faArrowRight
 
   constructor(
     private friendsService: FriendsService,
-    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
     this.friendsList();
   }
 
-  ngAfterViewInit() {
-    // Chama a função para verificar a altura após a visualização do componente
-    this.checkHeight();
-
-    // Adiciona evento de scroll para verificar a altura enquanto rola
-    this.container.nativeElement.addEventListener('scroll', this.checkHeight.bind(this));
-  }
-
   friendsList() {
-    this.friendsService.friendsList().subscribe((data) => {
-      this.friends = data;
-      console.log(this.friends.myFriends);
-      this.friendsListComplate = this.friends.myFriends;
+    this.friendsService.friendsList().subscribe((data: any) => {
+      const friendsData = data;
+      console.log(friendsData.myFriends);
+      this.friendsListComplate = friendsData.myFriends;
     });
   }
-
-  checkHeight() {
-    const containerElement = this.container.nativeElement;
-    const firstChildElement = this.firstChild.nativeElement;
-
-    if (containerElement.scrollHeight >= containerElement.clientHeight) {
-      this.renderer.setStyle(firstChildElement, 'margin-top', '250px');
-    } else {
-      this.renderer.setStyle(firstChildElement, 'margin-top', '0');
+  
+  openChat(friend: any) {  
+    if (!this.selectedFriendsChats[friend.user_id]) {
+      this.selectedFriendsChats[friend.user_id] = [];
     }
+  
+    const existingChat = this.selectedFriendsChats[friend.user_id].find(chat => chat.user_id === friend.user_id);
+  
+    if (existingChat) {
+      return;  
+    }
+  
+    if (!this.selectedFriends.some(f => f.user_id === friend.user_id)) {
+      if (this.selectedFriends.length >= 5) {
+        const removedFriend = this.selectedFriends.shift();
+        delete this.selectedFriendsChats[removedFriend.user_id]; 
+      }
+      this.selectedFriends.push(friend); 
+    }
+  
+    this.selectedFriendsChats[friend.user_id].push(friend);  
+    console.log(this.selectedFriendsChats); 
   }
 
-
-  openChat(friend: any) {
-    this.selectedFriend = friend;
+  closeChat(friend: any) {
+    this.selectedFriends = this.selectedFriends.filter(f => f.user_id !== friend.user_id);
+    delete this.selectedFriendsChats[friend.user_id];
   }
 }

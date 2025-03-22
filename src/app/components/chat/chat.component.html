@@ -1,15 +1,16 @@
-<div class="chat-container">
+<div class="chat-container" [ngClass]="{'minimized': isMinimized}" >
     <div class="header-chat">
         <div>
             <img [src]="friend.photo || '/assets/profile-default-img.png'" alt="Profile image" srcset=""/>
             <h3>{{friend.username}}</h3>
         </div>
         <div class="icons-container">
-            <fa-icon [icon]="faXmark"></fa-icon>
-            <fa-icon [icon]="faWindowMinimize"></fa-icon>
+            <fa-icon *ngIf="isMinimized" [icon]="faWindowMaximize" (click)="toggleMinimize()"></fa-icon>
+            <fa-icon *ngIf="!isMinimized" [icon]="faWindowMinimize" (click)="toggleMinimize()"></fa-icon>
+            <fa-icon [icon]="faXmark" (click)="close()"></fa-icon>
         </div>
     </div>
-    <div class="messages-container">
+    <div class="messages-container" #messagesContainer>
         <div *ngFor="let message of messages" class="message"
             [ngClass]="{'me': message.senderId === userId, 'other': message.senderId !== userId}">
             <span class="text">{{ message.content }}</span>
@@ -18,8 +19,8 @@
     </div>
 
     <div class="input-container">
-        <input [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." (keyup.enter)="sendMessage()"
-            type="text" />
+        <textarea [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." (keyup.enter)="sendMessage()"
+            type="text"></textarea>
         <button type="button" (click)="sendMessage()"> <fa-icon [icon]="faPlane"></fa-icon>
         </button>
     </div>
