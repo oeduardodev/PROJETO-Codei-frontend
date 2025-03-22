@@ -172,6 +172,12 @@ h3 {
 .butn-add:hover {
     color: #373e86;
 }
+.butn-remove {
+    position: absolute;
+    top: 20px;
+    margin-left: 130px !important;
+    outline: 2px solid #12121c;
+}
 .butn-send {
     margin-left: 0rem !important;
     margin-top: 2rem !important;
@@ -565,7 +571,7 @@ a:hover {
     justify-items: center;
 }
 
-.butn,.butn-send {
+.butn,.butn-send .butn-remove {
     border: none;
     cursor: pointer;
     font-weight: bolder;

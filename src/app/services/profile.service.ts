@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { environment } from '../environment/environments';
 import { Response } from '../models/Response';
@@ -32,6 +32,15 @@ export class ProfileService {
       `${environment.endpoint}${environment.updateProfile.replace('${id}', id.toString())}`,
       profile, 
       options 
+    );
+  }
+  
+  getAvailableIcons(): Observable<string[]> {
+    return this.http.get<any[]>(environment.devicons).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      }),
+      map((data) => data.map((item) => item.name))
     );
   }
   

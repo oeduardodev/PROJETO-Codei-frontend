@@ -33,25 +33,31 @@
 
   <div class="tech-container">
     <h3>Tecnologias</h3>
-    <div class="tech-list-container" [ngClass]="{ 'empty-list': techListEdit}">
+    <div class="tech-list-container" >
       <span *ngIf="profileData.technologies.length <= 0" class="msg-tech-off">sem tecnologias por aqui.😔</span>
-
       <div class="edit-techs" *ngIf="editOn">
         <span class="msg-tech-off">Digite a tecnologia que você domina. 😎</span>
         <div>
-          <input type="text" [(ngModel)]="newTech" placeholder="javascript">
-          <button class="butn" (click)="addTechnology()">adicionar</button>
+          <input type="text" [(ngModel)]="newTech" placeholder="javascript" (input)="validateTechnology()" 
+          >
+          <button class="butn" (click)="addTechnology()" [disabled]="!isTechValid">adicionar</button>
         </div>
       </div>
       <div class="container-tech-list">
         <div class="tech-list">
-          <span *ngFor="let tech of technologies">
+            <span *ngFor="let tech of technologies" class="tech-item">
             <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-          </span>
+            <button  *ngIf="editOn" class="butn butn-remove" (click)="removeTechnology(tech)">x</button>
+            </span>
           <!-- Duplicação para efeito contínuo -->
           <span *ngFor="let tech of technologies">
             <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
           </span>
+            <span *ngIf="technologies.length <= 2" >
+              <i *ngFor="let tech of technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+              <i *ngFor="let tech of technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+              <i *ngFor="let tech of technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+            </span>
         </div>
       </div>
 

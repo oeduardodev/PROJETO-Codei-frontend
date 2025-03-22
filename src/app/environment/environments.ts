@@ -65,4 +65,6 @@ export const environment = {
     addFriend: '/friends/${id}',
     
     removeFriend: '/friends/${id}',
+
+    devicons: 'https://api.github.com/repos/devicons/devicon/contents/icons'
 }

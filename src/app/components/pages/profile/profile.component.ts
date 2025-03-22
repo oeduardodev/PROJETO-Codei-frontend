@@ -56,6 +56,8 @@ export class ProfileComponent {
 
   faEdit = faEdit;
   faTimes = faTimes;
+  availableIcons: string[] = [];
+  isTechValid: boolean = false;
 
   constructor(
     private service: ProfileService,
@@ -69,6 +71,8 @@ export class ProfileComponent {
   ) { }
 
   ngOnInit() {
+    this.fetchAvailableIcons();
+
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       if (this.id) {
@@ -81,10 +85,35 @@ export class ProfileComponent {
     });
   }
 
+  fetchAvailableIcons() {
+    this.service.getAvailableIcons().subscribe({
+      next: (icons) => {
+        this.availableIcons = icons;
+      },
+      error: (err) => {
+        console.error("Erro ao carregar ícones disponíveis:", err);
+      }
+    });
+  }
+
+  validateTechnology(): void {
+    if(this.technologies.includes(this.newTech)) {
+      return; 
+    }
+    const techFormatted = this.newTech.toLowerCase().trim();
+    this.isTechValid = this.availableIcons.includes(techFormatted);
+  }
+
   addTechnology(): void {
-    this.technologies.push(this.newTech)
+    this.technologies.push(this.newTech);
     this.techListEdit = true;
     this.newTech = "";
+    this.isTechValid = false; // Reseta a validação após a adição
+  }
+
+  removeTechnology(tech: string): void {
+    this.technologies = this.technologies.filter(t => t !== tech);
+    this.techListEdit = true;
   }
 
   getMyProfile() {

@@ -81,6 +81,11 @@ a fa-icon:hover {
     margin-right: 0.2em;
 }
 
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
 
 .edit-btn,
 .edit-btn path {
