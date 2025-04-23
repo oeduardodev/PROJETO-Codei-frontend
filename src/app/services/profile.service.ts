@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { environment } from '../environment/environments';
-import { Response } from '../models/Response';
 import { AuthorizationService } from './auth.service';
-import { Profile } from '../models/Profiles';
+import { Profile, ProfileResponse } from '../models/Profiles';
 
 @Injectable({
   providedIn: 'root',
@@ -17,18 +16,18 @@ export class ProfileService {
     private authService: AuthorizationService
   ) { }
 
-  getMyProfile(): Observable<any> {
+  getMyProfile(): Observable<ProfileResponse> {
     const headers = this.authService.getAuthorizationHeaders();
-    return this.http.get(`${environment.endpoint}${environment.getMyProfile}`, { headers })
+    return this.http.get<ProfileResponse>(`${environment.endpoint}${environment.getMyProfile}`, { headers })
   }
-  getProfileById(id:number):Observable<any>{
-    return this.http.get(`${environment.endpoint}${environment.getProfileId.replace('${id}', id.toString())}`)
+  getProfileById(id:number):Observable<ProfileResponse>{
+    return this.http.get<ProfileResponse>(`${environment.endpoint}${environment.getProfileId.replace('${id}', id.toString())}`)
   }
 
-  postProfileById(id: number, profile: Profile): Observable<any> {
+  postProfileById(id: number, profile: Profile): Observable<ProfileResponse> {
     const headers = this.authService.getAuthorizationHeaders();
     const options = { headers }; 
-    return this.http.put(
+    return this.http.put<ProfileResponse>(
       `${environment.endpoint}${environment.updateProfile.replace('${id}', id.toString())}`,
       profile, 
       options 
@@ -36,12 +35,13 @@ export class ProfileService {
   }
   
   getAvailableIcons(): Observable<string[]> {
-    return this.http.get<any[]>(environment.devicons).pipe(
+    return this.http.get<string[]>(environment.devicons).pipe(
       catchError((error) => {
         return throwError(() => error);
       }),
-      map((data) => data.map((item) => item.name))
+      map((data) => data)
     );
   }
+
   
 }

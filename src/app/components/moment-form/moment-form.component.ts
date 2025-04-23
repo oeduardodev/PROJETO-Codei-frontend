@@ -20,7 +20,7 @@ export class MomentFormComponent implements OnInit {
   @Input() momentData!: Moment;
   @ViewChild('imageCropper', { static: false }) imageElement!: ElementRef;
 
-  imageUrl: any;
+  imageUrl = '';
   cropper!: Cropper;
   croppedImage: string | null = null;
 
@@ -51,7 +51,7 @@ export class MomentFormComponent implements OnInit {
     if (input.files && input.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        this.imageUrl = e.target?.result;
+        this.imageUrl = (e.target?.result as string) || '';
 
         this.cdr.detectChanges();        
         this.initializeCropper();
@@ -101,7 +101,7 @@ export class MomentFormComponent implements OnInit {
     return this.momentForm.get('description')!;
   }
   async cropImage(): Promise<File | null> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (this.cropper) {
         const canvas = this.cropper.getCroppedCanvas({
           width: 1080,

@@ -3,54 +3,54 @@ export const environment = {
     production: false,
 
     // URL base para o servidor de API local
-    endpoint: 'http://localhost:3333/api',
+    endpoint: 'http://localhost:3333',
 
     /**
      * Rota para autenticação de login
      * Usada para enviar as credenciais do usuário e obter um token de autenticação
      */
-    login: '/auth/login',
+    login: '/api/auth/login',
 
     /**
      * Rota para registro de usuários
      * Usada para criar uma nova conta de usuário
      */
-    register: '/auth/register',
+    register: '/api/auth/register',
 
 
     /**
      * Rota para obter informações do usuário
      * Usada para recuperar dados do perfil do usuário autenticado
      */
-    getUser: '/auth/user',
+    getUser: '/api/auth/user',
 
     /**
      * Rota para comentários
      * Usada para criar, atualizar ou obter comentários
      */
-    comment: '/moments/${id}/comments',
+    comment: '/api/moments/${id}/comments',
     
-    like:'/moments/${id}/like',
+    like:'/api/moments/${id}/like',
 
-    getLike:'/moments/${id}/like',
+    getLike:'/api/moments/${id}/like',
 
     /**
      * Rota para gerenciar 'moments' (momentos)
      * Usada para criar, listar, atualizar ou deletar momentos
      */
-    moments: '/moments',
+    moments: '/api/moments',
 
     /**
      * Rota para gerenciar 'perfis'
      * Usada para capturar perfis ou atualizar.
      */
-    getMyProfile: '/profile/me',
+    getMyProfile: '/api/profile/me',
 
-    getProfiles:'/profile/',
+    getProfiles:'/api/profile/',
 
-    getProfileId:'/profile/${id}',
+    getProfileId:'/api/profile/${id}',
 
-    updateProfile:'/profile/${id}',
+    updateProfile:'/api/profile/${id}',
 
 
     /**
@@ -58,13 +58,13 @@ export const environment = {
      * Usada para capturar amigos ou atualizar.
      *
      */
-    getFriends: '/friends',
+    getFriends: '/api/friends',
 
-    getFriendsById: '/friends/${id}',
+    getFriendsById: '/api/friends/${id}',
 
-    addFriend: '/friends/${id}',
+    addFriend: '/api/friends/${id}',
     
-    removeFriend: '/friends/${id}',
+    removeFriend: '/api/friends/${id}',
 
     devicons: 'https://api.github.com/repos/devicons/devicon/contents/icons'
 }

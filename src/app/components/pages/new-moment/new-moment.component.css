@@ -18,7 +18,18 @@ ngx-typed-js {
     width: 30%;
     margin: 5rem auto;
 }
-
+.aside-container-friends {
+    position: fixed;
+    top: 0;
+    right: 0;
+    /* Fixado na direita */
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 1;
+    flex-shrink: 0;
+    padding-top: 5rem;
+  }
+  
 @media (max-width: 1024px) {
     .containerForm {
         margin-left: 6.5rem !important;

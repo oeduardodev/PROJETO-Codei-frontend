@@ -60,6 +60,8 @@
 .moment {
   text-align: center;
   margin: 0.2rem;
+  z-index: 200;
+
 }
 
 .moment:hover .details {
@@ -74,19 +76,22 @@
   flex-direction: row;
 }
 
-.details {
+.details{
   color: #eeeeee;
   display: flex;
   opacity: 0;
-  margin-top: -200px;
-  margin-left: 165px;
-  width: 170px;
-  height: 190px;
-  background-color: #949ce2;
+  margin-top: -108px;
+  margin-left: 3px;
+  width: 335px;
+  height: 100px;
   z-index: 200;
   position: absolute;
   padding: 1rem;
   border-radius: 20px;
+  background-color: rgb(0 0 0 / 30%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgb(130 109 198 / 46%);
 }
 
 
@@ -97,7 +102,7 @@
 
 .moment:hover {
   border-radius: 20px;
-
+  transition: all 0.2s ease-in-out;
   box-shadow: 0px 5px 20px #949ce278;
 }
 
@@ -108,7 +113,6 @@
 .moment h3,
 .moment p {
   text-align: left;
-  margin-bottom: 1em;
 }
 
 .moment .date {

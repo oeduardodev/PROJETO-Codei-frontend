@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { MomentService } from '../../../services/moment.service';
@@ -15,7 +15,6 @@ import { AsideProfileComponent } from '../../aside-profile/aside-profile.compone
 import { LikeService } from '../../../services/like.service';
 import { AuthorizationService } from '../../../services/auth.service';
 import { User } from '../../../models/User';
-import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-moment',
@@ -24,12 +23,12 @@ import { ProfileService } from '../../../services/profile.service';
   templateUrl: './moment.component.html',
   styleUrl: './moment.component.css'
 })
-export class MomentComponent {
+export class MomentComponent implements OnInit {
   moment?: Moment;
   baseApiUrl = environment.endpoint;
   
-  userNameLog: any;
-  likeAtive: boolean = false;
+  userNameLog = '';
+  likeAtive = false;
 
   faEdit = faEdit;
   faTimes = faTimes;
@@ -46,7 +45,6 @@ export class MomentComponent {
     private commentService: CommentService,
     private userService: UsersService,
     private likeService: LikeService,
-    private profileService: ProfileService,
     private authService: AuthorizationService
   ) { }
 
@@ -67,7 +65,7 @@ export class MomentComponent {
     const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
   
     this.userService.getUser(headers).subscribe((user:User) => {
-      this.userNameLog = user.username;
+      this.userNameLog = user.username ?? '';
       if (this.userNameLog) {
         this.commentForm.patchValue({
           username: this.userNameLog
@@ -82,12 +80,6 @@ export class MomentComponent {
 
     this.momentService.getMoment(id).subscribe((item) => {
         this.moment = new Moment(item.data);      
-        if (this.moment.userId) {
-          this.profileService.getProfileById(this.moment.userId).subscribe((data) => {
-          });
-        } else {
-          console.error('User ID is undefined.');
-        }
    
       if (this.moment && this.moment.id !== undefined) {
         this.likeService.getLike(this.moment.id, this.token).subscribe(
@@ -138,7 +130,7 @@ export class MomentComponent {
       usernameControl?.disable();
     }
   
-    await this.commentService.createComment(data).subscribe((comment) => {
+    this.commentService.createComment(data).subscribe((comment) => {
       this.moment!.comments!.push(comment.data);
     });
   
@@ -151,13 +143,13 @@ export class MomentComponent {
   }
   
   async removeHandler(id: number) {
-    await this.momentService.removeMoment(id).subscribe();
+    this.momentService.removeMoment(id).subscribe();
 
     this.messagesService.addMessage("Momento excluido com sucesso!");
     this.router.navigate(['/']);
   }
 
-  async sendLike() {
+  sendLike() {
     if (this.moment && this.moment.id !== undefined) {
       // Inverta o estado de likeAtive imediatamente
       this.likeAtive = !this.likeAtive;
@@ -180,7 +172,6 @@ export class MomentComponent {
           }
         }
       );
-      this.getMoment()
     } else {
       console.error('Moment ID is undefined. Cannot send like.');
     }
@@ -195,6 +186,8 @@ export class MomentComponent {
         this.getMoment()
       }, 200); 
     }
+    this.getMoment()
+
   }
 
   updateLikeImage(): string {

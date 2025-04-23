@@ -8,13 +8,17 @@
       <h3>{{ moment.title }}</h3>
       <div class="capilike-container">
         <p>{{ moment.likes_count }}</p>
-        <img class="capilike" [src]="updateLikeImage()" alt="Like" (click)="sendLike()" />
+        <img class="capilike" [src]="updateLikeImage()" alt="Like" (click)="sendLike()" tabindex="0"
+          (keydown.enter)="sendLike()" tabindex="0" 
+          (keydown.space)="sendLike()"  />
       </div>
     </div>
 
     <div class="container-about-comment">
-      <img class="img-moment" src="{{ baseApiUrl }}uploads/{{ moment.image }}" alt="{{ moment.title }}"
-        (click)="sendLike()" />
+      <img class="img-moment" src="{{ baseApiUrl }}/uploads/{{ moment.image }}" alt="{{ moment.title }}"
+        (click)="sendLike()"   tabindex="0" 
+        (keydown.enter)="sendLike()" 
+        (keydown.space)="sendLike()" />
       <div class="comment-about">
         <div class="container-profile" [routerLink]="['/profile/', moment.userId]">
           <img class="img-profile" src="{{ moment.user.photo || '/assets/profile-default-img.png' }}" alt="" srcset="">

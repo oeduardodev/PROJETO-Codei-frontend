@@ -1,17 +1,18 @@
 <aside>
   <div class="friends-continer">
     <ul>
-      <li class="friend" *ngFor="let friend of friendsListComplate" (click)="openChat(friend)">
+      <li class="friend" *ngFor="let friend of friendsListComplate" (click)="openChat(friend)" tabindex="0"
+        (keydown.enter)="openChat(friend)" (keydown.space)="openChat(friend)">
         <img [src]="friend.photo || 'assets/profile-default-img.png'" [title]="friend.username" alt="profile-img">
       </li>
       <li class="add">+</li>
     </ul>
   </div>
-    <div class="chats-container">
-      <div class="chat" *ngFor="let friend of selectedFriends">
-        <div *ngFor="let chat of selectedFriendsChats[friend.user_id]">
-          <app-chat [friend]="friend" (closeChat)="closeChat($event)"></app-chat>
-        </div>
-      </div>
+  <div class="chats-container">
+    <div class="chat" *ngFor="let friend of selectedFriends">
+      <app-chat [friend]="friend" (closeChat)="closeChat(friend)"></app-chat>
     </div>
+  </div>
+  
+  
 </aside>

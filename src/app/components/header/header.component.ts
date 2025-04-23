@@ -25,9 +25,9 @@ export class HeaderComponent implements OnInit {
   faBars = faBars;
   faShare = faShareFromSquare;
   allMoments: Moment[] = [];
-  userLogged: boolean = false;
+  userLogged = false;
   baseApiUrl = environment.endpoint;
-  currentRoute: string = '';
+  currentRoute = '';
 
   constructor(
     private momentService: MomentService,

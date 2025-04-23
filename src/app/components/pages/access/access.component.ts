@@ -32,7 +32,7 @@ export class AccessComponent {
     formData.append('password', register.password);
 
     this.service.login(formData).subscribe({
-      next: (response: any) => {
+      next: (response) => {
         if (response.token) {
           localStorage.setItem('authToken', response.token.token); 
           this.token = response.token.token; 

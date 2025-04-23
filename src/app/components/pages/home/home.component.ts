@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { MomentService } from '../../../services/moment.service';
 import { environment } from '../../../environment/environments';
@@ -27,9 +27,9 @@ import { AsideFriendsComponent } from '../../aside-friends/aside-friends.compone
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   faSearch = faSearch;
-  searchTeam: string = "";
+  searchTeam = "";
 
   allMoments: Moment[] = [];
   moments: Moment[] = [];

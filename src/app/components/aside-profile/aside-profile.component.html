@@ -6,26 +6,38 @@
 </div>
 
 <div class="foto">
-  <img class="foto" [src]="userProfile?.photo || '../../../assets/profile-default-img.png'" alt="">
+  <img class="foto" [src]="userProfile?.photo || 'assets/img/default-profile.png'" alt="Foto de perfil">
 </div>
-
 
 <p class="name">
   {{userProfile?.username}}
 </p>
 <div class="description">
   <p *ngIf="!userProfile">Crie uma conta e comece a codar momentos também!</p>
-  <p *ngIf="userProfile">Conclua seu perfil ver suas notificações!</p>
+  <p *ngIf="userProfile && !perfilCompleted">Conclua seu perfil ver suas notificações!</p>
   <div class="menu">
-      <a href="login" class='butn butn__new' *ngIf="!userProfile && !perfilCompleted"><span> Entrar</span></a>
-      <a href="profile" class='butn butn__new' *ngIf="userProfile && !perfilCompleted"><span> Concluir Perfil</span></a>
-      <p href="profile" class='butn butn__new' *ngIf="perfilCompleted">Notificações</p>
-    <li><a routerLink="/login" *ngIf="perfilCompleted">Mensagens</a></li>
-    <li><a routerLink="/login" *ngIf="perfilCompleted">Configurações</a></li>
+    <a href="login" class='butn butn__new' *ngIf="!userProfile && !perfilCompleted"><span> Entrar</span></a>
+    <a href="profile" class='butn butn__new' *ngIf="userProfile && !perfilCompleted"><span> Concluir Perfil</span></a>
+    <strong class="notify" href="profile" *ngIf="perfilCompleted">Novas Notificações: <span> 14</span></strong>
+    <div class="notificacoes-wrapper">
+
+      <ul class="notificacoes" *ngIf="perfilCompleted">
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+        <li>Notificação 1</li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
 <footer>
   <p><span>Eduardo Leite</span> &copy; 2024</p>
-  
 </footer>

@@ -2,16 +2,18 @@
   <div class="container">
     <div>
       <div class="select-photo" [ngClass]="{ 'edit-mode': editOn }">
-        <img class="profile-image-default" [src]="profileData.photo || '/assets/profile-default-img.png'" (click)="triggerFileInput()" />
+        <img class="profile-image-default" [src]="profileData.photo || '/assets/profile-default-img.png'"  alt='Foto de perfil do usuário' 
+          (click)="triggerFileInput()" tabindex="0" (keydown.enter)="triggerFileInput()"
+          (keydown.space)="triggerFileInput()" />
         <fa-icon *ngIf="editOn" [icon]="faEdit" class="photo-edit"></fa-icon>
         <input #fileInput type="file" class="subImage" (change)="onFileSelected($event)" style="display: none;" />
       </div>
 
       <div class="level-container">
-        <span>status: </span> 
+        <span>status: </span>
         <strong *ngIf="!editOn">{{ selectedLevel || "jovemscript" }}</strong>
         <select *ngIf="editOn" [(ngModel)]="selectedLevel">
-          <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+          <option *ngFor="let level of profileData.levels" [value]="level">{{ level }}</option>
         </select>
 
       </div>
@@ -33,31 +35,31 @@
 
   <div class="tech-container">
     <h3>Tecnologias</h3>
-    <div class="tech-list-container" >
-      <span *ngIf="profileData.technologies.length <= 0" class="msg-tech-off">sem tecnologias por aqui.😔</span>
+    <div class="tech-list-container">
+      <span *ngIf="profileData.technologies && profileData.technologies.length <= 0" class="msg-tech-off">sem
+        tecnologias por aqui.😔</span>
       <div class="edit-techs" *ngIf="editOn">
         <span class="msg-tech-off">Digite a tecnologia que você domina. 😎</span>
         <div>
-          <input type="text" [(ngModel)]="newTech" placeholder="javascript" (input)="validateTechnology()" 
-          >
+          <input type="text" [(ngModel)]="newTech" placeholder="javascript" (input)="validateTechnology()">
           <button class="butn" (click)="addTechnology()" [disabled]="!isTechValid">adicionar</button>
         </div>
       </div>
       <div class="container-tech-list">
         <div class="tech-list">
-            <span *ngFor="let tech of technologies" class="tech-item">
+          <span *ngFor="let tech of profileData.technologies" class="tech-item">
             <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-            <button  *ngIf="editOn" class="butn butn-remove" (click)="removeTechnology(tech)">x</button>
-            </span>
+            <button *ngIf="editOn" class="butn butn-remove" (click)="removeTechnology(tech)">x</button>
+          </span>
           <!-- Duplicação para efeito contínuo -->
-          <span *ngFor="let tech of technologies">
+          <span *ngFor="let tech of profileData.technologies">
             <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
           </span>
-            <span *ngIf="technologies.length <= 2" >
-              <i *ngFor="let tech of technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-              <i *ngFor="let tech of technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-              <i *ngFor="let tech of technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-            </span>
+          <span *ngIf="technologies.length <= 2">
+            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+          </span>
         </div>
       </div>
 
@@ -70,11 +72,11 @@
 <div *ngIf="profileData" class="container-my-moments">
   <h4>Momentos</h4>
   <div class="moments-container">
-    <div class="moment" *ngFor="let moment of moments">
+    <div class="moment" *ngFor="let moment of profileData.moments">
       <a class="link-moment" routerLink="/moments/{{ moment.id }}">
         <div class="overlay">
           <span>visualizar</span>
-          <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+          <img src="{{ endpoint }}/uploads/{{ moment.image }}" alt="{{ moment.title }}" />
         </div>
       </a>
       <h5>{{ moment.title }}</h5>
@@ -89,7 +91,7 @@
       <p class="date">Em: {{ moment.created_at | date:'dd/MM/yy' }}</p>
 
     </div>
-    <div *ngIf="moments.length === 0" class="container-end-moments">
+    <div *ngIf="profileData.moments.length === 0" class="container-end-moments">
       <p>OPS... sem publicações por aqui.</p>
     </div>
   </div>
@@ -97,10 +99,14 @@
 </div>
 
 <div class="overlay" *ngIf="imageUrl">
-  <div class="container-image" >
-    <span class="close-btn" (click)="imageUrl = null">x</span>
+  <div class="container-image">
+    <span class="close-btn" 
+    (click)="imageUrl = ''" 
+    tabindex="0" 
+    (keydown.enter)="imageUrl = ''"
+    (keydown.space)="imageUrl = ''">x</span>
     <div class="image-preview">
-        <img #imageCropper [src]="imageUrl" alt="Imagem selecionada" />
+      <img #imageCropper [src]="imageUrl" alt="Imagem selecionada" />
     </div>
     <button class="butn-send">Enviar</button>
   </div>
@@ -110,4 +116,3 @@
 <div *ngIf="!profileData" class="loading">
   <app-loading></app-loading>
 </div>
-

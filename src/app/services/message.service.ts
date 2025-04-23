@@ -4,9 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MessageService {
-  message: string = ''
-
-  constructor() { }
+  message = ''
 
   addMessage(message: string) {
     this.message = message

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Messages } from '../../models/Messages';
 import { faPaperPlane, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faWindowMinimize, faWindowMaximize } from '@fortawesome/free-regular-svg-icons';
+import { Profile } from '../../models/Profiles';
 
 @Component({
   selector: 'app-chat',
@@ -15,23 +16,22 @@ import { faWindowMinimize, faWindowMaximize } from '@fortawesome/free-regular-sv
 })
 
 export class ChatComponent {
-  @Input() friend: any;
-  @Output() closeChat: EventEmitter<true> = new EventEmitter();
+  @Input() friend = new Profile({});
+  @Output() closeChat = new EventEmitter<Profile>();
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 
   faPlane = faPaperPlane;
   faXmark = faXmark;
   faWindowMinimize = faWindowMinimize;
   faWindowMaximize = faWindowMaximize;
-  isMinimized: boolean = false;
+  isMinimized = false;
   userId = 1;
   messages: Messages[] = [
     { id: 1, senderId: 2, receiverId: 1, content: 'Olá!', createdAt: new Date() },
     { id: 2, senderId: 1, receiverId: 2, content: 'Oi! Como vai?', createdAt: new Date() },
   ];
-  newMessage: string = '';
+  newMessage = '';
 
-  constructor() {}
   sendMessage() {
     if (!this.newMessage.trim()) return;
     

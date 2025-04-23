@@ -1,17 +1,19 @@
+import { Moment } from "./Moments";
 import { Profile } from "./Profiles";
 
 export class User {
   id: number
-  username: string | null = null;
-  email: string | null = null;
-  password: string | null = null;
-  isAdmin: boolean = false;
-  createdAt: string | null = null;
-  updatedAt: string | null = null;
-  profile: Profile | null = null;
-  moments: any | null = null;
-  photo: string | null = null;
+  username: string;
+  email: string;
+  password: string;
+  isAdmin = false;
+  createdAt: string;
+  updatedAt: string;
+  profile: Profile;
+  moments: Moment;
+  photo: string;
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   constructor(data: any) {
     this.id = data.id;
     this.username = data.username;

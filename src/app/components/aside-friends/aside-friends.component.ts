@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ChatComponent } from '../chat/chat.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Profile } from '../../models/Profiles';
 
 @Component({
   selector: 'app-aside-friends',
@@ -14,9 +15,9 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 })
 export class AsideFriendsComponent implements OnInit {
 
-  friendsListComplate: any[] = [];
-  selectedFriends: any[] = []; 
-  selectedFriendsChats: { [key: string]: any[] } = {};  
+  friendsListComplate: Profile[] = [];
+  selectedFriends: Profile[] = [];
+  selectedFriendsChats: Record<number, Profile[]> = {};
   faArrowLeft = faArrowLeft
   faArrowRight = faArrowRight
 
@@ -25,42 +26,44 @@ export class AsideFriendsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.friendsList();
   }
 
   friendsList() {
-    this.friendsService.friendsList().subscribe((data: any) => {
+    this.friendsService.friendsList().subscribe((data) => {
       const friendsData = data;
       console.log(friendsData.myFriends);
-      this.friendsListComplate = friendsData.myFriends;
+      this.friendsListComplate = friendsData.myFriends.map((f: Profile) => new Profile(f));
     });
   }
-  
-  openChat(friend: any) {  
-    if (!this.selectedFriendsChats[friend.user_id]) {
-      this.selectedFriendsChats[friend.user_id] = [];
-    }
-  
-    const existingChat = this.selectedFriendsChats[friend.user_id].find(chat => chat.user_id === friend.user_id);
-  
-    if (existingChat) {
-      return;  
-    }
-  
-    if (!this.selectedFriends.some(f => f.user_id === friend.user_id)) {
-      if (this.selectedFriends.length >= 5) {
-        const removedFriend = this.selectedFriends.shift();
-        delete this.selectedFriendsChats[removedFriend.user_id]; 
-      }
-      this.selectedFriends.push(friend); 
-    }
-  
-    this.selectedFriendsChats[friend.user_id].push(friend);  
-    console.log(this.selectedFriendsChats); 
-  }
 
-  closeChat(friend: any) {
-    this.selectedFriends = this.selectedFriends.filter(f => f.user_id !== friend.user_id);
-    delete this.selectedFriendsChats[friend.user_id];
+  openChat(friend: Profile) {
+    console.log('Tentando abrir chat com:', friend.username);
+  
+    if (this.selectedFriends.some(f => f.userId === friend.userId)) {
+      console.log('Chat já aberto com:', friend.username);
+      return;
+    }
+  
+    if (this.selectedFriends.length >= 5) {
+      const removed = this.selectedFriends.shift();
+      console.log('Removendo chat com:', removed?.username);
+    }
+  
+    this.selectedFriends = [...this.selectedFriends, friend];
+    console.log('Chats abertos agora:', this.selectedFriends.map(f => f.username));
+    console.log('Adicionando ao selectedFriends:', friend.userId, friend.username);
+
   }
+  
+  
+  closeChat(friend: Profile) {
+    console.log('Fechando chat com:', friend.username);
+    this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);
+    console.log('Chats abertos depois de fechar:', this.selectedFriends.map(f => f.username));
+  }
+  
+  
+  
 }

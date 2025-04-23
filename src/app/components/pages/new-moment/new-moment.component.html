@@ -1,10 +1,13 @@
-  <div class="aside-container">
-    <app-aside-profile></app-aside-profile>
-  </div>
-  <div class="containerForm">
-    <h2>Envie seu 
-      <span class="typed-element"></span>  
+<div class="aside-container">
+  <app-aside-profile></app-aside-profile>
+</div>
+<div class="containerForm">
+  <h2>Envie seu
+    <span class="typed-element"></span>
 
-    </h2>
+  </h2>
   <app-moment-form [btnText]="btnText" (OnSubmit)="createHandler($event)"></app-moment-form>
+</div>
+<div class="aside-container-friends">
+  <app-aside-friends></app-aside-friends>
 </div>

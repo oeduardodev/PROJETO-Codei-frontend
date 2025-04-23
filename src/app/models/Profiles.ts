@@ -1,15 +1,18 @@
+import { Moment } from "./Moments";
+
 export class Profile {
-  user_id: number = 0;
-  photo: string = '';
-  username: string = '';
-  bio: string = '';
+  readonly userId: number;
+  photo = '';
+  username = '';
+  bio = '';
   technologies: string[] = [];
   friends: string[] = [];
   levels: string[] = [];
-  moments: any[] = [];
+  moments: Moment[] = [];
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   constructor(data: any) {
-    this.user_id = data.user_id ?? 0;
+    this.userId = data.userId ?? data.user_id ?? 0;
     this.photo = data.photo ?? '';
     this.username = data.username ?? '';
     this.bio = data.bio ?? '';
@@ -18,4 +21,8 @@ export class Profile {
     this.levels = data.levels ?? [];
     this.moments = data.moments ?? [];
   }
+}
+
+export interface ProfileResponse {
+  profile: Profile;
 }

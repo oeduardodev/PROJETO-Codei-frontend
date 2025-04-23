@@ -8,7 +8,7 @@
       <div class="moments-container">
         <div class="moment" *ngFor="let moment of moments">
           <a routerLink="moments/{{ moment.id }}">
-            <img src="{{ endpoint }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+            <img src="{{endpoint}}/uploads/{{ moment.image }}" alt="{{ moment.title }}" />
             <div class="details">
               <h3>{{ moment.title }}</h3>
               <div class="counts">

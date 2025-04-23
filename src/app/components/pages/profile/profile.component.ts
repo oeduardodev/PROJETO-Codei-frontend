@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import Cropper from 'cropperjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -7,13 +7,13 @@ import { environment } from '../../../environment/environments';
 
 import { Profile } from '../../../models/Profiles';
 import { ProfileService } from '../../../services/profile.service';
-import { AuthorizationService } from '../../../services/auth.service';
 import { LoadingComponent } from "../../../loading/loading.component";
 import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
 import { FormsModule } from '@angular/forms';
+import { Moment } from '../../../models/Moments';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +23,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./profile.component.css']
 })
 
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   @ViewChild('imageCropper', { static: false }) imageElement!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -31,37 +31,36 @@ export class ProfileComponent {
     this.fileInput.nativeElement.click();
   }
 
-  profileData: Profile | null = null;
+  profileData!: Profile;
 
-  id: any = '';
+  id = '';
 
-  externalProfileId: number = 0;
-  profileName: string[] = [];
+  externalProfileId = 0;
+  profileName = '';
 
-  moments: any;
-  technologies: any[] = [];
-  levels: any[] = [];
+  moments: Moment[] = [];
+  technologies: string[] = [];
+  levels: string[] = [];
 
   selectedLevel = this.levels[0] || "jovemscript";
 
-  newTech: string = '';
+  newTech = '';
 
-  techListEdit: boolean = false;
-  editOn: boolean = false;
+  techListEdit = false;
+  editOn = false;
 
   dateMoment: Date = new Date();
-  imageUrl: any;
+  imageUrl = '';
   cropper!: Cropper;
   endpoint = environment.endpoint;
 
   faEdit = faEdit;
   faTimes = faTimes;
   availableIcons: string[] = [];
-  isTechValid: boolean = false;
+  isTechValid = false;
 
   constructor(
     private service: ProfileService,
-    private authService: AuthorizationService,
     private route: ActivatedRoute,
     private momentService: MomentService,
     private messagesService: MessageService,
@@ -74,8 +73,8 @@ export class ProfileComponent {
     this.fetchAvailableIcons();
 
     this.route.paramMap.subscribe(params => {
-      this.id = params.get('id');
-      if (this.id) {
+      this.id = params.get('id')?.toString() || '';
+      if (this.id != '') {
         this.externalProfileId = + this.id;
         this.getOthersProfiles();
       } else {
@@ -97,8 +96,8 @@ export class ProfileComponent {
   }
 
   validateTechnology(): void {
-    if(this.technologies.includes(this.newTech)) {
-      return; 
+    if (this.technologies.includes(this.newTech)) {
+      return;
     }
     const techFormatted = this.newTech.toLowerCase().trim();
     this.isTechValid = this.availableIcons.includes(techFormatted);
@@ -117,39 +116,20 @@ export class ProfileComponent {
   }
 
   getMyProfile() {
-    this.service.getMyProfile().subscribe({
-      next: (response: any) => {
-        this.profileData = response.profile;
-        this.moments = this.profileData?.moments;
-
-        if (this.profileData) {
-          console.log(this.profileData);
-
-          this.technologies = this.profileData.technologies || [];
-          this.levels = this.profileData.levels || [];
-
-          // ✅ Aguarde os dados antes de definir selectedLevel
-          this.selectedLevel = this.levels.length > 0 ? this.levels[0] : "jovemscript";
-        }
-      },
-      error: (err) => {
-        console.error("Erro ao obter o perfil:", err);
-      }
+    this.service.getMyProfile().subscribe((response) => {
+      this.profileData = new Profile(response.profile);
+    }, (err) => {
+      console.error("Erro ao obter o perfil:", err);
     });
   }
+  
 
   getOthersProfiles() {
     this.service.getProfileById(this.externalProfileId).subscribe((response) => {
       this.profileData = response.profile;
-      this.moments = this.profileData?.moments;
-
-      if (this.profileData) {
-
-        this.technologies = this.profileData.technologies || [];
-        this.levels = this.profileData.levels || [];
-
-        this.selectedLevel = this.levels.length > 0 ? this.levels[0] : "jovemscript";
-      }
+      this.selectedLevel = this.levels.length > 0 ? this.levels[0] : "jovemscript";
+    }, (err) => {
+      console.error("Erro ao obter o perfil:", err);
     });
   }
 
@@ -167,41 +147,45 @@ export class ProfileComponent {
 
   sendProfile() {
     if (this.profileData) {
-      // Reorganiza os levels colocando o selecionado como o primeiro
+      if (!this.profileData.userId) {
+        console.error('UserId do perfil não está definido.');
+        return;
+      }
+
+      // resto do código
       this.levels = [this.selectedLevel, ...this.levels.filter(level => level !== this.selectedLevel)];
 
       const updatedProfile = {
-        user_id: this.profileData.user_id,
+        userId: this.profileData.userId, // permanece fixo
         photo: this.profileData.photo,
         username: this.profileData.username,
         bio: this.profileData.bio,
-        technologies: this.technologies,
+        technologies: this.profileData.technologies, // usa profileData.technologies
         friends: this.profileData.friends,
-        levels: this.levels,
-        moments: this.moments
+        levels: [this.selectedLevel, ...this.levels.filter(level => level !== this.selectedLevel)],
+        moments: this.profileData.moments
       };
 
-      this.service.postProfileById(this.profileData.user_id, updatedProfile).subscribe({
-        next: () => {
-          console.log("Perfil atualizado com sucesso!");
-        },
-        error: (err) => {
+      this.service.postProfileById(this.profileData.userId, updatedProfile).subscribe(
+        () => {
+          this.messagesService.addMessage("Perfil atualizado com sucesso!");},
+        (err) => {
           console.error("Erro ao atualizar perfil:", err);
         }
-      });
+      );
     }
   }
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        this.imageUrl = e.target?.result;
+        this.imageUrl = (e.target?.result as string) || '';
 
         this.cdr.detectChanges();
         this.initializeCropper();
-
       };
       reader.readAsDataURL(input.files[0]);
     }

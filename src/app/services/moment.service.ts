@@ -19,7 +19,7 @@ export class MomentService {
     return this.http.get<Response<Moment[]>>(environment.endpoint + environment.moments);
   }
 
-  getMoment(id: Number): Observable<Response<Moment>> {
+  getMoment(id: number): Observable<Response<Moment>> {
     return this.http.get<Response<Moment>>(`${environment.endpoint}${environment.moments}/${id}`);
   }
 
@@ -29,13 +29,13 @@ export class MomentService {
     return this.http.post<FormData>((environment.endpoint + environment.moments), formData, { headers });
   }
 
-  removeMoment(id: Number) {
+  removeMoment(id: number) {
     const token = localStorage.getItem('authToken') || '';
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.delete(`${environment.endpoint}${environment.moments}/${id}`, { headers });
   }
 
-  updateMoment(id: Number, formData: FormData) {
+  updateMoment(id: number, formData: FormData) {
     return this.http.put<FormData>(`${environment.endpoint}${environment.moments}/${id}`, formData);
   }
 }

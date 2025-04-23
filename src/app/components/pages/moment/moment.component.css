@@ -26,6 +26,7 @@ form {
 }
 
 .capilike {
+  cursor: pointer;
   display: flex;
   align-items: center;
   width: 55px;
@@ -198,6 +199,7 @@ input {
 }
 
 .textarea-coment {
+  color: #232639;
   height: 6rem;
   border-radius: 10px;
   background-color: #f1f2f9;

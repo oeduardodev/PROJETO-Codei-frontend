@@ -131,6 +131,7 @@ textarea {
     padding: .5rem;
     border-radius: 10px;
     font-size: 15px;
+    color: #12121c;
 }
 
 .edit-techs {
@@ -152,6 +153,11 @@ h3 {
 .profile a {
     text-decoration: underline;
 }
+
+.edit-btn:hover{
+    background-color: #b8bef7;
+}
+
 
 .butn-add {
     border: none;
@@ -427,7 +433,7 @@ h3 {
     text-align: center;
     margin: 1rem;
     border-radius: 10px;
-    background-color: #c6c9e63f;
+    background-color: #12121c;
     width: 280px;
 
     p {

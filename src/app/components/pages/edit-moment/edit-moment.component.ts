@@ -15,7 +15,7 @@ import { MomentFormComponent } from '../../moment-form/moment-form.component';
 })
 export class EditMomentComponent implements OnInit {
   moment!: Moment;
-  btnText: string = 'Editar';
+  btnText = 'Editar';
 
   constructor(
     private momentService: MomentService,
