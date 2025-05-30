@@ -31,8 +31,6 @@ export class AsideProfileComponent implements OnInit {
         this.userProfile.technologies &&
         this.userProfile.bio
       ) {
-        console.log(this.userProfile.photo, this.userProfile.technologies, this.userProfile.bio);
-        console.log('Perfil completo');
   
         this.perfilCompleted = true;
       }

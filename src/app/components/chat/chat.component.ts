@@ -81,7 +81,7 @@ export class ChatComponent implements OnInit {
 
 
   sendMessage() {
-    console.log('Enviando mensagem:', this.newMessage);
+    return
   }
 
   scrollToBottom() {

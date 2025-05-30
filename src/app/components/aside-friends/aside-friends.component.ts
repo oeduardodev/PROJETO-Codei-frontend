@@ -33,35 +33,26 @@ export class AsideFriendsComponent implements OnInit {
   friendsList() {
     this.friendsService.friendsList().subscribe((data) => {
       const friendsData = data;
-      console.log(friendsData.myFriends);
       this.friendsListComplate = friendsData.myFriends.map((f: Profile) => new Profile(f));
     });
   }
 
-  openChat(friend: Profile) {
-    console.log('Tentando abrir chat com:', friend.username);
-  
+  openChat(friend: Profile) {  
     if (this.selectedFriends.some(f => f.userId === friend.userId)) {
-      console.log('Chat já aberto com:', friend.username);
       return;
     }
   
     if (this.selectedFriends.length >= 5) {
       const removed = this.selectedFriends.shift();
-      console.log('Removendo chat com:', removed?.username);
     }
   
     this.selectedFriends = [...this.selectedFriends, friend];
-    console.log('Chats abertos agora:', this.selectedFriends.map(f => f.username));
-    console.log('Adicionando ao selectedFriends:', friend.userId, friend.username);
 
   }
   
   
   closeChat(friend: Profile) {
-    console.log('Fechando chat com:', friend.username);
     this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);
-    console.log('Chats abertos depois de fechar:', this.selectedFriends.map(f => f.username));
   }
   
   
