@@ -66,5 +66,13 @@ export const environment = {
     
     removeFriend: '/api/friends/${id}',
 
+    /**
+     * Rota para gerenciar 'chats'
+     * Usada para capturar chats ou atualizar.
+     */
+
+    getMessagesById: '/api/message/${id}',
+    sendMessage: '/api/message/send',
+
     devicons: 'https://api.github.com/repos/devicons/devicon/contents/icons'
 }

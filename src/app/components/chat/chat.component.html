@@ -1,7 +1,7 @@
-<div class="chat-container" [ngClass]="{'minimized': isMinimized}" >
+<div class="chat-container" [ngClass]="{'minimized': isMinimized}">
     <div class="header-chat">
         <div>
-            <img [src]="friend.photo || '/assets/profile-default-img.png'" alt="Profile image" srcset=""/>
+            <img [src]="friend.photo || '/assets/profile-default-img.png'" alt="Profile image" srcset="" />
             <h3>{{friend.username}}</h3>
         </div>
         <div class="icons-container">
@@ -11,10 +11,10 @@
         </div>
     </div>
     <div class="messages-container" #messagesContainer>
-        <div *ngFor="let message of messages" class="message"
-            [ngClass]="{'me': message.senderId === userId, 'other': message.senderId !== userId}">
-            <span class="text">{{ message.content }}</span>
-            <span class="timestamp">{{ message.createdAt | date:'shortTime' }}</span>
+        <div *ngFor="let message of chatsMessages" class="message"
+            [ngClass]="message.sender_id === myId ? 'me' : 'other'">
+            <span class="text" style="word-break: break-word; white-space: pre-wrap; display: block;">{{ message.content }}</span>
+            <span class="timestamp">{{ message.created_at | date:'shortTime' }}</span>
         </div>
     </div>
 
