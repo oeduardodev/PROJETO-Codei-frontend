@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faWindowMinimize, faWindowMaximize } from '@fortawesome/free-regular-svg-icons';
 import { Profile } from '../../models/Profiles';
 import { ChatService } from '../../services/chat.service';
-import { Chat } from '../../models/chat';
+import { Chat } from '../../models/Chat';
 import { ProfileService } from '../../services/profile.service';
 import { AuthorizationService } from '../../services/auth.service';
 
@@ -36,7 +36,7 @@ export class ChatComponent implements OnInit {
   myId!: number;
   friendId!: number;
 
-  
+
   profileData!: Profile;
 
   constructor(
@@ -48,6 +48,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.getMessages();
+
   }
 
   getMessages(): void {
@@ -56,7 +57,10 @@ export class ChatComponent implements OnInit {
     this.profileService.getMyProfile().subscribe({
       next: (response) => {
         this.profileData = new Profile(response.profile);
-        this.myId = this.friendId = this.friend.userId;
+        this.myId = this.profileData.userId;
+        this.friendId = this.friend.userId;
+
+        this.chatService.joinRoom(this.myId);
 
         if (!this.friendId || !this.myId) {
           console.warn('IDs inválidos:', this.myId, this.friendId);
@@ -72,6 +76,8 @@ export class ChatComponent implements OnInit {
             console.error('Erro ao buscar mensagens:', err);
           }
         });
+
+        this.initConversation();
       },
       error: (err) => {
         console.error('Erro ao obter perfil:', err);
@@ -79,9 +85,45 @@ export class ChatComponent implements OnInit {
     });
   }
 
-
+  initConversation() {
+    this.chatService.getMessagesStream().subscribe({
+      next: (newMessage: Chat) => {
+        console.log('Nova mensagem recebida:', newMessage);
+        if (
+          (newMessage.sender_id === this.friend.userId && newMessage.receiver_id === this.myId) ||
+          (newMessage.sender_id === this.myId && newMessage.receiver_id === this.friend.userId)
+        ) {
+          this.chatsMessages.push(newMessage);
+          this.scrollToBottom();
+        }
+      },
+      error: (err) => {
+        console.error('Erro no stream de mensagens:', err);
+      }
+    });
+  }
   sendMessage() {
-    return
+    if (!this.newMessage.trim()) {
+      return;
+    }
+
+    const message: Chat = {
+      content: this.newMessage,
+      sender: this.profileData.userId,
+      receiver: this.friend.userId
+    };
+
+    const headers = this.authService.getAuthorizationHeaders();
+
+    this.chatService.sendMessage(message, headers).subscribe({
+      next: () => {
+        this.newMessage = '';
+        this.scrollToBottom();
+      },
+      error: (err) => {
+        console.error('Erro ao enviar mensagem:', err);
+      }
+    });
   }
 
   scrollToBottom() {

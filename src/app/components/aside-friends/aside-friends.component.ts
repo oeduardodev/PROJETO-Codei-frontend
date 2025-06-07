@@ -37,24 +37,20 @@ export class AsideFriendsComponent implements OnInit {
     });
   }
 
-  openChat(friend: Profile) {  
+  openChat(friend: Profile) {
     if (this.selectedFriends.some(f => f.userId === friend.userId)) {
       return;
     }
-  
-    if (this.selectedFriends.length >= 5) {
-      const removed = this.selectedFriends.shift();
-    }
-  
-    this.selectedFriends = [...this.selectedFriends, friend];
 
+    if (this.selectedFriends.length >= 5) {
+      return
+    }
+
+    this.selectedFriends = [...this.selectedFriends, friend];
   }
-  
-  
+
   closeChat(friend: Profile) {
     this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);
   }
-  
-  
-  
+
 }
