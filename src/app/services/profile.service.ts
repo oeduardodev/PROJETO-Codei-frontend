@@ -24,12 +24,12 @@ export class ProfileService {
     return this.http.get<ProfileResponse>(`${environment.endpoint}${environment.getProfileId.replace('${id}', id.toString())}`)
   }
 
-  postProfileById(id: number, profile: Profile): Observable<ProfileResponse> {
+  postProfileById(id: number, form: FormData): Observable<ProfileResponse> {
     const headers = this.authService.getAuthorizationHeaders();
     const options = { headers }; 
     return this.http.put<ProfileResponse>(
       `${environment.endpoint}${environment.updateProfile.replace('${id}', id.toString())}`,
-      profile, 
+      form, 
       options 
     );
   }

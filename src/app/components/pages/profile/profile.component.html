@@ -79,7 +79,7 @@
       <a class="link-moment" routerLink="/moments/{{ moment.id }}">
         <div class="overlay">
           <span>visualizar</span>
-          <img src="{{ endpoint }}/uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+          <img src="{{moment.image}}" alt="{{ moment.title }}" />
         </div>
       </a>
       <h5>{{ moment.title }}</h5>
@@ -108,7 +108,8 @@
     <div class="image-preview">
       <img #imageCropper [src]="imageUrl" alt="Imagem selecionada" />
     </div>
-    <button class="button-send-image">ENVIAR</button>
+    <button class="button-send-image" (click)="imageUrl = ''" tabindex="0" (keydown.enter)="imageUrl = ''"
+      (keydown.space)="imageUrl = ''">ENVIAR</button>
   </div>
 </div>
 

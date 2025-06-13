@@ -122,7 +122,6 @@ export class ProfileComponent implements OnInit {
       console.error("Erro ao obter o perfil:", err);
     });
   }
-  
 
   getOthersProfiles() {
     this.service.getProfileById(this.externalProfileId).subscribe((response) => {
@@ -145,36 +144,30 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  sendProfile() {
-    if (this.profileData) {
-      if (!this.profileData.userId) {
-        console.error('UserId do perfil não está definido.');
-        return;
-      }
-
-      // resto do código
-      this.levels = [this.selectedLevel, ...this.levels.filter(level => level !== this.selectedLevel)];
-
-      const updatedProfile = {
-        userId: this.profileData.userId, // permanece fixo
-        photo: this.profileData.photo,
-        username: this.profileData.username,
-        bio: this.profileData.bio,
-        technologies: this.profileData.technologies, // usa profileData.technologies
-        friends: this.profileData.friends,
-        levels: [this.selectedLevel, ...this.levels.filter(level => level !== this.selectedLevel)],
-        moments: this.profileData.moments
-      };
-
-      this.service.postProfileById(this.profileData.userId, updatedProfile).subscribe(
-        () => {
-          this.messagesService.addMessage("Perfil atualizado com sucesso!");},
-        (err) => {
-          console.error("Erro ao atualizar perfil:", err);
-        }
-      );
+  async sendProfile() {
+    if (!this.profileData || !this.profileData.userId) {
+      return;
     }
+
+    const formData = new FormData();
+
+    formData.append('username', this.profileData.username);
+    formData.append('bio', this.profileData.bio);
+    formData.append('technologies', JSON.stringify(this.profileData.technologies));
+    formData.append('friends', JSON.stringify(this.profileData.friends));
+    formData.append('levels', JSON.stringify([this.selectedLevel, ...this.levels.filter(l => l !== this.selectedLevel)]));
+
+    const croppedBlob = await this.getCroppedImageBlob();
+    if (croppedBlob) {
+      formData.append('photo', croppedBlob, 'profile.jpg');
+    }
+
+    this.service.postProfileById(this.profileData.userId, formData).subscribe(
+      () => this.messagesService.addMessage("Perfil atualizado com sucesso!"),
+      (err) => console.error("Erro ao atualizar perfil:", err)
+    );
   }
+
 
 
   onFileSelected(event: Event): void {
@@ -205,6 +198,16 @@ export class ProfileComponent implements OnInit {
       zoomable: true,
       scalable: false,
       cropBoxResizable: true,
+    });
+  }
+
+  getCroppedImageBlob(): Promise<Blob | null> {
+    return new Promise((resolve) => {
+      if (!this.cropper) return resolve(null);
+
+      this.cropper.getCroppedCanvas().toBlob((blob) => {
+        resolve(blob);
+      }, 'image/jpeg');
     });
   }
 
