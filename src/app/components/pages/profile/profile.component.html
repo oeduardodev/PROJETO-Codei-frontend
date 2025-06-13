@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <div class="select-photo" [ngClass]="{ 'edit-mode': editOn }">
-        <img class="profile-image-default" [src]="profileData.photo || '/assets/profile-default-img.png'"  alt='Foto de perfil do usuário' 
+        <img class="profile-image-default" [src]="profileData.photo" alt='Foto de perfil do usuário'
           (click)="triggerFileInput()" tabindex="0" (keydown.enter)="triggerFileInput()"
           (keydown.space)="triggerFileInput()" />
         <fa-icon *ngIf="editOn" [icon]="faEdit" class="photo-edit"></fa-icon>
@@ -27,7 +27,7 @@
         <button (click)="editOn = true" *ngIf="!externalProfileId && !editOn" class="butn">Editar</button>
         <button (click)="sendProfile(); editOn = false" *ngIf="editOn" class="butn">Concluir</button>
       </div>
-      <p *ngIf="!editOn">{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão! "}}</p>
+      <p *ngIf="!editOn">{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar  dev, e essa não é uma mensagem de descrição padrão! "}}</p>
       <textarea [(ngModel)]="profileData.bio" *ngIf="editOn" name="" id=""
         placeholder="Escreva uma descrição legal para seu perfil." maxlength="200"></textarea>
     </div>
@@ -56,9 +56,12 @@
             <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
           </span>
           <span *ngIf="technologies.length <= 2">
-            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}"
+              class="devicon-{{ tech }}-plain icone-lang"></i>
+            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}"
+              class="devicon-{{ tech }}-plain icone-lang"></i>
+            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}"
+              class="devicon-{{ tech }}-plain icone-lang"></i>
           </span>
         </div>
       </div>
@@ -100,15 +103,12 @@
 
 <div class="overlay" *ngIf="imageUrl">
   <div class="container-image">
-    <span class="close-btn" 
-    (click)="imageUrl = ''" 
-    tabindex="0" 
-    (keydown.enter)="imageUrl = ''"
-    (keydown.space)="imageUrl = ''">x</span>
+    <span class="close-btn" (click)="imageUrl = ''" tabindex="0" (keydown.enter)="imageUrl = ''"
+      (keydown.space)="imageUrl = ''">x</span>
     <div class="image-preview">
       <img #imageCropper [src]="imageUrl" alt="Imagem selecionada" />
     </div>
-    <button class="butn-send">Enviar</button>
+    <button class="button-send-image">ENVIAR</button>
   </div>
 </div>
 
