@@ -17,6 +17,8 @@ ngx-typed-js {
     margin: 3rem;
     width: 30%;
     margin: 5rem auto;
+    z-index: 1000;
+    position: absolute;
 }
 .aside-container-friends {
     position: fixed;

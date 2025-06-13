@@ -23,4 +23,6 @@ h2 span {
 .containerForm {
     margin: 3rem auto;
     width: 90%;
+    z-index: 1000;
+    position: absolute;
 }

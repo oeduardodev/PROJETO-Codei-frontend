@@ -24,4 +24,6 @@ h2 span {
     align-items: center;
     margin: 3rem auto;
     width: 90%;
+    z-index: 1000;
+    position: absolute;
 }
