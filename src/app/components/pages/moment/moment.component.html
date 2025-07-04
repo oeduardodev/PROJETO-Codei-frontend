@@ -21,8 +21,8 @@
         (keydown.space)="sendLike()" />
       <div class="comment-about">
         <div class="container-profile" [routerLink]="['/profile/', moment.userId]">
-          <img class="img-profile" src="{{ moment.user.photo || '/assets/profile-default-img.png' }}" alt="" srcset="">
-          <h2>&commat;{{ moment.user.username }} </h2>
+          <img class="img-profile" src="{{ moment.profile.photo || '../../../assets/profile-default-img.png' }}" alt="" srcset="">
+          <h2>&commat;{{ moment.profile.username }} </h2>
         </div>
         <p class="description">{{ moment.description }}</p>
         <div class="comment-form">

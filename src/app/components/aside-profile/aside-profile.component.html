@@ -6,7 +6,7 @@
 </div>
 
 <div class="foto">
-  <img class="foto" [src]="userProfile?.photo" alt="Foto de perfil">
+  <img class="foto" [src]="userProfile?.photo || '../../../assets/profile-default-img.png'" alt="Foto de perfil">
 </div>
 
 <p class="name">
@@ -19,8 +19,7 @@
     <a href="login" class='butn butn__new' *ngIf="!userProfile && !perfilCompleted"><span> Entrar</span></a>
     <a href="profile" class='butn butn__new' *ngIf="userProfile && !perfilCompleted"><span> Concluir Perfil</span></a>
     <strong class="notify" href="profile" *ngIf="perfilCompleted">Novas Notificações: <span> 14</span></strong>
-    <div class="notificacoes-wrapper">
-
+    <div *ngIf="userProfile" class="notificacoes-wrapper">
       <ul class="notificacoes" *ngIf="perfilCompleted">
         <li>Notificação 1</li>
         <li>Notificação 1</li>
