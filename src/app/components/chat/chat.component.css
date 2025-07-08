@@ -122,3 +122,7 @@
 .minimized {
     top:300px
 }
+
+.friendLink{
+    cursor: pointer;
+}

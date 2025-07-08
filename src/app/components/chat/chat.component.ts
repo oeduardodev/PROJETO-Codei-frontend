@@ -9,11 +9,12 @@ import { ChatService } from '../../services/chat.service';
 import { Chat } from '../../models/Chat';
 import { ProfileService } from '../../services/profile.service';
 import { AuthorizationService } from '../../services/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, RouterLink],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })

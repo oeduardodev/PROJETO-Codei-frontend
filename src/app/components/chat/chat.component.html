@@ -1,6 +1,6 @@
 <div class="chat-container" [ngClass]="{'minimized': isMinimized}">
     <div class="header-chat">
-        <div>
+        <div class="friendLink" [routerLink]="['/profile/', friendId]">
             <img [src]="friend.photo || '/assets/profile-default-img.png'" alt="Profile image" srcset="" />
             <h3>{{friend.username}}</h3>
         </div>
