@@ -14,6 +14,7 @@ import { MomentService } from '../../../services/moment.service';
 import { MessageService } from '../../../services/message.service';
 import { FormsModule } from '@angular/forms';
 import { Moment } from '../../../models/Moments';
+import { FriendsService } from '../../../services/friends.service';
 
 @Component({
   selector: 'app-profile',
@@ -58,12 +59,14 @@ export class ProfileComponent implements OnInit {
   faTimes = faTimes;
   availableIcons: string[] = [];
   isTechValid = false;
+  isFriendRequested = false;
 
   constructor(
     private service: ProfileService,
-    private route: ActivatedRoute,
     private momentService: MomentService,
     private messagesService: MessageService,
+    private friendsService: FriendsService,
+    private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,
 
@@ -71,7 +74,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.fetchAvailableIcons();
-
+    this.verifySolicitation();
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id')?.toString() || '';
       if (this.id != '') {
@@ -168,7 +171,20 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-
+  verifySolicitation() {
+    this.friendsService.friendsList().subscribe((response) => {
+      const myFriends = response.myFriends;
+      const isFriendList = myFriends.some(friend => friend.userId === this.externalProfileId);
+      if (isFriendList) {
+        this.isFriendRequested = true
+      } else {
+        this.addFriend();
+      }
+    }, (err) => {
+      console.error("Erro ao verificar solicitações de amizade:", err);
+      this.messagesService.addMessage("Erro ao verificar solicitações de amizade.");
+    })
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -211,4 +227,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  addFriend(){
+    this.friendsService.addFriend(this.externalProfileId).subscribe(()=>{
+      this.messagesService.addMessage("Solicitação enviada com sucesso!");
+    })
+  }
 }
