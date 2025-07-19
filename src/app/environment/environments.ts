@@ -62,7 +62,7 @@ export const environment = {
 
     getFriendsById: '/api/friends/${id}',
 
-    addFriend: '/api/friends/${id}',
+    addFriend: '/api/friends',
     
     removeFriend: '/api/friends/${id}',
 

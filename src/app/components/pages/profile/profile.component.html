@@ -23,8 +23,9 @@
       <div class="profile-name">
         <input type="text" [(ngModel)]="profileData.username" *ngIf="editOn">
         <h3 *ngIf="!editOn">{{ profileData.username || 'sem nome' }}</h3>
-        <button (click)="addFriend()" *ngIf="externalProfileId && isFriendRequested" class="butn">Adicionar</button>
-        <button *ngIf="isFriendRequested && externalProfileId && editOn" class="butn" style="opacity: 50%;">Pedido Enviada</button>
+        <button (click)="addFriend()" *ngIf="externalProfileId && !isFriendRequested" class="butn">Adicionar</button>
+        <button *ngIf="isFriendRequested && !isFriendDemanded" class="butn" style="opacity: 50%;">Pedido Enviada</button>
+        <button *ngIf="isFriendRequested && isFriendDemanded" class="butn" style="opacity: 50%;">Amigos</button>
         <button (click)="editOn = true" *ngIf="!externalProfileId && !editOn" class="butn">Editar</button>
         <button (click)="sendProfile(); editOn = false" *ngIf="editOn" class="butn">Concluir</button>
       </div>

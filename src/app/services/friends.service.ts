@@ -24,12 +24,12 @@ export class FriendsService {
     );
   }
 
-  addFriend(id: number) {
-    const headers = this.authService.getAuthorizationHeaders();
-    return this.http.post(
-      `${environment.endpoint}${environment.addFriend.replace('${id}', id.toString())}`,
-      {},
-      { headers }
-    );
-  }
+addFriend(id: number) {
+  const headers = this.authService.getAuthorizationHeaders(); // deve retornar objeto plano ou HttpHeaders
+
+  const url = `${environment.endpoint}${environment.addFriend}`; // ex: '/api/friends'
+  return this.http.post(url, { friendId: id }, { headers });
+}
+
+
 }

@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
   profileData!: Profile;
 
   id = '';
-
+  myId = 0
   externalProfileId = 0;
   profileName = '';
 
@@ -49,6 +49,7 @@ export class ProfileComponent implements OnInit {
 
   techListEdit = false;
   editOn = false;
+  isFriendDemanded = false;
 
   dateMoment: Date = new Date();
   imageUrl = '';
@@ -74,7 +75,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.fetchAvailableIcons();
-    this.verifySolicitation();
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id')?.toString() || '';
       if (this.id != '') {
@@ -85,6 +85,8 @@ export class ProfileComponent implements OnInit {
       }
 
     });
+    console.log("ID do perfil externo:", this.externalProfileId);
+    console.log("amigo requisitado:", this.isFriendRequested)
   }
 
   fetchAvailableIcons() {
@@ -128,11 +130,17 @@ export class ProfileComponent implements OnInit {
 
   getOthersProfiles() {
     this.service.getProfileById(this.externalProfileId).subscribe((response) => {
-      this.profileData = response.profile;
+      this.profileData = new Profile(response.profile);
       this.selectedLevel = this.levels.length > 0 ? this.levels[0] : "jovemscript";
     }, (err) => {
       console.error("Erro ao obter o perfil:", err);
     });
+    this.service.getMyProfile().subscribe((response) => {
+      const myProfile = new Profile(response.profile);
+      this.myId = myProfile.userId;
+        console.log("Meu ID:", this.myId);
+    })
+    this.verifySolicitation();
   }
 
 
@@ -171,20 +179,21 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  verifySolicitation() {
-    this.friendsService.friendsList().subscribe((response) => {
-      const myFriends = response.myFriends;
-      const isFriendList = myFriends.some(friend => friend.userId === this.externalProfileId);
-      if (isFriendList) {
-        this.isFriendRequested = true
-      } else {
-        this.addFriend();
-      }
-    }, (err) => {
-      console.error("Erro ao verificar solicitações de amizade:", err);
-      this.messagesService.addMessage("Erro ao verificar solicitações de amizade.");
-    })
-  }
+verifySolicitation() {
+  this.friendsService.friendsList().subscribe((response) => {
+    const myFriends = response.myFriends.map((i: any) => new Profile(i));
+    
+    const isFriendList = myFriends.some(friend => friend.userId === this.externalProfileId);
+    if (isFriendList) {
+      this.isFriendRequested = true;
+    }
+    this.isFriendDemanded = this.profileData.friends.map(f => f.toString()).includes(this.myId.toString());   
+
+  }, (err) => {
+    console.error("Erro ao verificar solicitações de amizade:", err);
+    this.messagesService.addMessage("Erro ao verificar solicitações de amizade.");
+  });
+}
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -227,8 +236,8 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  addFriend(){
-    this.friendsService.addFriend(this.externalProfileId).subscribe(()=>{
+  addFriend() {
+    this.friendsService.addFriend(this.externalProfileId).subscribe(() => {
       this.messagesService.addMessage("Solicitação enviada com sucesso!");
     })
   }
