@@ -6,7 +6,7 @@ export class Profile {
   username = '';
   bio = '';
   technologies: string[] = [];
-  friends: string[] = [];
+  friends: number[] = [];
   levels: string[] = [];
   moments: Moment[] = [];
 

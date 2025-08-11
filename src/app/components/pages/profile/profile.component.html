@@ -2,99 +2,239 @@
   <div class="container">
     <div>
       <div class="select-photo" [ngClass]="{ 'edit-mode': editOn }">
-        <img class="profile-image-default" [src]="profileData.photo" alt='Foto de perfil do usuário'
-          (click)="triggerFileInput()" tabindex="0" (keydown.enter)="triggerFileInput()"
-          (keydown.space)="triggerFileInput()" />
-        <fa-icon *ngIf="editOn" [icon]="faEdit" class="photo-edit"></fa-icon>
-        <input #fileInput type="file" class="subImage" (change)="onFileSelected($event)" style="display: none;" />
+        <img
+          class="profile-image-default"
+          [src]="
+            profileData.photo || '../../../../assets/profile-default-img.png'
+          "
+          alt="Foto de perfil do usuário"
+          (click)="triggerFileInput()"
+          tabindex="0"
+          (keydown.enter)="triggerFileInput()"
+          (keydown.space)="triggerFileInput()"
+        />
+        <input
+          #fileInput
+          type="file"
+          class="subImage"
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
       </div>
 
       <div class="level-container">
         <span>status: </span>
         <strong *ngIf="!editOn">{{ selectedLevel || "jovemscript" }}</strong>
         <select *ngIf="editOn" [(ngModel)]="selectedLevel">
-          <option *ngFor="let level of profileData.levels" [value]="level">{{ level }}</option>
+          <option *ngFor="let level of profileData.levels" [value]="level">
+            {{ level }}
+          </option>
         </select>
-
       </div>
     </div>
 
     <div class="header-profile">
       <div class="profile-name">
-        <input type="text" [(ngModel)]="profileData.username" *ngIf="editOn">
-        <h3 *ngIf="!editOn">{{ profileData.username || 'sem nome' }}</h3>
-        <button (click)="addFriend()" *ngIf="externalProfileId && !isFriendRequested" class="butn">Adicionar</button>
-        <button *ngIf="isFriendRequested && !isFriendDemanded" class="butn" style="opacity: 50%;">Pedido Enviada</button>
-        <button *ngIf="isFriendRequested && isFriendDemanded" class="butn" style="opacity: 50%;">Amigos</button>
-        <button (click)="editOn = true" *ngIf="!externalProfileId && !editOn" class="butn">Editar</button>
-        <button (click)="sendProfile(); editOn = false" *ngIf="editOn" class="butn">Concluir</button>
+        <input type="text" [(ngModel)]="profileData.username" *ngIf="editOn" />
+        <h3 *ngIf="!editOn">{{ profileData.username || "sem nome" }}</h3>
+        <button
+          (click)="addFriend()"
+          *ngIf="externalProfileId && !isFriendRequested"
+          class="butn"
+        >
+          Adicionar
+        </button>
+        <button
+        (click)="addFriend()"
+        *ngIf="externalProfileId && !isFriendRequested"
+        class="butn btn-mobile"
+      >
+        +
+      </button>
+        <button
+          *ngIf="isFriendRequested && !isFriendDemanded"
+          class="butn"
+          style="opacity: 50%"
+        >
+          Pedido Enviada
+        </button>
+        <button
+        *ngIf="isFriendRequested && !isFriendDemanded"
+        class="butn"
+        style="opacity: 50%"
+      >
+        ...
+      </button>
+        <button
+          (click)="removeFriend()"
+          *ngIf="isFriendRequested && isFriendDemanded"
+          class="butn"
+        >
+          Deixar Amigo
+        </button>
+        <button
+        (click)="removeFriend()"
+        *ngIf="isFriendRequested && isFriendDemanded"
+        class="butn btn-mobile"
+      >
+      x
+      </button>
+        <button
+          (click)="editOn = true"
+          *ngIf="!externalProfileId && !editOn"
+          class="butn"
+        >
+          Editar
+        </button>
+        <button
+          (click)="editOn = true"
+          *ngIf="!externalProfileId && !editOn"
+          class="butn btn-mobile"
+        >
+          <fa-icon class="icon user-button" [icon]="faEdit"></fa-icon>
+        </button>
+        <button
+          (click)="sendProfile(); editOn = false"
+          *ngIf="editOn"
+          class="butn"
+        >
+          Concluir
+        </button>
+        <button
+        (click)="sendProfile(); editOn = false"
+        *ngIf="editOn"
+        class="butn btn-mobile"
+      >
+        OK
+      </button>
       </div>
-      <p *ngIf="!editOn">{{ profileData.bio || "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar  dev, e essa não é uma mensagem de descrição padrão! "}}</p>
-      <textarea [(ngModel)]="profileData.bio" *ngIf="editOn" name="" id=""
-        placeholder="Escreva uma descrição legal para seu perfil." maxlength="200"></textarea>
+      <p *ngIf="!editOn">
+        {{
+          profileData.bio ||
+            "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar  dev, e essa não é uma mensagem de descrição padrão! "
+        }}
+      </p>
+      <textarea
+        [(ngModel)]="profileData.bio"
+        *ngIf="editOn"
+        name=""
+        id=""
+        placeholder="Escreva uma descrição legal para seu perfil."
+        maxlength="140"
+      ></textarea>
     </div>
   </div>
-
+  <div class="friends-container">
+    <h5 class="buget-title">Amigos</h5>
+    <div class="friends-list-container">
+      <h4 *ngIf="friendsList?.length === 0">Sem amigos por aqui</h4>
+      <div [routerLink]="['/profile/', friend.userId]" [title]="friend.userId" class="friend" *ngFor="let friend of friendsList">
+        <img [src]="friend?.photo || '../../../../assets/profile-default-img.png'" alt="{{friend.username}}" width="50" height="50" />
+        <p class="username-friend">{{ friend.username.slice(0, 6) }},,,</p>
+      </div>
+    </div>
+  </div>
+  
+  
   <div class="tech-container">
     <h3>Tecnologias</h3>
     <div class="tech-list-container">
-      <span *ngIf="profileData.technologies && profileData.technologies.length <= 0" class="msg-tech-off">sem
-        tecnologias por aqui.😔</span>
+      <span
+        *ngIf="profileData.technologies && profileData.technologies.length <= 0 && !editOn"
+        class="msg-tech-off"
+        >sem tecnologias por aqui.😔</span
+      >
       <div class="edit-techs" *ngIf="editOn">
-        <span class="msg-tech-off">Digite a tecnologia que você domina. 😎</span>
+        <span class="msg-tech-off"
+          >Digite a tecnologia que você domina. 😎</span
+        >
         <div>
-          <input type="text" [(ngModel)]="newTech" placeholder="javascript" (input)="validateTechnology()">
-          <button class="butn" (click)="addTechnology()" [disabled]="!isTechValid">adicionar</button>
+          <input
+            type="text"
+            [(ngModel)]="newTech"
+            placeholder="javascript"
+            (input)="validateTechnology()"
+          />
+          <button
+            class="butn"
+            (click)="addTechnology()"
+            [disabled]="!isTechValid"
+          >
+            adicionar
+          </button>
         </div>
       </div>
       <div class="container-tech-list">
         <div class="tech-list">
-          <span *ngFor="let tech of profileData.technologies" class="tech-item">
-            <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-            <button *ngIf="editOn" class="butn butn-remove" (click)="removeTechnology(tech)">x</button>
-          </span>
-          <!-- Duplicação para efeito contínuo -->
-          <span *ngFor="let tech of profileData.technologies">
-            <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
-          </span>
-          <span *ngIf="technologies.length <= 2">
-            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}"
-              class="devicon-{{ tech }}-plain icone-lang"></i>
-            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}"
-              class="devicon-{{ tech }}-plain icone-lang"></i>
-            <i *ngFor="let tech of profileData.technologies" title="{{ tech }}"
-              class="devicon-{{ tech }}-plain icone-lang"></i>
-          </span>
+          <ng-container
+            *ngFor="
+              let tech of profileData.technologies.concat(
+                profileData.technologies
+              )
+            "
+          >
+            <span class="tech-item">
+              <i
+                title="{{ tech }}"
+                class="devicon-{{ tech }}-plain icone-lang"
+              ></i>
+              <button
+                *ngIf="editOn"
+                class="butn butn-remove"
+                (click)="removeTechnology(tech)"
+              >
+                x
+              </button>
+            </span>
+          </ng-container>
+          <ng-container
+            *ngFor="
+              let tech of profileData.technologies.concat(
+                profileData.technologies
+              )
+            "
+          >
+            <span class="tech-item">
+              <i
+                title="{{ tech }}"
+                class="devicon-{{ tech }}-plain icone-lang"
+              ></i>
+              <button
+                *ngIf="editOn"
+                class="butn butn-remove"
+                (click)="removeTechnology(tech)"
+              >
+                x
+              </button>
+            </span>
+          </ng-container>
         </div>
       </div>
-
     </div>
-
-
   </div>
 </div>
 
 <div *ngIf="profileData" class="container-my-moments">
-  <h4>Momentos</h4>
+  <h3>Momentos</h3>
   <div class="moments-container">
     <div class="moment" *ngFor="let moment of profileData.moments">
       <a class="link-moment" routerLink="/moments/{{ moment.id }}">
+        <div class="actions" *ngIf="!externalProfileId">
+          <a routerLink="/moments/edit/{{ moment.id }}" class="edit-btn">
+            <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
+          </a>
+          <button class="remove-btn" (click)="removeHandler(moment.id!)">
+            <fa-icon [icon]="faTimes"></fa-icon> Excluir
+          </button>
+        </div>
         <div class="overlay">
           <span>visualizar</span>
-          <img src="{{moment.image}}" alt="{{ moment.title }}" />
+          <img src="{{ moment.image }}" alt="{{ moment.title }}" />
         </div>
       </a>
       <h5>{{ moment.title }}</h5>
-      <div class="actions" *ngIf="!externalProfileId">
-        <a routerLink="/moments/edit/{{ moment.id }}" class="edit-btn">
-          <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
-        </a>
-        <button class="remove-btn" (click)="removeHandler(moment.id!)">
-          <fa-icon [icon]="faTimes"></fa-icon> Excluir
-        </button>
-      </div>
-      <p class="date">Em: {{ moment.created_at | date:'dd/MM/yy' }}</p>
 
+      <p class="date">Em: {{ moment.created_at | date : "dd/MM/yy" }}</p>
     </div>
     <div *ngIf="profileData.moments.length === 0" class="container-end-moments">
       <p>OPS... sem publicações por aqui.</p>
@@ -105,16 +245,30 @@
 
 <div class="overlay" *ngIf="imageUrl">
   <div class="container-image">
-    <span class="close-btn" (click)="imageUrl = ''" tabindex="0" (keydown.enter)="imageUrl = ''"
-      (keydown.space)="imageUrl = ''">x</span>
+    <span
+      class="close-btn"
+      (click)="cancelImageSelection()"
+      tabindex="0"
+      (keydown.enter)="cancelImageSelection()"
+      (keydown.space)="cancelImageSelection()"
+      >x</span
+    >
+
     <div class="image-preview">
       <img #imageCropper [src]="imageUrl" alt="Imagem selecionada" />
     </div>
-    <button class="button-send-image" (click)="imageUrl = ''" tabindex="0" (keydown.enter)="imageUrl = ''"
-      (keydown.space)="imageUrl = ''">ENVIAR</button>
+
+    <button
+      class="button-send-image"
+      (click)="cancelImageSelection()"
+      tabindex="0"
+      (keydown.enter)="cancelImageSelection()"
+      (keydown.space)="cancelImageSelection()"
+    >
+      ENVIAR
+    </button>
   </div>
 </div>
-
 
 <div *ngIf="!profileData" class="loading">
   <app-loading></app-loading>

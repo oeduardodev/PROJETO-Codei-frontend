@@ -1,20 +1,18 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from '../environment/environments';
-import { AuthorizationService } from './auth.service';
-import { Observable } from 'rxjs';
-import { Profile } from '../models/Profiles';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "../environment/environments";
+import { AuthorizationService } from "./auth.service";
+import { Observable } from "rxjs";
+import { Profile } from "../models/Profiles";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class FriendsService {
-
-
   constructor(
     private http: HttpClient,
-    private authService: AuthorizationService,
-  ) { }
+    private authService: AuthorizationService
+  ) {}
 
   friendsList(): Observable<{ myFriends: Profile[] }> {
     const headers = this.authService.getAuthorizationHeaders();
@@ -24,12 +22,26 @@ export class FriendsService {
     );
   }
 
-addFriend(id: number) {
-  const headers = this.authService.getAuthorizationHeaders(); // deve retornar objeto plano ou HttpHeaders
+  friendsById(id: number): Observable<{ myFriends: Profile[] }>  {
+    return this.http.get<{ myFriends: Profile[] }>(
+      environment.endpoint + environment.getFriendsById.replace('${id}', id.toString())
+    );
+  }
+  
 
-  const url = `${environment.endpoint}${environment.addFriend}`; // ex: '/api/friends'
-  return this.http.post(url, { friendId: id }, { headers });
-}
+  addFriend(id: number) {
+    const headers = this.authService.getAuthorizationHeaders(); // deve retornar objeto plano ou HttpHeaders
 
+    const url = `${environment.endpoint}${environment.addFriend}`; // ex: '/api/friends'
+    return this.http.post(url, { friendId: id }, { headers });
+  }
 
+  removeFriend(id: number){
+    const headers = this.authService.getAuthorizationHeaders();
+    return this.http.delete(
+      `${environment.endpoint}${environment.removeFriend.replace('${id}', id.toString())}`,
+      { headers }
+    );
+  }
+  
 }
