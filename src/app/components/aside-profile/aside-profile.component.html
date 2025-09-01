@@ -19,8 +19,8 @@
     <a href="login" class='butn butn__new' *ngIf="!userProfile && !perfilCompleted"><span> Entrar</span></a>
     <a href="profile" class='butn butn__new' *ngIf="userProfile && !perfilCompleted"><span> Concluir Perfil</span></a>
     <strong class="notify" href="profile" *ngIf="perfilCompleted">Novas Notificações: <span> 14</span></strong>
-    <div *ngIf="userProfile" class="notificacoes-wrapper">
-      <ul class="notificacoes" *ngIf="perfilCompleted">
+    <div *ngIf="userProfile && perfilCompleted" class="notificacoes-wrapper">
+      <ul class="notificacoes" >
         <li>Notificação 1</li>
         <li>Notificação 1</li>
         <li>Notificação 1</li>

@@ -80,9 +80,8 @@ export class MomentFormComponent implements OnInit {
   }
 
   getUserInfo() {
-    const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
 
-    this.usersService.getUser(headers).subscribe(
+    this.usersService.getUser().subscribe(
       (data) => {
         this.userId = data.id;
         this.momentForm.patchValue({ user_id: this.userId });

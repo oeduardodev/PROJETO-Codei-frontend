@@ -13,7 +13,6 @@ import { CommentService } from '../../../services/comment.service';
 import { UsersService } from '../../../services/users.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
 import { LikeService } from '../../../services/like.service';
-import { AuthorizationService } from '../../../services/auth.service';
 import { User } from '../../../models/User';
 
 @Component({
@@ -45,7 +44,6 @@ export class MomentComponent implements OnInit {
     private commentService: CommentService,
     private userService: UsersService,
     private likeService: LikeService,
-    private authService: AuthorizationService
   ) { }
 
   ngOnInit(): void {
@@ -62,15 +60,14 @@ export class MomentComponent implements OnInit {
   }
 
   getUser() {
-    const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
   
-    this.userService.getUser(headers).subscribe((user:User) => {
+    this.userService.getUser().subscribe((user:User) => {
       this.userNameLog = user.username ?? '';
       if (this.userNameLog) {
         this.commentForm.patchValue({
           username: this.userNameLog
         });
-        this.commentForm.get('username')?.disable();  // Desabilita o campo se o usuário estiver logado
+        this.commentForm.get('username')?.disable();  
       }
     });
   }

@@ -12,6 +12,7 @@ import { SearchService } from '../../../services/search.service';
 import { AsideProfileComponent } from '../../aside-profile/aside-profile.component';
 import { NgxTypedJsModule } from 'ngx-typed-js';
 import { AsideFriendsComponent } from '../../aside-friends/aside-friends.component';
+import { UsersService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-home',
@@ -37,10 +38,12 @@ export class HomeComponent implements OnInit {
   endpoint = environment.endpoint;
   constructor(
     private momentService: MomentService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private userService: UsersService
   ) {}
 
   ngOnInit(): void {
+    this.userService.getUser();
     this.searchService.getFilteredMoments().subscribe(moments => {
       this.moments = moments;
     });

@@ -70,9 +70,8 @@ export class HeaderComponent implements OnInit {
   }
 
   getUser(): void {
-    const headers = this.authService.getAuthorizationHeaders(); // Obtenha os cabeçalhos com o token
 
-    this.userService.getUser(headers).subscribe(
+    this.userService.getUser().subscribe(
       () => {
         this.userLogged = true;
       },

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environments';
 import { AuthorizationService } from './auth.service';
@@ -16,14 +16,21 @@ export class UsersService {
   ) { }
 
   register(formData: FormData): Observable<Credencial> {
-    return this.http.post<Credencial>(environment.endpoint + environment.register, formData);
+    return this.http.post<Credencial>(
+      environment.endpoint + environment.register,
+      formData
+    );
   }
 
   login(formData: FormData): Observable<Credencial> {
-    return this.http.post<Credencial>(environment.endpoint + environment.login, formData);
+    return this.http.post<Credencial>(
+      environment.endpoint + environment.login,
+      formData
+    );
   }
 
-  getUser(headers: HttpHeaders): Observable<User> {
+  getUser(): Observable<User> {
+    const headers = this.authService.getAuthorizationHeaders();
     return this.http.get<User>(environment.endpoint + environment.getUser, { headers });
   }  
 }
