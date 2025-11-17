@@ -1,40 +1,74 @@
 <div class="logo">
   <a class="brand" routerLink="/">
-    <img src="../../../assets/logo.png" alt="moments">
+    <img src="../../../assets/logo.png" alt="moments" />
     <h2>Codei</h2>
   </a>
 </div>
 
 <div class="foto">
-  <img class="foto" [src]="userProfile?.photo || '../../../assets/profile-default-img.png'" alt="Foto de perfil">
+  <img
+    class="foto"
+    [src]="userProfile?.photo || '../../../assets/profile-default-img.png'"
+    alt="Foto de perfil"
+  />
 </div>
 
 <p class="name">
-  {{userProfile?.username}}
+  {{ userProfile?.username }}
 </p>
 <div class="description">
   <p *ngIf="!userProfile">Crie uma conta e comece a codar momentos também!</p>
-  <p *ngIf="userProfile && !perfilCompleted">Conclua seu perfil ver suas notificações!</p>
+  <p *ngIf="userProfile && !perfilCompleted">
+    Conclua seu perfil ver suas notificações!
+  </p>
   <div class="menu">
-    <a href="login" class='butn butn__new' *ngIf="!userProfile && !perfilCompleted"><span> Entrar</span></a>
-    <a href="profile" class='butn butn__new' *ngIf="userProfile && !perfilCompleted"><span> Concluir Perfil</span></a>
-    <strong class="notify" href="profile" *ngIf="perfilCompleted">Novas Notificações: <span> 14</span></strong>
+    <a
+      href="login"
+      class="butn butn__new"
+      *ngIf="!userProfile && !perfilCompleted"
+      ><span> Entrar</span></a
+    >
+    <a
+      href="profile"
+      class="butn butn__new"
+      *ngIf="userProfile && !perfilCompleted"
+      ><span> Concluir Perfil</span></a
+    >
+    <strong class="notify" href="profile" *ngIf="perfilCompleted"
+      >Novas Notificações: <span> {{ notifications.length }}</span></strong
+    >
     <div *ngIf="userProfile && perfilCompleted" class="notificacoes-wrapper">
-      <ul class="notificacoes" >
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
-        <li>Notificação 1</li>
+      <ul class="notificacoes">
+        <li *ngFor="let notification of notifications">
+          <ng-container [ngSwitch]="getNotificationLink(notification)">
+            <!-- Se tiver link, vira <a> -->
+            <a
+              *ngSwitchCase="getNotificationLink(notification)"
+              class="notification"
+              [href]="getNotificationLink(notification)"
+            >
+              <span class="notification-date">
+                {{ notification.created_at | date : "short" }}
+              </span>
+              <span class="notification-text">
+                {{ notification.message }}
+              </span>
+            </a>
+
+            <!-- Se NÃO tiver link -->
+            <div *ngSwitchDefault class="notification">
+              <span class="notification-date">
+                {{ notification.created_at | date : "short" }}
+              </span>
+              <span class="notification-text">
+                {{ notification.message }}
+              </span>
+            </div>
+          </ng-container>
+        </li>
       </ul>
     </div>
   </div>
-
 </div>
 
 <footer>

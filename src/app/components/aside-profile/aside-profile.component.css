@@ -1,53 +1,53 @@
 * {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
-.notify{
-    color: #7b84d891;
-    span{
-        margin-left:5px;
-        color: #8692ff;
-    }
+.notify {
+  color: #7b84d891;
+  span {
+    margin-left: 5px;
+    color: #8692ff;
+  }
 }
 .foto {
-    margin: 0 auto;
-    background-color: #f1f2f9;
-    width: 6rem;
-    height: 6rem;
-    border-radius: 65px;
-    border: 3px solid #888eff2f;
+  margin: 0 auto;
+  background-color: #f1f2f9;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 65px;
+  border: 3px solid #888eff2f;
 }
 
 .brand {
-    margin: -45px auto 5rem auto;
-    width: 5rem;
-    cursor: pointer;
+  margin: -45px auto 5rem auto;
+  width: 5rem;
+  cursor: pointer;
 }
 
 .brand img {
-    width: 3rem;
+  width: 3rem;
 }
 
 .description {
-    text-align: center;
-    justify-content: flex;
-    flex-direction: column;
+  text-align: center;
+  justify-content: flex;
+  flex-direction: column;
 }
 
 .menu {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    width: 90%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
 }
 
 .name {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 li {
-    margin: 1rem;
+  margin: 1rem;
 }
 
 /* .enter {
@@ -66,142 +66,165 @@ li {
 
 a,
 a:hover {
-    text-decoration: none;
-    cursor: pointer;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .header {
-    width: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
+  width: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
 }
 
 .butn:link,
 .butn:visited {
-    margin-bottom: 3rem;
-    color: rgb(240, 240, 240) !important;
-    background-color: #5e638d;
-    padding: 0.5rem 2rem;
-    position: relative;
-    transition: ease-in 0.2s;
-    background-image: linear-gradient(90deg, #949ce2, #7b84d8);
+  margin-bottom: 3rem;
+  color: rgb(240, 240, 240) !important;
+  background-color: #5e638d70;
+  padding: 0.5rem 2rem;
+  position: relative;
+  transition: ease-in 0.2s;
+  background-image: linear-gradient(90deg, #949ce2, #7b84d8);
 
-    width: 100%;
+  width: 100%;
 
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
 .butn::before {
-    background: #fff;
-    content: "";
-    height: 155px;
-    opacity: 0;
-    position: absolute;
-    top: -50px;
-    transform: rotate(35deg);
-    width: 50px;
-    transition: all 3000ms cubic-bezier(0.19, 1, 0.22, 1);
+  background: #fff;
+  content: "";
+  height: 155px;
+  opacity: 0;
+  position: absolute;
+  top: -50px;
+  transform: rotate(35deg);
+  width: 50px;
+  transition: all 3000ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .butn::after {
-    background: #fff;
-    content: "";
-    height: 20rem;
-    opacity: 0;
-    position: absolute;
-    top: -50px;
-    transform: rotate(35deg);
-    transition: all 3000ms cubic-bezier(0.19, 1, 0.22, 1);
-    width: 8rem;
+  background: #fff;
+  content: "";
+  height: 20rem;
+  opacity: 0;
+  position: absolute;
+  top: -50px;
+  transform: rotate(35deg);
+  transition: all 3000ms cubic-bezier(0.19, 1, 0.22, 1);
+  width: 8rem;
 }
 
 .butn__new::before {
-    left: -50%;
+  left: -50%;
 }
 
 .butn__new::after {
-    left: -100%;
+  left: -100%;
 }
 
 .butn:hover,
 .butn:active {
-    transform: translateY(-3px);
-    color: #fff;
+  transform: translateY(-3px);
+  color: #fff;
 }
 
 .butn__new:hover::before {
-    left: 120%;
-    opacity: 0.5s;
+  left: 120%;
+  opacity: 0.5s;
 }
 
 .butn__new:hover::after {
-    left: 200%;
-    opacity: 0.6;
+  left: 200%;
+  opacity: 0.6;
 }
 
 .butn span {
-    z-index: 20;
+  z-index: 20;
 }
 
 footer {
-    font-size: 0.7rem;
-    display: flex;
-    flex-direction: column;
-    height: calc(100% - 630px);
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 630px);
 }
 
 footer h3 {
-    margin-bottom: 1.2em;
-    padding: 1rem;
-    background-color: #00000018;
+  margin-bottom: 1.2em;
+  padding: 1rem;
+  background-color: #00000018;
 }
 
 footer span {
-    margin-right: 5px;
-    font-weight: bold;
-    color: #949ce2;
+  margin-right: 5px;
+  font-weight: bold;
+  color: #949ce2;
 }
 
 .notificacoes-wrapper {
-    position: relative;
+  position: relative;
+  width: 100%;
+  max-height: 400px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    max-height: 400px;
-  
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      background: linear-gradient(to top, rgba(19, 20, 32, 1), rgba(19, 20, 32, 0));
-      pointer-events: none;
-      z-index: 10;
-      border-radius: 0 0 10px 10px;
-    }
+    height: 60px;
+    background: linear-gradient(
+      to top,
+      rgba(19, 20, 32, 0.747),
+      rgba(19, 20, 32, 0)
+    );
+    pointer-events: none;
+    z-index: 10;
+    border-radius: 0 0 10px 10px;
   }
-  
-  .notificacoes {
-    display: flex;
-    flex-direction: column;
-    max-height: 400px;
-    overflow-y: auto;
-    padding-top: 5rem;
-    border-radius: 10px;
-    scrollbar-width: none;
-    width: 100%;
-  
-    li {
-      background-color: #5d61a9;
-      width: 90%;
-      margin: 0.2rem auto;
-      padding: 1rem;
-      border-radius: 5px;
-    }
+}
+
+.notificacoes {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-top: 2rem;
+  border-radius: 10px;
+  scrollbar-width: none;
+  width: 100%;
+
+  li {
+    background-color: #5d61a9;
+    width: 85%;
+    padding: 0.5rem;
+    border-radius: 5px;
   }
-  
+}
+
+.notification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: justify;
+  .notification-date {
+    font-size: 0.8rem;
+    color: #010334;
+    text-align: right;
+    background-color: #989cdf;
+    padding: 10px;
+    border-radius: 25px;
+    margin-top: -30px;
+  }
+  .notification-text {
+    text-align: center;
+    margin-top: 10px;
+  }
+}

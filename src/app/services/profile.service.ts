@@ -6,6 +6,7 @@ import { environment } from "../environment/environments";
 import { AuthorizationService } from "./auth.service";
 import { ProfileResponse } from "../models/Profiles";
 import { IconTech } from "../models/IconTechs";
+import { NotificationUser } from "../models/Notifications";
 
 @Injectable({
   providedIn: "root",
@@ -49,5 +50,12 @@ export class ProfileService {
     return this.http
       .get<IconTech[]>(environment.devicons)
       .pipe(catchError((error) => throwError(() => error)));
+  }
+
+  getNotifications(): Observable<NotificationUser[]> {
+    return this.http.get<NotificationUser[]>(
+      `${environment.endpoint}${environment.getNotifications}`,
+      { headers: this.authService.getAuthorizationHeaders() }
+    );
   }
 }
