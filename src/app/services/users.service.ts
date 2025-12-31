@@ -1,36 +1,59 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../environment/environments';
-import { AuthorizationService } from './auth.service';
-import { Credencial } from '../models/Credencials';
-import { User } from '../models/User';
+// services/users.service.ts
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, tap } from "rxjs";
+import { environment } from "../environment/environments";
+import { AuthorizationService } from "./auth.service";
+import { User } from "../models/User";
+
+interface LoginResponse {
+  type: string;
+  token: string;
+  user?: any;
+}
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UsersService {
   constructor(
     private http: HttpClient,
     private authService: AuthorizationService
-  ) { }
+  ) {}
 
-  register(formData: FormData): Observable<Credencial> {
-    return this.http.post<Credencial>(
-      environment.endpoint + environment.register,
-      formData
-    );
+  register(formData: FormData): Observable<any> {
+    return this.http
+      .post(environment.endpoint + environment.register, formData)
+      .pipe(
+        tap((response: any) => {
+          if (response && response.token) {
+            this.authService.setToken(response.token);
+          }
+        })
+      );
   }
 
-  login(formData: FormData): Observable<Credencial> {
-    return this.http.post<Credencial>(
-      environment.endpoint + environment.login,
-      formData
-    );
+  login(formData: FormData): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(environment.endpoint + environment.login, formData)
+      .pipe(
+        tap((response: LoginResponse) => {
+          console.log("Resposta do login:", response);
+
+          if (response && response.token) {
+            this.authService.setToken(response.token);
+          } else {
+            console.error("Token não encontrado na resposta");
+          }
+        })
+      );
+  }
+
+  loggout(): void {
+    this.authService.clearToken();
   }
 
   getUser(): Observable<User> {
-    const headers = this.authService.getAuthorizationHeaders();
-    return this.http.get<User>(environment.endpoint + environment.getUser, { headers });
-  }  
+    return this.http.get<User>(environment.endpoint + environment.getUser);
+  }
 }
