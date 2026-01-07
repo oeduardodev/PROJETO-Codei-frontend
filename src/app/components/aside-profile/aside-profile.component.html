@@ -35,42 +35,61 @@
       ><span> Concluir Perfil</span></a
     >
     <strong class="notify" href="profile" *ngIf="perfilCompleted"
-      >Novas Notificações: <span> {{ notifications.length }}</span></strong
+      ><span>{{ notifications.length }}</span> <span></span>Notificações</strong
     >
-    <div *ngIf="userProfile && perfilCompleted" class="notificacoes-wrapper">
+    <div
+      *ngIf="userProfile && perfilCompleted && notifications.length"
+      class="notificacoes-wrapper"
+    >
       <ul class="notificacoes">
         <li *ngFor="let notification of notifications">
-          <ng-container [ngSwitch]="getNotificationLink(notification)">
-            <!-- Se tiver link, vira <a> -->
-            <a
-              *ngSwitchCase="getNotificationLink(notification)"
+          <a
+            [routerLink]="getNotificationLink(notification)"
+            class="notification-link"
+          >
+            <div
               class="notification"
-              [href]="getNotificationLink(notification)"
+              (click)="clearNotification(notification.id)"
             >
-              <span class="notification-date">
-                {{ notification.created_at | date : "short" }}
-              </span>
-              <span class="notification-text">
-                {{ notification.message }}
-              </span>
-            </a>
-
-            <!-- Se NÃO tiver link -->
-            <div *ngSwitchDefault class="notification">
-              <span class="notification-date">
-                {{ notification.created_at | date : "short" }}
-              </span>
-              <span class="notification-text">
-                {{ notification.message }}
-              </span>
+              <span class="notification-date">{{
+                notification.created_at | date : "short"
+              }}</span>
+              <span class="notification-text">{{ notification.message }}</span>
             </div>
-          </ng-container>
+          </a>
+          <button
+            class="clear-button"
+            (click)="clearNotification(notification.id)"
+          >
+            <fa-icon class="trash-icon" [icon]="faCheck"></fa-icon>
+          </button>
         </li>
       </ul>
     </div>
+    <div class="sleep" *ngIf="!notifications.length && userProfile">
+      <video autoplay muted loop playsinline width="100%">
+        <source src="../../../assets/tired-good-night.mp4" type="video/mp4" />
+        Seu navegador não suporta vídeo.
+      </video>
+    </div>
+
+    <button
+      *ngIf="notifications.length"
+      class="clear-button small"
+      (click)="markAllAsRead()"
+    >
+      Marcar todas como lidas
+    </button>
   </div>
 </div>
 
 <footer>
-  <p><span>Eduardo Leite</span> &copy; 2024</p>
+  <a
+    *ngIf="userProfile"
+    class="loggout"
+    type="button"
+    (click)="this.usersService.loggout()"
+  >
+    SAIR
+  </a>
 </footer>

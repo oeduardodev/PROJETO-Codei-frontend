@@ -1,46 +1,54 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { RouterModule, Router } from "@angular/router";
 
 import { FormAccessComponent } from "../../form-access/form-access.component";
-import { UsersService } from '../../../services/users.service';
-import { MessageService } from '../../../services/message.service';
-import { Register } from '../../../models/Register';
+import { UsersService } from "../../../services/users.service";
+import { MessageService } from "../../../services/message.service";
+import { Register } from "../../../models/Register";
 
 @Component({
-  selector: 'app-access',
+  selector: "app-access",
   standalone: true,
-  templateUrl: './access.component.html',
-  styleUrls: ['./access.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule, FormAccessComponent]
+  templateUrl: "./access.component.html",
+  styleUrls: ["./access.component.css"],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
+    FormAccessComponent,
+  ],
 })
 export class AccessComponent {
   btnText = "Entrar";
-  private token: string = localStorage.getItem('authToken') || '';
+  private token: string = localStorage.getItem("authToken") || "";
 
   constructor(
     private service: UsersService,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) {}
 
   createHandler(register: Register) {
     const formData = new FormData();
-    formData.append('username', register.username);
-    formData.append('password', register.password);
+    formData.append("username", register.username);
+    formData.append("password", register.password);
 
     this.service.login(formData).subscribe({
       next: (response) => {
         if (response.token) {
-          localStorage.setItem('authToken', response.token.token); 
-          this.token = response.token.token; 
-          this.messageService.addMessage("Usuário adicionado com sucesso!");
-          this.router.navigate(['/']);
+          localStorage.setItem("authToken", response.token);
+          this.token = response.token;
+          this.messageService.addMessage("Bem-vindo de volta capivara!");
+          this.router.navigate(["/"]);
         } else {
           console.error("Token não encontrado na resposta");
-          this.messageService.addMessage("Erro ao adicionar usuário: Token não encontrado.");
+          this.messageService.addMessage(
+            "Erro ao adicionar usuário: Token não encontrado."
+          );
         }
       },
       error: (error) => {

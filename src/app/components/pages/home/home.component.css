@@ -4,12 +4,12 @@
 
 .home-container {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  justify-content: start;
   flex-direction: column;
   margin-left: 20rem;
-  margin-right: 8rem;
-  width: 85%;
+  margin-right: 4rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .home-container h1 {
@@ -38,7 +38,6 @@
   position: fixed;
   top: 0;
   right: 0;
-  /* Fixado na direita */
   height: 100%;
   box-sizing: border-box;
   z-index: 1;
@@ -46,73 +45,89 @@
   padding-top: 5rem;
 }
 
-
 .moments-container {
-  margin-left: 3rem !important;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  width: 100%;
   margin-top: 3em;
-  flex-grow: 1;
-  gap: 0rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .moment {
+  position: relative;
   text-align: center;
-  margin: 0.2rem;
   z-index: 200;
-
+  width: 100%;
 }
-  
+
+.moment a {
+  display: block;
+  width: 100%;
+}
+
 .counts {
   display: flex;
   flex-direction: row;
+  gap: 1rem;
 }
 
-.details{
+.details {
   color: #eeeeee;
   display: flex;
-  margin-top: -108px;
-  margin-left: 3px;
-  width: 335px;
-  height: 100px;
-  z-index: 200;
   position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 1rem;
-  border-radius: 20px;
+  border-radius: 0 0 15px 15px;
   background-color: rgb(0 0 0 / 30%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgb(130 109 198 / 46%);
-  opacity: 1;
+  opacity: 0;
   flex-direction: column;
   transition: all 0.2s ease-in-out;
+  z-index: 200;
 }
 
-
 .moment img {
-  width: 21.3rem;
-  border-radius: 20px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 15px;
+  display: block;
 }
 
 .moment:hover {
-  border-radius: 20px;
+  transform: scale(1.02);
   transition: all 0.2s ease-in-out;
-  box-shadow: 0px 5px 20px #949ce278;
+}
+
+.moment:hover .details {
+  opacity: 1;
 }
 
 .moment h3 {
-  height: 100px;
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .moment h3,
 .moment p {
   text-align: left;
+  margin: 0;
 }
 
 .moment .date {
   font-size: 0.7em;
   font-style: italic;
+  margin-top: 0.5rem;
 }
 
 .search-container {
@@ -141,27 +156,25 @@
   text-align: center;
 }
 
-@media (max-width: 1024px) {
-  .moment img {
-    width: 25rem;
-    height: 25rem;
-    margin-bottom: 1em;
-  }
-
+/* Responsivo para telas médias */
+@media (max-width: 1400px) {
   .moments-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    justify-content: space-between;
-    margin-top: 3em;
-    flex-grow: 1;
-    width: 100%;
-    margin-left: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .moments-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    padding: 0 0.75rem;
   }
 
   .home-container {
     flex-direction: column;
     align-items: center;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .aside-container,
@@ -169,43 +182,45 @@
     display: none;
   }
 
-  .home-container {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    margin: 0 auto;
-  }
-
   .home-container h1 {
     margin-top: 2rem;
     font-size: 1.5rem;
   }
+
+  .details {
+    opacity: 1;
+  }
 }
 
-@media (max-width:768px) {
-
-  .moment .details {
-    display: flex;
-    opacity: 1;
-    flex-direction: column;
-  }
-
-  .moment img {
-    width: 15rem;
-    height: 15rem;
-    margin-bottom: 1em;
-    margin: 0 auto;
-  }
-
+@media (max-width: 768px) {
   .moments-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center !important;
-    ;
-    margin-top: 3em;
-    flex-grow: 1;
-    margin-left: 0rem !important;
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .moment h3 {
+    font-size: 0.9rem;
+  }
+
+  .details {
+    opacity: 1;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .moments-container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .moment h3 {
+    font-size: 0.8rem;
+  }
+
+  .counts {
+    gap: 0.5rem;
+    font-size: 0.85rem;
   }
 }

@@ -18,10 +18,8 @@ export class ProfileService {
   ) {}
 
   getMyProfile(): Observable<ProfileResponse> {
-    const headers = this.authService.getAuthorizationHeaders();
     return this.http.get<ProfileResponse>(
-      `${environment.endpoint}${environment.getMyProfile}`,
-      { headers }
+      `${environment.endpoint}${environment.getMyProfile}`
     );
   }
   getProfileById(id: number): Observable<ProfileResponse> {
@@ -34,28 +32,31 @@ export class ProfileService {
   }
 
   postProfileById(id: number, form: FormData): Observable<ProfileResponse> {
-    const headers = this.authService.getAuthorizationHeaders();
-    const options = { headers };
     return this.http.put<ProfileResponse>(
       `${environment.endpoint}${environment.updateProfile.replace(
         "${id}",
         id.toString()
       )}`,
-      form,
-      options
+      form
     );
   }
 
   getAvailableIcons(): Observable<IconTech[]> {
     return this.http
-      .get<IconTech[]>(environment.devicons)
+      .get<IconTech[]>(environment.devicons, {})
       .pipe(catchError((error) => throwError(() => error)));
   }
 
   getNotifications(): Observable<NotificationUser[]> {
     return this.http.get<NotificationUser[]>(
-      `${environment.endpoint}${environment.getNotifications}`,
-      { headers: this.authService.getAuthorizationHeaders() }
+      `${environment.endpoint}${environment.notifications}`
+    );
+  }
+
+  clearNotifications(notificationId: number): Observable<NotificationUser[]> {
+    return this.http.post<NotificationUser[]>(
+      `${environment.endpoint}${environment.notifications}`,
+      { id: notificationId }
     );
   }
 }

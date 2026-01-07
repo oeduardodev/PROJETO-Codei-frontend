@@ -73,10 +73,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         next: (user) => {
           this.userLogged = true;
           this.userName = user.username || "";
-          console.log("Usuário autenticado:", this.userName);
         },
         error: (error) => {
-          console.error("Erro ao buscar dados do usuário:", error);
           if (error.status === 401) {
             // Token inválido ou expirado
             this.handleUnauthorized();

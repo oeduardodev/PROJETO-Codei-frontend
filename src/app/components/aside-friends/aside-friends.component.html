@@ -1,9 +1,20 @@
 <aside>
   <div class="friends-continer">
     <ul>
-      <li class="friend" *ngFor="let friend of friendsListComplate" (click)="openChat(friend)" tabindex="0"
-        (keydown.enter)="openChat(friend)" (keydown.space)="openChat(friend)">
-        <img [src]="friend.photo || 'assets/profile-default-img.png'" [title]="friend.username" alt="profile-img">
+      <li
+        class="friend"
+        *ngFor="let friend of friendsListComplate"
+        (click)="openChat(friend)"
+      >
+        <img
+          [src]="friend.photo || 'assets/profile-default-img.png'"
+          [title]="friend.username"
+          alt="profile-img"
+        />
+
+        <span class="notifications" *ngIf="hasNotifications(friend.userId)">
+          .
+        </span>
       </li>
       <li class="add">+</li>
     </ul>
@@ -13,6 +24,4 @@
       <app-chat [friend]="friend" (closeChat)="closeChat(friend)"></app-chat>
     </div>
   </div>
-  
-  
 </aside>

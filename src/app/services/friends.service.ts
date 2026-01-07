@@ -15,33 +15,29 @@ export class FriendsService {
   ) {}
 
   friendsList(): Observable<{ myFriends: Profile[] }> {
-    const headers = this.authService.getAuthorizationHeaders();
     return this.http.get<{ myFriends: Profile[] }>(
-      environment.endpoint + environment.getFriends,
-      { headers }
+      environment.endpoint + environment.getFriends
     );
   }
 
-  friendsById(id: number): Observable<{ myFriends: Profile[] }>  {
+  friendsById(id: number): Observable<{ myFriends: Profile[] }> {
     return this.http.get<{ myFriends: Profile[] }>(
-      environment.endpoint + environment.getFriendsById.replace('${id}', id.toString())
+      environment.endpoint +
+        environment.getFriendsById.replace("${id}", id.toString())
     );
   }
-  
 
   addFriend(id: number) {
-    const headers = this.authService.getAuthorizationHeaders(); // deve retornar objeto plano ou HttpHeaders
-
-    const url = `${environment.endpoint}${environment.addFriend}`; // ex: '/api/friends'
-    return this.http.post(url, { friendId: id }, { headers });
+    const url = `${environment.endpoint}${environment.addFriend}`;
+    return this.http.post(url, { friendId: id });
   }
 
-  removeFriend(id: number){
-    const headers = this.authService.getAuthorizationHeaders();
+  removeFriend(id: number) {
     return this.http.delete(
-      `${environment.endpoint}${environment.removeFriend.replace('${id}', id.toString())}`,
-      { headers }
+      `${environment.endpoint}${environment.removeFriend.replace(
+        "${id}",
+        id.toString()
+      )}`
     );
   }
-  
 }

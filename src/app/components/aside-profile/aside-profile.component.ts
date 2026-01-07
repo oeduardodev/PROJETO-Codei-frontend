@@ -1,14 +1,19 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { RouterModule } from "@angular/router";
 import { ProfileService } from "../../services/profile.service";
 import { Profile } from "../../models/Profiles";
 import { NotificationUser } from "../../models/Notifications";
 import { TypesNotificacaoEnum } from "../../enum/notifications.enum";
+import { UsersService } from "../../services/users.service";
+import { AuthorizationService } from "../../services/auth.service";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: "app-aside-profile",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FaIconComponent, RouterModule],
   templateUrl: "./aside-profile.component.html",
   styleUrls: ["./aside-profile.component.css"],
 })
@@ -16,15 +21,19 @@ export class AsideProfileComponent implements OnInit {
   userProfile: Profile | null = null;
   perfilCompleted = false;
   notifications: NotificationUser[] = [];
-  urlProfile: string = "";
+  faCheck = faCheck;
 
-  friendRequest: boolean = false;
-
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    public usersService: UsersService,
+    private authService: AuthorizationService
+  ) {}
 
   ngOnInit() {
-    this.getUserData();
-    this.getMyNotifications();
+    if (this.authService.isAuthenticated()) {
+      this.getUserData();
+      this.getMyNotifications();
+    }
   }
 
   getUserData() {
@@ -42,12 +51,13 @@ export class AsideProfileComponent implements OnInit {
   }
 
   getMyNotifications() {
-    this.profileService.getNotifications().subscribe((data) => {
-      console.log("notificações", data);
-      this.notifications = data;
-      this.sendFriendRequestProfile();
+    this.profileService.getNotifications().subscribe((data: any[]) => {
+      this.notifications = data.filter(
+        (notification) => notification.read === 0
+      );
     });
   }
+
   getNotificationLink(notification: NotificationUser): string | null {
     switch (notification.type) {
       case TypesNotificacaoEnum.FRIEND_REQUEST:
@@ -67,10 +77,19 @@ export class AsideProfileComponent implements OnInit {
     }
   }
 
-  sendFriendRequestProfile() {
-    if (this.notifications.find((n) => n.type.includes("friend_request")))
-      this.friendRequest = true;
-    this.urlProfile = `/profile/${this.notifications[0].data?.fromUserId}`;
-    console.log("Ir para o perfil:", this.urlProfile);
+  clearNotification(id: number) {
+    this.profileService.clearNotifications(id).subscribe(() => {
+      // Atualiza a lista removendo a notificação
+      this.notifications = this.notifications.filter((n) => n.id !== id);
+    });
+  }
+
+  markAllAsRead() {
+    // Marca todas as notificações como lidas
+    this.notifications.forEach((notification) => {
+      this.profileService.clearNotifications(notification.id).subscribe();
+    });
+    // Limpa a lista localmente
+    this.notifications = [];
   }
 }

@@ -1,41 +1,47 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
-import { environment } from '../environment/environments';
+import { environment } from "../environment/environments";
 
-import { Moment } from '../models/Moments';
-import { Response } from '../models/Response';
+import { Moment } from "../models/Moments";
+import { Response } from "../models/Response";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class MomentService {
-
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getMoments(): Observable<Response<Moment[]>> {
-    return this.http.get<Response<Moment[]>>(environment.endpoint + environment.moments);
+    return this.http.get<Response<Moment[]>>(
+      environment.endpoint + environment.moments
+    );
   }
 
   getMoment(id: number): Observable<Response<Moment>> {
-    return this.http.get<Response<Moment>>(`${environment.endpoint}${environment.moments}/${id}`);
+    return this.http.get<Response<Moment>>(
+      `${environment.endpoint}${environment.moments}/${id}`
+    );
   }
 
   createMoment(formData: FormData): Observable<FormData> {
-    const token = localStorage.getItem('authToken') || '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<FormData>((environment.endpoint + environment.moments), formData, { headers });
+    return this.http.post<FormData>(
+      environment.endpoint + environment.moments,
+      formData
+    );
   }
 
   removeMoment(id: number) {
-    const token = localStorage.getItem('authToken') || '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete(`${environment.endpoint}${environment.moments}/${id}`, { headers });
+    return this.http.delete(
+      `${environment.endpoint}${environment.moments}/${id}`
+    );
   }
 
   updateMoment(id: number, formData: FormData) {
-    return this.http.put<FormData>(`${environment.endpoint}${environment.moments}/${id}`, formData);
+    return this.http.put<FormData>(
+      `${environment.endpoint}${environment.moments}/${id}`,
+      formData
+    );
   }
 }

@@ -68,7 +68,7 @@ export const environment = {
    * Rota para gerenciar 'chats'
    * Usada para capturar chats ou atualizar.
    */
-
+  getMessages: "/api/message/conversations",
   getMessagesById: "/api/message/${id}",
   sendMessage: "/api/message/send",
 
@@ -76,8 +76,9 @@ export const environment = {
    * Rota para gerenciar 'notificações'
    * Usada para capturar notificações ou atualizar.
    */
-  getNotifications: "/api/notifications",
-  markAsRead: "/api/notifications/${id}/read",
+  notifications: "/api/notifications",
+  markAsRead: "/api/message/read/${id}",
 
-  devicons: "https://api.github.com/repos/devicons/devicon/contents/icons",
+  devicons:
+    "https://raw.githubusercontent.com/devicons/devicon/master/devicon.json",
 };
