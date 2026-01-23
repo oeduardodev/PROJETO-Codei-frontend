@@ -19,11 +19,11 @@
   <div class="form-group">
     <label for="description">Descrição:</label>
     <div
-    *ngIf="description.invalid && formDir.submitted"
-    class="validation-error"
-  >
-    <p *ngIf="description.errors?.['required']">A descrição é obrigatória.</p>
-  </div>
+      *ngIf="description.invalid && formDir.submitted"
+      class="validation-error"
+    >
+      <p *ngIf="description.errors?.['required']">A descrição é obrigatória.</p>
+    </div>
     <textarea
       id="description"
       formControlName="description"
@@ -34,9 +34,13 @@
   </div>
 
   <div class="form-group">
-    <label for="image" class="labelImage">Escolha uma imagem para esse momento</label>
+    <label for="image" class="labelImage"
+      >Escolha uma imagem para esse momento</label
+    >
     <div *ngIf="!croppedImage && formDir.submitted" class="validation-error">
-      <p *ngIf="!croppedImage">A imagem é obrigatória.</p>
+      <p *ngIf="!croppedImage && formDir.submitted && !isImageLoading">
+        A imagem é obrigatória.
+      </p>
     </div>
     <input
       type="file"
