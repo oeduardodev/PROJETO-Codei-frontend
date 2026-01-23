@@ -13,7 +13,7 @@ export class LikeService {
 
   constructor(private http: HttpClient) {}
 
-  sendLike(momentId: number, token: string) {
+  sendLike(momentId: number) {
     const likeUrl = `${environment.endpoint}${environment.like.replace(
       "${id}",
       momentId.toString()
@@ -21,7 +21,7 @@ export class LikeService {
     return this.http.post(likeUrl, {});
   }
 
-  getLike(momentId: number, token: string): Observable<Like> {
+  getLike(momentId: number): Observable<Like> {
     return this.http.get<Like>(
       `${environment.endpoint}${environment.like.replace(
         "${id}",

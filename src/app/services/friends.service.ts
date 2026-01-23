@@ -9,10 +9,7 @@ import { Profile } from "../models/Profiles";
   providedIn: "root",
 })
 export class FriendsService {
-  constructor(
-    private http: HttpClient,
-    private authService: AuthorizationService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   friendsList(): Observable<{ myFriends: Profile[] }> {
     return this.http.get<{ myFriends: Profile[] }>(
