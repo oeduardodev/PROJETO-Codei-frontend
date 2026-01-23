@@ -21,7 +21,6 @@ nav {
   background-color: #f6f7fb;
 }
 
-
 .logo {
   display: flex;
   height: 100%;
@@ -53,7 +52,7 @@ nav {
   opacity: 50%;
 }
 
-.brand:hover>h2 {
+.brand:hover > h2 {
   color: #949ce2;
 }
 
@@ -69,7 +68,6 @@ nav {
 .links a {
   padding: 1em;
 }
-
 
 .moment .date {
   font-size: 0.7em;
@@ -98,7 +96,6 @@ i {
 
 .link-icons li a {
   margin-right: -20px !important;
-
 }
 
 .interroggaiton {
@@ -213,7 +210,7 @@ input {
   z-index: 20;
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
   .link-icons {
     font-size: 1.1rem;
     justify-content: center;
@@ -276,12 +273,10 @@ input {
 }
 
 @media (max-width: 425px) {
-
   input {
     margin-right: -1.5rem;
     width: 100%;
     font-size: 0.85rem;
-
   }
 
   .search {
@@ -289,22 +284,22 @@ input {
     width: 12rem;
     margin-right: 0rem;
     margin-left: 1rem;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-right: 1rem;
+    padding-bottom: 0rem;
+  }
 }
 
-nav{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding-right: 1rem;
-  padding-bottom: 0rem;
-}
-}
-
-@media (max-width:320px) {
+@media (max-width: 320px) {
   .search {
     width: 10rem;
-}
-.search fa-icon {
-  padding-right: 1rem;
-}
+  }
+  .search fa-icon {
+    padding-right: 1rem;
+  }
 }

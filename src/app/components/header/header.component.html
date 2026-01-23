@@ -1,19 +1,31 @@
 <nav>
   <div class="menu">
-    <fa-icon  class="icon" [icon]="faBars"></fa-icon>
+    <fa-icon class="icon" [icon]="faBars"></fa-icon>
   </div>
-  
+
   <form class="search">
-    <input type="text" placeholder="Busque por algo..." (input)="search($event)" />
+    <input
+      type="text"
+      placeholder="Busque por algo..."
+      (input)="search($event)"
+    />
     <fa-icon class="icon" [icon]="faSearch"></fa-icon>
   </form>
 
   <ul class="links">
     <li *ngIf="currentRoute !== '/moments/new'">
-      <a class="butn butn__new button-text"  [routerLink]="userLogged ? '/moments/new' : '/login'">Compartilhar</a>
+      <a
+        class="butn butn__new button-text"
+        [routerLink]="userLogged ? '/moments/new' : '/login'"
+        >Compartilhar</a
+      >
     </li>
-    <li  *ngIf="currentRoute !== '/moments/new'">
-      <fa-icon class="butn butn__new button-icon" routerLink="/moments/new" [icon]="faShare"></fa-icon>
+    <li *ngIf="currentRoute !== '/moments/new'">
+      <fa-icon
+        class="butn butn__new button-icon"
+        routerLink="/moments/new"
+        [icon]="faShare"
+      ></fa-icon>
     </li>
     <div class="link-icons">
       <!-- Exibe faUser apenas na rota '/' -->
@@ -22,14 +34,19 @@
           <fa-icon class="icon user-button" [icon]="faUser"></fa-icon>
         </a>
       </li>
-    
+
       <!-- Exibe faHouse apenas nas rotas '/profile' ou '/login' -->
-      <li *ngIf="currentRoute === '/profile' || currentRoute === '/login' || currentRoute === '/moments/new'">
+      <li
+        *ngIf="
+          currentRoute === '/profile' ||
+          currentRoute === '/login' ||
+          currentRoute === '/moments/new'
+        "
+      >
         <a routerLink="/">
           <fa-icon class="icon" [icon]="faHouse"></fa-icon>
         </a>
       </li>
     </div>
-    
   </ul>
 </nav>

@@ -19,8 +19,8 @@
 
 .brand {
   margin: -45px auto 5rem auto;
-  width: 5rem;
   cursor: pointer;
+  position: relative;
 }
 
 .brand img {
