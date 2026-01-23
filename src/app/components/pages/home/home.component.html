@@ -8,7 +8,7 @@
       <div class="moments-container">
         <div class="moment" *ngFor="let moment of moments">
           <a routerLink="moments/{{ moment.id }}">
-            <img class="img-moment" [src]="moment.image" [alt]="moment.title">
+            <img class="img-moment" [src]="moment.image" [alt]="moment.title" />
             <div class="details">
               <h3>{{ moment.title }}</h3>
               <div class="counts">
@@ -19,9 +19,12 @@
             </div>
           </a>
         </div>
-
       </div>
     </div>
+    <div *ngIf="!moments.length" class="loading">
+      <app-loading></app-loading>
+    </div>
+
     <ng-template #noMoments>
       <h1>Não há Momentos!</h1>
     </ng-template>
@@ -29,6 +32,4 @@
   <div class="aside-container-friends">
     <app-aside-friends></app-aside-friends>
   </div>
-  
 </div>
-
