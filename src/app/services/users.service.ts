@@ -18,7 +18,7 @@ interface LoginResponse {
 export class UsersService {
   constructor(
     private http: HttpClient,
-    private authService: AuthorizationService
+    private authService: AuthorizationService,
   ) {}
 
   register(formData: FormData): Observable<any> {
@@ -29,7 +29,7 @@ export class UsersService {
           if (response && response.token) {
             this.authService.setToken(response.token);
           }
-        })
+        }),
       );
   }
 
@@ -38,14 +38,12 @@ export class UsersService {
       .post<LoginResponse>(environment.endpoint + environment.login, formData)
       .pipe(
         tap((response: LoginResponse) => {
-          console.log("Resposta do login:", response);
-
           if (response && response.token) {
             this.authService.setToken(response.token);
           } else {
             console.error("Token não encontrado na resposta");
           }
-        })
+        }),
       );
   }
 

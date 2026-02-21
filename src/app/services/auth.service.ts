@@ -9,7 +9,10 @@ import { environment } from "../environment/environments";
   providedIn: "root",
 })
 export class AuthorizationService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   // Método de login que salva o token
   login(credentials: FormData): Observable<any> {
@@ -22,14 +25,13 @@ export class AuthorizationService {
           // Caso a API use 'access_token' em vez de 'token'
           this.setToken(response.access_token);
         }
-      })
+      }),
     );
   }
 
   // Salva o token
   setToken(token: string): void {
     localStorage.setItem("authToken", token);
-    console.log("Token salvo no localStorage:", token.substring(0, 20) + "...");
   }
 
   // Obtém o token
@@ -47,7 +49,6 @@ export class AuthorizationService {
   isAuthenticated(): boolean {
     const token = this.getToken();
     const isAuth = !!token;
-    console.log("Usuário autenticado?", isAuth);
     return isAuth;
   }
 }

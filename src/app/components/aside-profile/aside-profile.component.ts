@@ -42,7 +42,6 @@ export class AsideProfileComponent implements OnInit, OnDestroy {
 
     this.menuSubscription = this.menuService.menuOpen$.subscribe((isOpen) => {
       this.menuOpen = isOpen;
-      console.log("Menu aberto:", isOpen);
     });
   }
 
@@ -111,6 +110,5 @@ export class AsideProfileComponent implements OnInit, OnDestroy {
 
   closeMenu(): void {
     this.menuService.closeMenu();
-    console.log("Menu fechado");
   }
 }

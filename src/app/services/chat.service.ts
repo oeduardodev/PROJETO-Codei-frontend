@@ -16,7 +16,6 @@ export class ChatService {
     this.socket = io(environment.endpoint);
 
     this.socket.on("connect", () => {
-      console.log("Conectado ao WebSocket");
       // Opcional: enviar token para o socket se necessário
       const token = localStorage.getItem("authToken");
       if (token) {
@@ -25,7 +24,6 @@ export class ChatService {
     });
 
     this.socket.on("newMessage", (message) => {
-      console.log("Mensagem recebida em tempo real:", message);
       this.messageSubject.next(message);
     });
 
@@ -46,25 +44,21 @@ export class ChatService {
   getMessages(id: number): Observable<Chat[]> {
     const url = `${environment.endpoint}${environment.getMessagesById.replace(
       "${id}",
-      id.toString()
+      id.toString(),
     )}`;
-    console.log("Buscando mensagens de:", url);
     return this.http.get<Chat[]>(url);
   }
 
   sendMessage(data: Chat): Observable<Chat> {
     const url = `${environment.endpoint}${environment.sendMessage}`;
-    console.log("Enviando mensagem para:", url);
     return this.http.post<Chat>(url, data);
   }
 
   markRead(id: number): Observable<any> {
     const url = `${environment.endpoint}${environment.markAsRead.replace(
       "${id}",
-      id.toString()
+      id.toString(),
     )}`;
-
-    console.log("Marcando mensagens como lidas:", url);
 
     return this.http.post(url, {});
   }
