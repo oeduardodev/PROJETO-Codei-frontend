@@ -10,6 +10,9 @@
   margin-right: 4rem;
   width: 100%;
   box-sizing: border-box;
+  margin-top: 70px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .home-container h1 {
@@ -21,27 +24,6 @@
 }
 
 .aside-container {
-  position: fixed;
-  top: 0;
-  width: 20rem;
-  background-color: #292c43b0;
-  height: 100%;
-  box-sizing: border-box;
-  margin-right: 50px;
-  z-index: 1;
-  flex-shrink: 0;
-  padding-top: 5rem;
-}
-
-.aside-container-friends {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100%;
-  box-sizing: border-box;
-  z-index: 1;
-  flex-shrink: 0;
-  padding-top: 5rem;
 }
 
 .moments-container {
@@ -57,7 +39,7 @@
 .moment {
   position: relative;
   text-align: center;
-  z-index: 200;
+  z-index: 5;
   width: 100%;
 }
 
@@ -88,7 +70,7 @@
   opacity: 0;
   flex-direction: column;
   transition: all 0.2s ease-in-out;
-  z-index: 200;
+  z-index: 1;
 }
 
 .moment img {
@@ -163,31 +145,7 @@
 
 @media (max-width: 1024px) {
   .moments-container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.75rem;
-    padding: 0 0.75rem;
-  }
-
-  .home-container {
-    flex-direction: column;
-    align-items: center;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .aside-container,
-  .aside-container-friends {
-    display: none;
-  }
-
-  .home-container h1 {
-    margin-top: 2rem;
-    font-size: 1.5rem;
-    text-align: left;
-  }
-
-  .details {
-    opacity: 1;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 }
 
@@ -205,6 +163,22 @@
   .details {
     opacity: 1;
     padding: 0.75rem;
+  }
+
+  .home-container {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .home-container h1 {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+
+  .details {
+    opacity: 1;
   }
 }
 

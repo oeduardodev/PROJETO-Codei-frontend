@@ -15,16 +15,7 @@
   width: 6rem;
   height: 6rem;
   border-radius: 65px;
-}
-
-.brand {
-  margin: -45px auto 5rem auto;
-  cursor: pointer;
-  position: relative;
-}
-
-.brand img {
-  width: 3rem;
+  margin-top: 1rem;
 }
 
 .description {
@@ -38,6 +29,7 @@
   display: flex;
   flex-direction: column;
   width: 90%;
+  padding-bottom: 5rem;
 }
 
 .name {
@@ -186,14 +178,13 @@ a:hover {
 }
 
 .butn span {
-  z-index: 20;
 }
 
 footer {
   font-size: 0.7rem;
   display: flex;
   flex-direction: column;
-  height: calc(100% - 630px);
+  height: calc(100% - 500px);
 }
 
 footer h3 {
@@ -227,7 +218,6 @@ footer span {
       rgba(19, 20, 32, 0)
     );
     pointer-events: none;
-    z-index: 10;
     border-radius: 0 0 10px 10px;
   }
 }
@@ -275,5 +265,73 @@ footer span {
   }
   .msg-default {
     text-align: center !important;
+  }
+}
+
+.mobile-overlay {
+  z-index: 1999;
+}
+
+.aside-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  width: 20rem;
+  height: 100%;
+  box-sizing: border-box;
+  margin-right: 50px;
+  flex-shrink: 0;
+  display: relative;
+  margin-top: 5rem;
+}
+
+@media (max-width: 768px) {
+  .openMenu {
+    display: block;
+  }
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 80px);
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 3999;
+    pointer-events: none;
+  }
+
+  .mobile-overlay.show {
+    pointer-events: auto;
+    transform: translateX(100%);
+  }
+
+  .aside-content {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background-color: #181924;
+    border-radius: 0 15px 0 0;
+    overflow-y: auto;
+    z-index: 2000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    will-change: transform;
+    margin-top: 0rem;
+  }
+
+  .aside-content.mobile-open {
+    transform: translateX(0);
+  }
+
+  .aside-content footer {
+    margin-top: auto;
+    border-top: 1px solid #5d61a9;
   }
 }

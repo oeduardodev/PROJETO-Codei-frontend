@@ -1,15 +1,27 @@
 nav {
+  position: fixed;
   display: flex;
   justify-content: right;
   align-items: center;
-  padding-right: 1rem;
+  padding-right: 0rem;
   padding-bottom: 0rem;
-  z-index: 1000;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #161621;
+  width: 100%;
+  /* make header topmost layer */
+  z-index: 3000;
+}
+.button-text {
+  display: block;
+}
+.brand {
+  cursor: pointer;
   position: relative;
 }
 
-.button-text {
-  display: block;
+.brand img {
+  width: 3rem;
 }
 
 .button-icon {
@@ -17,23 +29,10 @@ nav {
   color: #4e5789 !important;
 }
 
-.brand {
-  background-color: #f6f7fb;
-}
-
 .logo {
   display: flex;
   height: 100%;
-  background-color: #f6f7fb;
-  width: 20rem;
-  padding-bottom: 1rem;
-  padding-top: 3rem;
   padding-left: 5rem;
-}
-
-.search,
-.links {
-  margin-top: 1.5rem;
 }
 
 .brand,
@@ -92,12 +91,20 @@ i {
   display: flex;
   flex-direction: row;
   margin-right: 4rem;
+  padding-left: 0.5em;
 }
 
 .link-icons li a {
-  margin-right: -20px !important;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 0.5em;
 }
 
+.share-button {
+  padding-left: 0.9em;
+  padding-right: 0.5em;
+  font-size: 1.2rem;
+}
 .interroggaiton {
   margin-right: 5px !important;
   margin-top: 0.7rem;
@@ -130,7 +137,7 @@ input {
 }
 
 .search {
-  margin-right: 2rem;
+  margin-right: 0.8rem;
 }
 
 .search fa-icon {
@@ -206,10 +213,6 @@ input {
   opacity: 0.6;
 }
 
-.butn span {
-  z-index: 20;
-}
-
 @media (max-width: 1024px) {
   .link-icons {
     font-size: 1.1rem;
@@ -220,19 +223,8 @@ input {
     margin-right: 0rem;
   }
 
-  .logo {
-    display: none;
-  }
-
   .button-text {
     display: none;
-  }
-
-  .menu {
-    margin-top: 1.5rem;
-    font-size: 1.5rem;
-    display: block;
-    margin-left: 3rem;
   }
 
   .button-icon {
@@ -240,11 +232,20 @@ input {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+  .menu {
+    font-size: 1.5rem;
+    display: block;
+    margin-left: 0rem;
+  }
   .search {
-    margin-top: 1.5rem;
-    width: 14rem;
+    width: 70%;
     margin-right: 1rem;
+    display: flex;
+    justify-content: space-between;
   }
 
   input {
@@ -261,10 +262,9 @@ input {
   }
 
   .menu {
-    margin-top: 1.5rem;
     font-size: 1.5rem;
     display: block;
-    margin-left: 2rem;
+    margin-left: 1.5rem;
   }
 
   .button-icon {
@@ -272,7 +272,16 @@ input {
   }
 }
 
+@media (max-width: 670px) {
+  .search {
+    width: 60%;
+  }
+}
+
 @media (max-width: 425px) {
+  .menu {
+    margin-left: 1rem;
+  }
   input {
     margin-right: -1.5rem;
     width: 100%;
@@ -280,26 +289,34 @@ input {
   }
 
   .search {
-    margin-top: 1.5rem;
-    width: 12rem;
+    width: 65%;
     margin-right: 0rem;
-    margin-left: 1rem;
+    margin-left: 2rem;
   }
 
   nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding-right: 1rem;
+    padding-right: 0rem;
     padding-bottom: 0rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
-}
 
-@media (max-width: 320px) {
-  .search {
-    width: 10rem;
+  .link-icons {
+    font-size: 0.9rem;
   }
-  .search fa-icon {
-    padding-right: 1rem;
+  .share-button {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 320px) {
+    .search {
+      width: 10rem;
+    }
+    .search fa-icon {
+      padding-right: 1rem;
+    }
   }
 }

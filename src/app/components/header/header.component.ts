@@ -10,6 +10,7 @@ import {
   faBars,
   faShareFromSquare,
   faRightFromBracket,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { MomentService } from "../../services/moment.service";
 import { environment } from "../../environment/environments";
@@ -18,6 +19,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SearchService } from "../../services/search.service";
 import { UsersService } from "../../services/users.service";
 import { AuthorizationService } from "../../services/auth.service";
+import { MenuService } from "../../services/menu.service";
 
 @Component({
   selector: "app-header",
@@ -34,6 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   faBars = faBars;
   faShare = faShareFromSquare;
   faLogout = faRightFromBracket;
+  faArrowLeft = faArrowLeft;
 
   allMoments: Moment[] = [];
   userLogged = false;
@@ -41,13 +44,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentRoute = "";
   userName: string = "";
   private routerSubscription: Subscription = new Subscription();
-
+  menuOpen$ = this.menuService.menuOpen$;
   constructor(
     private momentService: MomentService,
     private searchService: SearchService,
     private authService: AuthorizationService,
     private userService: UsersService,
-    private router: Router
+    private router: Router,
+    private menuService: MenuService,
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +99,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         const data = items.data;
         data.map((item) => {
           item.created_at = new Date(item.created_at!).toLocaleDateString(
-            "pt-BR"
+            "pt-BR",
           );
         });
         this.allMoments = data;
@@ -114,14 +118,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;
-        // Atualiza o estado de autenticação quando a rota muda
+
+        // 🔥 FECHA O MENU SEMPRE QUE A ROTA MUDA
+        this.menuService.closeMenu();
+
         if (
           event.urlAfterRedirects === "/login" ||
           event.urlAfterRedirects === "/register"
         ) {
           this.userLogged = false;
         } else if (this.authService.isAuthenticated() && !this.userLogged) {
-          // Se o usuário está autenticado mas o estado não foi atualizado
           this.checkUserAuthentication();
         }
       }
@@ -133,7 +139,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const value = target.value.toLowerCase();
 
     const filteredMoments = this.allMoments.filter((moment) =>
-      moment.title.toLowerCase().includes(value)
+      moment.title.toLowerCase().includes(value),
     );
     this.searchService.setSearchTerm(value);
     this.searchService.setFilteredMoments(filteredMoments);
@@ -154,5 +160,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (!this.currentRoute.includes("login")) {
       this.router.navigate(["/login"]);
     }
+  }
+
+  toggleMenu(): void {
+    this.menuService.toggleMenu();
+  }
+  closeMenu(): void {
+    this.menuService.closeMenu();
+  }
+  verifyMenuState(): boolean {
+    return this.menuService.isMenuOpen();
   }
 }

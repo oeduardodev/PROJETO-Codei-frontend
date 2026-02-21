@@ -6,6 +6,8 @@
   align-items: center;
   justify-content: center;
   padding: 2em;
+  margin: 0 auto;
+  margin-left: 10rem;
 }
 
 .icone-lang {
@@ -72,7 +74,8 @@ textarea {
   padding: 0;
   margin-bottom: 1em;
   color: #d9d9d9;
-  word-break: break-all; }
+  word-break: break-all;
+}
 
 .subImage {
   padding-top: 1.5rem;
@@ -85,7 +88,7 @@ textarea {
   align-items: center;
   justify-content: center;
 }
-.username-friend{
+.username-friend {
   font-size: 10.5px;
   margin-bottom: 0em;
 }
@@ -105,7 +108,6 @@ textarea {
 
 .butn-block {
   opacity: 50%;
-  pointer-events: none;
 }
 
 .close-btn {
@@ -145,8 +147,7 @@ textarea {
   margin-top: 60px;
 }
 
-
-h3{
+h3 {
   font-size: 2rem;
   flex-wrap: wrap;
   display: flex;
@@ -154,16 +155,14 @@ h3{
   justify-content: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
-
 }
 
-.buget-title{
+.buget-title {
   position: relative;
   display: block;
   margin-bottom: -15px;
   margin-left: 20px;
   background-color: #181924;
-  z-index: 1000;
   font-size: 20px;
   width: 80px;
   align-items: center;
@@ -226,6 +225,7 @@ h3{
   width: 45rem;
   align-items: center;
   justify-content: center;
+  margin-top: 4rem;
 }
 
 .tech-list-container {
@@ -238,6 +238,7 @@ h3{
   border-radius: 20px;
   box-shadow: 5px 5px 0px 0px #929cff;
   overflow: hidden;
+  margin: 0 auto;
   .msg-tech-off {
     font-size: 2rem;
     font-weight: bolder;
@@ -291,7 +292,7 @@ input {
   display: block !important;
   padding-top: 0.5px;
 }
-.friends-container{
+.friends-container {
   margin-top: 2rem;
 }
 .friends-list-container {
@@ -305,7 +306,6 @@ input {
   padding: 1rem;
   border: 1px solid #929cff;
   border-radius: 10px;
-  z-index: -100;
 }
 
 .friend {
@@ -313,7 +313,7 @@ input {
   width: 50px;
   text-align: center;
   color: white;
-  img{
+  img {
     width: 50px;
     height: 50px;
     border-radius: 6px;
@@ -440,11 +440,10 @@ input {
   position: fixed;
   top: 0;
   width: 20rem;
-  background-color: #292c43b0;
+  background-color: #181924;
   height: 100%;
   box-sizing: border-box;
   margin-right: 50px;
-  z-index: 1;
   flex-shrink: 0;
   padding-top: 5rem;
 }
@@ -592,6 +591,9 @@ a:hover {
   margin: 0 auto;
   text-align: center;
   padding-bottom: 5rem;
+  justify-content: center;
+  margin: 0 auto;
+  margin-left: 10rem;
 }
 
 .container-end-moments {
@@ -656,9 +658,12 @@ a:hover {
   /* Efeito pulsar */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .friends-list-container {
     width: 100%;
+  }
+  .profile-name {
+    justify-content: center;
   }
   .profile-name input {
     width: 100%;
@@ -700,6 +705,7 @@ a:hover {
   .header-profile {
     width: 85vw;
     padding-bottom: 0px;
+    text-align: center;
   }
 
   .container {
@@ -733,7 +739,7 @@ a:hover {
 }
 
 /* Quando a tela for menor ou igual a 425px */
-@media (max-width: 425px) {
+@media (max-width: 768px) {
   .butn {
     display: none !important; /* Esconde os botões normais */
   }
@@ -751,5 +757,19 @@ a:hover {
   h3,
   h4 {
     font-size: 1.2rem;
+  }
+
+  .profile-name {
+    justify-content: center;
+    margin-left: 0rem;
+  }
+
+  .container-my-moments {
+    margin: 0 auto;
+    margin-left: 0rem;
+  }
+
+  .profile {
+    margin-left: 0rem;
   }
 }

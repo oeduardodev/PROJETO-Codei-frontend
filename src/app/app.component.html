@@ -1,5 +1,9 @@
 <app-messages></app-messages>
 <app-header></app-header>
+<app-aside-profile *ngIf="!hideAsides"></app-aside-profile>
+<div *ngIf="!hideAsides" class="aside-container-friends">
+  <app-aside-friends></app-aside-friends>
+</div>
 <main class="container">
   <router-outlet></router-outlet>
 </main>

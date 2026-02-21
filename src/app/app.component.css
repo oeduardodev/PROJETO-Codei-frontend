@@ -1,3 +1,20 @@
 .container {
-    min-height: 65vh;
+  min-height: 65vh;
+}
+
+.aside-container-friends {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  /* ensure the friends/chat area is above main content */
+  z-index: 2000;
+  /* don't block clicks on the page outside real chat/friends controls */
+  pointer-events: none;
+}
+
+.aside-container-friends app-aside-friends {
+  pointer-events: none;
 }

@@ -6,23 +6,28 @@ h3 {
 form {
   margin: 0;
   width: 80%;
-
 }
 
 .header-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 35rem;
-  justify-content: space-between;
   vertical-align: middle;
+  margin-top: 3rem;
+  margin-left: 21rem;
 }
 
 .capilike-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  margin-right: 1rem;
+  background-color: #363753;
+  justify-content: center;
+  text-align: center;
+  padding-left: 10px;
+  border-radius: 15px;
 }
 
 .capilike {
@@ -44,7 +49,7 @@ form {
 }
 
 .img-moment {
-  width: 35rem;
+  width: 45%;
   align-self: flex-start;
   border-radius: 15px;
   box-shadow: 2px 2px 20px #929ae169;
@@ -60,7 +65,7 @@ form {
   border: 2px solid #929ae169;
 }
 
-.container-profile{
+.container-profile {
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -83,13 +88,14 @@ form {
   align-items: center;
   margin-bottom: 1em;
   padding: 1.5em 0;
+  margin-left: 20rem;
+  width: 70%;
 }
 
 h3,
 .count-comment {
   text-align: left;
   margin-top: 2rem;
-
 }
 
 span {
@@ -99,7 +105,6 @@ span {
 h2 {
   text-align: left;
 }
-
 
 .about-moment p {
   font-size: 1.1rem;
@@ -130,7 +135,6 @@ h2 {
   border-radius: 40px;
 }
 
-
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -149,11 +153,12 @@ h2 {
 .container-about-comment {
   display: flex;
   flex-direction: row;
+  margin-left: 20rem;
 }
 
 .comment-about {
   margin-left: 2rem;
-  width: 100%;
+  width: 46%;
   display: flex;
   flex-direction: column;
 }
@@ -223,7 +228,7 @@ input {
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  margin: 1rem auto;
   height: 100%;
 }
 
@@ -240,190 +245,116 @@ input {
   position: fixed;
   top: 0;
   width: 20rem;
-  background-color: #292c43b0;
+  background-color: #181924;
   height: 100%;
   box-sizing: border-box;
-  z-index: 1;
 }
 
 .moment {
   flex: 1;
-  /* Permite que .moment ocupe o espaço restante */
-  z-index: 2;
-  /* Mantém o .moment na frente, se necessário */
-
-  margin-left: 25rem;
-
-}
-
-@media (max-width:1290px) {
-  .container-profile{
-    margin-left: 1rem;
-  }
-  .img-moment {
-    width: 20rem;
-    align-self: flex-start;
-    border-radius: 15px;
-    box-shadow: 2px 2px 20px #929ae169;
-  }
-
-  .description {
-    height: 140px;
-    overflow: auto;
-  }
-
-  .header-container {
-    width: 20rem;
-  }
-
-  form {
-    margin: 0;
-  }
 }
 
 @media (max-width: 1024px) {
-  .comment-about {
-    margin-left: 0rem !important;
+  :root {
+    --side-padding: 1.5rem;
   }
 
-  .moment {
-    margin-left: 0rem;
-  }
-  
-  .header-container {
-    box-sizing: border-box;
-    width: 65%;
-    padding: 0 2rem;
+  .layout-container {
+    flex-direction: column;
+    margin-left: 20rem;
   }
 
-  .tewt {
-    margin-left: 2rem;
-    margin-top: 1rem;
-  }
-
+  /* aside */
   .aside-container {
-    display: none;
-    /* Continua ocultando para economizar espaço */
+    position: relative;
+    width: 100%;
+    height: auto;
   }
 
-  .description {
+  /* conteúdo principal */
+  .moment {
     width: 100%;
-    /* Ocupa toda a largura disponível */
-    padding: 0 1rem;
-    /* Adiciona espaçamento interno para texto */
-    height: auto;
-    /* Ajusta a altura para o conteúdo */
-    overflow: auto;
-    /* Permite rolar o conteúdo, se necessário */
+    padding-left: var(--side-padding);
+    padding-right: var(--side-padding);
+    box-sizing: border-box;
+  }
+
+  /* header */
+  .header-container {
+    margin-top: 1rem;
+    margin-left: 0;
+  }
+
+  /* imagem */
+  .img-moment {
+    width: 70%;
+    margin-bottom: 1rem;
+  }
+
+  /* comentários */
+  .comments {
+    margin-left: 0;
+    padding-left: var(--side-padding);
+    padding-right: var(--side-padding);
   }
 
   .container-about-comment {
-    display: flex;
     flex-direction: column;
-    margin: 0 1rem;
-    /* Espaçamento para evitar que encoste nas bordas */
-  }
-
-  .comments {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 1em;
-    padding: 1.5em 0;
-    font-size: 0.8rem;
-  }
-
-
-  h3,
-  .count-comment {
-    text-align: left;
     margin-left: 0;
-    /* Remove margem desnecessária */
-    margin-top: 2rem;
-    padding: 0 1rem;
-    /* Adiciona espaçamento interno para o título */
-  }
-
-  h2 {
-    text-align: left;
+    padding-left: var(--side-padding);
+    padding-right: var(--side-padding);
   }
 
   .comment-about {
-    /* Espaçamento para os comentários */
-    display: flex;
-    flex-direction: column;
-  }
-
-  .img-moment {
-    width: 60%;
-    height: auto;
-    margin-bottom: 1rem;
-    margin-left: 2rem;
+    width: 80%;
+    margin-left: 0;
     margin-top: 1rem;
   }
 
-  .comment-form {
-    padding: 0 1rem;
-    /* Adiciona espaçamento interno para o formulário */
-  }
-
+  /* formulários */
+  form,
+  input,
   .comment-button {
-    width: 44%;
-    /* Botão ocupa toda a largura disponível */
-    margin-top: 0.5rem;
-    /* Espaçamento entre o botão e os campos de entrada */
+    width: 80%;
   }
 
-  .username-container {
-    display: flex;
-    flex-direction: row;
-    align-items: end;
+  .description {
+    width: 80%;
+    height: 100%;
+    overflow: auto;
   }
-}
-
-@media (max-width:425px) {
-  .img-moment {
-    width: 91%;    
-    height: auto;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    margin-top: 1rem;
+  .comment-container {
+    margin: 0.5rem 0.5rem 0.5rem 0rem;
+    max-width: 90%;
   }
-
-  .header-container {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0 2rem;
-    word-break: break-word;
-  }
-
-  .comment-form form {
+  .comment-form {
+    text-align: left;
+    margin-bottom: 0.5em;
     margin-top: 1em;
     width: 100%;
   }
+}
 
-  .username-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  input {
-    height: 3rem;
-    border-radius: 10px;
-    background-color: #f1f2f9;
+@media (max-width: 768px) {
+  .comments {
     width: 100%;
   }
 
-  .textarea-coment {
-    height: 6rem;
-    border-radius: 10px;
-    background-color: #f1f2f9;
+  .layout-container {
+    margin: 0 auto;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+  .img-moment {
     width: 100%;
   }
-
+  form,
+  input,
   .comment-button {
-    width: 60%;    
-    margin-top: 1rem;
+    width: 100%;
   }
 
+  .comment-about {
+    width: 100%;
+  }
 }

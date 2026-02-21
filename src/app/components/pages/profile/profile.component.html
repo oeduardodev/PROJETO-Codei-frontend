@@ -45,12 +45,12 @@
           Adicionar
         </button>
         <button
-        (click)="addFriend()"
-        *ngIf="externalProfileId && !isFriendRequested"
-        class="butn btn-mobile"
-      >
-        +
-      </button>
+          (click)="addFriend()"
+          *ngIf="externalProfileId && !isFriendRequested"
+          class="butn btn-mobile"
+        >
+          +
+        </button>
         <button
           *ngIf="isFriendRequested && !isFriendDemanded"
           class="butn"
@@ -59,12 +59,12 @@
           Pedido Enviada
         </button>
         <button
-        *ngIf="isFriendRequested && !isFriendDemanded"
-        class="butn"
-        style="opacity: 50%"
-      >
-        ...
-      </button>
+          *ngIf="isFriendRequested && !isFriendDemanded"
+          class="butn"
+          style="opacity: 50%"
+        >
+          ...
+        </button>
         <button
           (click)="removeFriend()"
           *ngIf="isFriendRequested && isFriendDemanded"
@@ -73,12 +73,12 @@
           Deixar Amigo
         </button>
         <button
-        (click)="removeFriend()"
-        *ngIf="isFriendRequested && isFriendDemanded"
-        class="butn btn-mobile"
-      >
-      x
-      </button>
+          (click)="removeFriend()"
+          *ngIf="isFriendRequested && isFriendDemanded"
+          class="butn btn-mobile"
+        >
+          x
+        </button>
         <button
           (click)="editOn = true"
           *ngIf="!externalProfileId && !editOn"
@@ -101,12 +101,12 @@
           Concluir
         </button>
         <button
-        (click)="sendProfile(); editOn = false"
-        *ngIf="editOn"
-        class="butn btn-mobile"
-      >
-        OK
-      </button>
+          (click)="sendProfile(); editOn = false"
+          *ngIf="editOn"
+          class="butn btn-mobile"
+        >
+          OK
+        </button>
       </div>
       <p *ngIf="!editOn">
         {{
@@ -127,20 +127,33 @@
   <div class="friends-container">
     <h5 class="buget-title">Amigos</h5>
     <div class="friends-list-container">
-      <h4 *ngIf="friendsList?.length === 0">Sem amigos por aqui</h4>
-      <div [routerLink]="['/profile/', friend.userId]" [title]="friend.userId" class="friend" *ngFor="let friend of friendsList">
-        <img [src]="friend?.photo || '../../../../assets/profile-default-img.png'" alt="{{friend.username}}" width="50" height="50" />
+      <h4 *ngIf="!friendsList">Sem amigos por aqui</h4>
+      <div
+        [routerLink]="['/profile/', friend.userId]"
+        [title]="friend.userId"
+        class="friend"
+        *ngFor="let friend of friendsList"
+      >
+        <img
+          [src]="friend?.photo || '../../../../assets/profile-default-img.png'"
+          alt="{{ friend.username }}"
+          width="50"
+          height="50"
+        />
         <p class="username-friend">{{ friend.username.slice(0, 6) }},,,</p>
       </div>
     </div>
   </div>
-  
-  
+
   <div class="tech-container">
     <h3>Tecnologias</h3>
     <div class="tech-list-container">
       <span
-        *ngIf="profileData.technologies && profileData.technologies.length <= 0 && !editOn"
+        *ngIf="
+          profileData.technologies &&
+          profileData.technologies.length <= 0 &&
+          !editOn
+        "
         class="msg-tech-off"
         >sem tecnologias por aqui.😔</span
       >
@@ -234,7 +247,7 @@
       </a>
       <h5>{{ moment.title }}</h5>
 
-      <p class="date">Em: {{ moment.created_at | date : "dd/MM/yy" }}</p>
+      <p class="date">Em: {{ moment.created_at | date: "dd/MM/yy" }}</p>
     </div>
     <div *ngIf="profileData.moments.length === 0" class="container-end-moments">
       <p>OPS... sem publicações por aqui.</p>

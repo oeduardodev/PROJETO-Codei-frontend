@@ -4,6 +4,7 @@ aside {
   align-items: flex-end;
   flex-direction: row-reverse;
   height: 100%;
+  pointer-events: none;
 }
 
 li:first-child {
@@ -36,20 +37,26 @@ img {
 @keyframes pulseGlow {
   0% {
     transform: translate(-30%, -30%);
-    text-shadow: 0 0 4px rgba(0, 26, 255, 0.6), 0 0 8px rgba(0, 16, 163, 0.4);
+    text-shadow:
+      0 0 4px rgba(0, 26, 255, 0.6),
+      0 0 8px rgba(0, 16, 163, 0.4);
     opacity: 0.9;
   }
 
   50% {
     transform: translate(-30%, -30%);
-    text-shadow: 0 0 6px rgba(44, 65, 255, 0.9), 0 0 14px rgba(0, 26, 255, 0.7),
+    text-shadow:
+      0 0 6px rgba(44, 65, 255, 0.9),
+      0 0 14px rgba(0, 26, 255, 0.7),
       0 0 24px rgba(0, 21, 206, 0.5);
     opacity: 1;
   }
 
   100% {
     transform: translate(-30%, -30%);
-    text-shadow: 0 0 4px rgba(64, 31, 255, 0.6), 0 0 8px rgba(19, 169, 255, 0.4);
+    text-shadow:
+      0 0 4px rgba(64, 31, 255, 0.6),
+      0 0 8px rgba(19, 169, 255, 0.4);
     opacity: 0.9;
   }
 }
@@ -67,9 +74,10 @@ img {
   justify-content: center;
   align-items: center;
   width: 4rem;
-  border-left: 1px solid #48486d;
-  background-color: #292c43b0;
+  background-color: #181924;
   height: 100vh;
+  border-left: 1px solid #48486d;
+  pointer-events: auto;
 }
 
 .add {
@@ -110,8 +118,9 @@ img {
 .chats-container {
   display: flex;
   position: sticky;
+  bottom: 0;
   top: 0;
-  width: calc(100vw - 385px);
+  width: auto;
   overflow-x: auto;
   white-space: nowrap;
   align-items: flex-start;
@@ -120,6 +129,8 @@ img {
   overflow: auto;
   scrollbar-color: #7e87d9 #1c1935;
   flex-direction: row-reverse;
+  /* allow clicks to pass through empty areas so underlying content stays interactive */
+  pointer-events: none;
 }
 
 .chat {
@@ -129,12 +140,15 @@ img {
   min-width: 280px;
   overflow: hidden;
   transition: transform 0.3s ease;
+  /* ensure chat boxes receive pointer events while container allows clicks through */
+  pointer-events: auto;
 }
 
 .chat.fixed {
   position: fixed;
   bottom: 15px;
   right: 15px;
+  z-index: 1000;
 }
 
 .chats-list {
@@ -159,4 +173,44 @@ fa-icon {
 
 .arrowVisible {
   opacity: 1;
+}
+@media (max-width: 768px) {
+  .chats-container {
+    width: 100vw;
+  }
+  .chat {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    max-width: none;
+    min-width: 0;
+    border-radius: 0;
+  }
+  .friends-continer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-top: 1px solid #48486d;
+    background-color: #181924;
+    ul {
+      display: flex;
+      flex-direction: row;
+    }
+    .li {
+      width: 1rem;
+    }
+  }
+  .friends-continer {
+    border-left: 0px solid #48486d;
+  }
 }

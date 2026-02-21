@@ -1,22 +1,21 @@
-<form (ngSubmit)="submit()" [formGroup]="registerForm">
-    <div class="form-group">
-      <label for="username">Nome de Usuário:</label>
-      <input type="text" formControlName="username"/>
+<form (ngSubmit)="submit()" [formGroup]="registerForm" class="login-form">
+  <div class="form-group">
+    <label for="username">Nome de Usuário:</label>
+    <input type="text" formControlName="username" />
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" formControlName="email" />
+  </div>
+  <div class="form-group">
+    <label for="password">Senha:</label>
+    <input type="password" formControlName="password" />
+  </div>
+  <div class="form-group">
+    <input class="login" type="submit" value="{{ btnText }}" />
+    <div class="cadastrar">
+      <span> ou </span>
+      <a routerLink="/login">Entre na sua conta.</a>
     </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" formControlName="email"/>
-    </div>
-    <div class="form-group">
-      <label for="password">Senha:</label>
-      <input type="password" formControlName="password"/>
-    </div>
-    <div class="form-group">
-      <input class="login" type="submit" value="{{ btnText }}" />
-      <div class="cadastrar">
-        <span> ou </span> 
-        <a routerLink="/login">Entre na sua conta.</a>
-      </div>
-    </div>
-  </form>
-  
+  </div>
+</form>

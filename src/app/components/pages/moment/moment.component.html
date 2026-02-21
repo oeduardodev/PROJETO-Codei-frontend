@@ -1,53 +1,89 @@
 <div class="layout-container">
-  <div class="aside-container">
-    <app-aside-profile></app-aside-profile>
-  </div>
-
   <div class="moment" *ngIf="moment">
     <div class="header-container">
-      <h3>{{ moment.title }}</h3>
       <div class="capilike-container">
         <p>{{ moment.likes_count }}</p>
-        <img class="capilike" [src]="updateLikeImage()" alt="Like" (click)="sendLike()" tabindex="0"
-          (keydown.enter)="sendLike()" tabindex="0" 
-          (keydown.space)="sendLike()"  />
+        <img
+          class="capilike"
+          [src]="updateLikeImage()"
+          alt="Like"
+          (click)="sendLike()"
+          tabindex="0"
+          (keydown.enter)="sendLike()"
+          tabindex="0"
+          (keydown.space)="sendLike()"
+        />
       </div>
+      <h3>{{ moment.title }}</h3>
     </div>
 
     <div class="container-about-comment">
-      <img class="img-moment" [src]="moment.image" [alt]="moment.title"
-        (click)="sendLike()"   tabindex="0" 
-        (keydown.enter)="sendLike()" 
-        (keydown.space)="sendLike()" />
+      <img
+        class="img-moment"
+        [src]="moment.image"
+        [alt]="moment.title"
+        (click)="sendLike()"
+        tabindex="0"
+        (keydown.enter)="sendLike()"
+        (keydown.space)="sendLike()"
+      />
       <div class="comment-about">
-        <div class="container-profile" [routerLink]="['/profile/', moment.userId]">
-          <img class="img-profile" src="{{ moment.profile.photo || '../../../assets/profile-default-img.png' }}" alt="" srcset="">
-          <h2>&commat;{{ moment.profile.username }} </h2>
+        <div
+          class="container-profile"
+          [routerLink]="['/profile/', moment.userId]"
+        >
+          <img
+            class="img-profile"
+            src="{{
+              moment.profile.photo || '../../../assets/profile-default-img.png'
+            }}"
+            alt=""
+            srcset=""
+          />
+          <h2>&commat;{{ moment.profile.username }}</h2>
         </div>
         <p class="description">{{ moment.description }}</p>
         <div class="comment-form">
           <h2>Deixe um comentário</h2>
-          <form [formGroup]="commentForm" #formDir="ngForm" (ngSubmit)="onSubmit(formDir)" class="form-group">
-            <textarea formControlName="text" class="textarea-coment" placeholder="O que você achou?"
-              required></textarea>
-            <div *ngIf="text.invalid && formDir.submitted" class="validation-error">
+          <form
+            [formGroup]="commentForm"
+            #formDir="ngForm"
+            (ngSubmit)="onSubmit(formDir)"
+            class="form-group"
+          >
+            <textarea
+              formControlName="text"
+              class="textarea-coment"
+              placeholder="O que você achou?"
+              required
+            ></textarea>
+            <div
+              *ngIf="text.invalid && formDir.submitted"
+              class="validation-error"
+            >
               <p *ngIf="text.errors?.['required']">O texto é obrigatório.</p>
             </div>
 
             <div class="username-container">
-              <input formControlName="username" type="text" placeholder="Digite seu @" />
+              <input
+                formControlName="username"
+                type="text"
+                placeholder="Digite seu @"
+              />
               <input class="comment-button" type="submit" value="Comentar!" />
             </div>
             <!-- Comentado pois a validação de required para o username foi retirada:
           <div *ngIf="username.invalid && formDir.submitted" class="validation-error">
             <p *ngIf="username.errors?.['required']">O nome é obrigatório.</p>
           </div> 
-          -->
-          </form>
+          --></form>
         </div>
         <p class="tewt" *ngIf="moment.comments && moment.comments.length > 2">
-          <span>{{ moment.comments.length > 0 ? moment.comments.length : 0 }} Pessoas </span> comentaram nessa
-          publicação.
+          <span
+            >{{ moment.comments.length > 0 ? moment.comments.length : 0 }}
+            Pessoas
+          </span>
+          comentaram nessa publicação.
         </p>
         <ng-template #noCommentsTemplate>
           <p class="noComments">Ninguém comentou ainda, seja o primeiro!</p>
@@ -56,10 +92,23 @@
     </div>
 
     <div class="comments">
-      <div class="container" *ngIf="moment.comments && moment.comments.length > 0; else noCommentsTemplate">
-        <div class="comment-container small" *ngFor="let comment of moment.comments; let i = index">
+      <div
+        class="container"
+        *ngIf="
+          moment.comments && moment.comments.length > 0;
+          else noCommentsTemplate
+        "
+      >
+        <div
+          class="comment-container small"
+          *ngFor="let comment of moment.comments; let i = index"
+        >
           <p class="author">
-            <img src="../../../../assets/profile-default-img.png" alt="Profile Image" class="img-profile" />
+            <img
+              src="../../../../assets/profile-default-img.png"
+              alt="Profile Image"
+              class="img-profile"
+            />
             &commat;{{ comment.username }}
           </p>
           <p class="comment">{{ comment.text }}</p>

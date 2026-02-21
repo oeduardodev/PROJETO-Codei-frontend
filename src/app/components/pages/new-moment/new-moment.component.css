@@ -1,52 +1,69 @@
 h2 {
-    text-align: center;
-    margin-bottom: 0.5em;
-    font-size: 2em;
+  text-align: center;
+  margin-bottom: 0.5em;
+  font-size: 2em;
 }
 
 h2 span {
-    color: #949ce2;
+  color: #949ce2;
 }
 ngx-typed-js {
-    display: inline-block;
-    color: #333; /* Cor visível */
-    font-weight: bold;
-  }
+  display: inline-block;
+  color: #333; /* Cor visível */
+  font-weight: bold;
+}
 .containerForm {
-    margin-left: 45% !important;
-    margin: 3rem;
-    width: 30%;
-    margin: 5rem auto;
-    z-index: 1000;
-    position: absolute;
+  margin-left: 38% !important;
+  width: 35%;
+  margin: 5rem auto;
+  position: absolute;
+  margin-top: 8rem;
 }
 .aside-container-friends {
-    position: fixed;
-    top: 0;
-    right: 0;
-    /* Fixado na direita */
-    height: 100%;
-    box-sizing: border-box;
-    z-index: 1;
-    flex-shrink: 0;
-    padding-top: 5rem;
-  }
-  
+  position: fixed;
+  top: 0;
+  right: 0;
+  /* Fixado na direita */
+  height: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding-top: 5rem;
+}
+
 @media (max-width: 1024px) {
-    .containerForm {
-        margin-left: 6.5rem !important;
-        margin: 3rem;
-        width: 80%;
-        margin: 3rem auto;
-    }
+  .containerForm {
+    margin-left: 38% !important;
+    margin: 3rem;
+    width: 44%;
+    margin: 5rem auto;
+    position: absolute;
+    margin-top: 8rem;
+  }
 }
 
 @media (max-width: 768px) {
-    h2{
-        font-size: 1.7rem;
-    }
-    .containerForm {
-        margin-left: 16px!important;
-        width: 90%;
-    }
+  h2 {
+    font-size: 1.7rem;
+  }
+  .containerForm {
+    margin-left: 15px !important;
+    width: 95%;
+    margin-top: 4.5rem;
+  }
+  .aside-container {
+    position: relative;
+    width: 0;
+    height: 0;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 425px) {
+  h2 {
+    font-size: 1.7rem;
+  }
+  .containerForm {
+    width: 91%;
+    margin-top: 4.5rem;
+  }
 }

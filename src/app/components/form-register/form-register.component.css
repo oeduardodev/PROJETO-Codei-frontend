@@ -1,75 +1,87 @@
 .login {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    margin: 0 auto;
-    max-width: 30rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  margin: 0 auto;
+  max-width: 30rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.login:hover{
-    background-color: #8993eb;
-    color: #5e638d;
+.login:hover {
+  background-color: #8993eb;
+  color: #5e638d;
 }
 
-a{
-    color: #8993eb;
-    border-bottom: 1px solid #12121c;
+a {
+  color: #8993eb;
+  border-bottom: 1px solid #12121c;
 }
 
-a:hover{
-    color: #5363f3;
-    border-bottom: 1px solid #5363f3;
+a:hover {
+  color: #5363f3;
+  border-bottom: 1px solid #5363f3;
 }
 
-.form-group input, input::placeholder {
-    max-width: 30rem;
-    font-size: 1.2rem !important;
-    border-radius: 5px;
+.form-group input,
+input::placeholder {
+  font-size: 1.2rem !important;
+  border-radius: 5px;
 }
 
 .form-group {
-    width: 100%; 
-    display: flex;
-    flex-direction: column; 
-    gap: 1rem; 
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .form-group input {
-    width: 100%; 
-    box-sizing: border-box;
-    max-width: 100%; 
-    padding: 0.8rem;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    border: none;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0.8rem;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: none;
 }
 
-.form-group label{
-    text-align: left;
-    font-size: 1.2rem;
-    font-weight: 300;
-    width: 100%;
+.form-group label {
+  text-align: left;
+  font-size: 1.2rem;
+  font-weight: 300;
+  width: 100%;
 }
 .cadastrar {
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .cadastrar span {
-    margin: .3rem;
+  margin: 0.3rem;
 }
 
-form {
-    width: 100%; 
-    max-width: 30rem; 
+.login-form {
+  width: 30rem;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #12121c;
+}
+@media (max-width: 768px) {
+  .login-form {
+    width: 90%;
+    max-width: 30rem;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
     border-radius: 15px;
     background-color: #12121c;
+  }
+  /* .login-form {
+    width: 90% !important;
+  } */
 }

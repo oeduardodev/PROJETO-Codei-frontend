@@ -1,27 +1,55 @@
-<div class="chat-container" [ngClass]="{'minimized': isMinimized}">
-    <div class="header-chat">
-        <div class="friendLink" [routerLink]="['/profile/', friendId]">
-            <img [src]="friend.photo || '/assets/profile-default-img.png'" alt="Profile image" srcset="" />
-            <h3>{{friend.username}}</h3>
-        </div>
-        <div class="icons-container">
-            <fa-icon *ngIf="isMinimized" [icon]="faWindowMaximize" (click)="toggleMinimize()"></fa-icon>
-            <fa-icon *ngIf="!isMinimized" [icon]="faWindowMinimize" (click)="toggleMinimize()"></fa-icon>
-            <fa-icon [icon]="faXmark" (click)="close()"></fa-icon>
-        </div>
+<div class="chat-container" [ngClass]="{ minimized: isMinimized }">
+  <div class="header-chat">
+    <div class="friendLink" [routerLink]="['/profile/', friendId]">
+      <img
+        [src]="friend.photo || '/assets/profile-default-img.png'"
+        alt="Profile image"
+        srcset=""
+      />
+      <h3>{{ friend.username }}</h3>
     </div>
-    <div class="messages-container" #messagesContainer>
-        <div *ngFor="let message of chatsMessages" class="message"
-            [ngClass]="message.sender_id === myId ? 'me' : 'other'">
-            <span class="text" style="word-break: break-word; white-space: pre-wrap; display: block;">{{ message.content }}</span>
-            <span class="timestamp">{{ message.created_at | date:'shortTime' }}</span>
-        </div>
+    <div class="icons-container">
+      <fa-icon
+        class="icon-change"
+        *ngIf="isMinimized"
+        [icon]="faWindowMaximize"
+        (click)="toggleMinimize()"
+      ></fa-icon>
+      <fa-icon
+        class="icon-change"
+        *ngIf="!isMinimized"
+        [icon]="faWindowMinimize"
+        (click)="toggleMinimize()"
+      ></fa-icon>
+      <fa-icon [icon]="faXmark" (click)="close()"></fa-icon>
     </div>
+  </div>
+  <div class="messages-container" #messagesContainer>
+    <div
+      *ngFor="let message of chatsMessages"
+      class="message"
+      [ngClass]="message.sender_id === myId ? 'me' : 'other'"
+    >
+      <span
+        class="text"
+        style="word-break: break-word; white-space: pre-wrap; display: block"
+        >{{ message.content }}</span
+      >
+      <span class="timestamp">{{
+        message.created_at | date: "shortTime"
+      }}</span>
+    </div>
+  </div>
 
-    <div class="input-container">
-        <textarea [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." (keyup.enter)="sendMessage()"
-            type="text"></textarea>
-        <button type="button" (click)="sendMessage()"> <fa-icon [icon]="faPlane"></fa-icon>
-        </button>
-    </div>
+  <div class="input-container">
+    <textarea
+      [(ngModel)]="newMessage"
+      placeholder="Digite sua mensagem..."
+      (keyup.enter)="sendMessage()"
+      type="text"
+    ></textarea>
+    <button type="button" (click)="sendMessage()">
+      <fa-icon [icon]="faPlane"></fa-icon>
+    </button>
+  </div>
 </div>

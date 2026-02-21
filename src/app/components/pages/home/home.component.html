@@ -1,7 +1,4 @@
 <div class="layout-container">
-  <div class="aside-container">
-    <app-aside-profile></app-aside-profile>
-  </div>
   <div class="home-container">
     <h1>Veja o que andam compartilhando por aí</h1>
     <div *ngIf="moments.length > 0; else noMoments">
@@ -28,8 +25,5 @@
     <ng-template #noMoments>
       <h1>Não há Momentos!</h1>
     </ng-template>
-  </div>
-  <div class="aside-container-friends">
-    <app-aside-friends></app-aside-friends>
   </div>
 </div>

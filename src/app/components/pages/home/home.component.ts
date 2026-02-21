@@ -24,7 +24,6 @@ import { LoadingComponent } from "../../../loading/loading.component";
   selector: "app-home",
   standalone: true,
   imports: [
-    AsideFriendsComponent,
     AsideProfileComponent,
     FontAwesomeModule,
     CommonModule,
@@ -46,7 +45,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private momentService: MomentService,
     private searchService: SearchService,
-    private userService: UsersService
+    private userService: UsersService,
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +58,7 @@ export class HomeComponent implements OnInit {
 
       data.map((item) => {
         item.created_at = new Date(item.created_at!).toLocaleDateString(
-          "pt-BR"
+          "pt-BR",
         );
       });
       this.allMoments = data;

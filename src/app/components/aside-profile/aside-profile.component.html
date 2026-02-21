@@ -1,95 +1,96 @@
-<div class="logo">
-  <a class="brand" routerLink="/">
-    <img src="assets/logo.png" alt="Codei logo" />
-    <h2>Codei</h2>
-  </a>
-</div>
+<div class="aside-content" [ngClass]="{ 'mobile-open': menuOpen }">
+  <div class="foto">
+    <img
+      class="foto"
+      [src]="userProfile?.photo || '../../../assets/profile-default-img.png'"
+      alt="Foto de perfil"
+    />
+  </div>
 
-<div class="foto">
-  <img
-    class="foto"
-    [src]="userProfile?.photo || '../../../assets/profile-default-img.png'"
-    alt="Foto de perfil"
-  />
-</div>
-
-<p class="name">
-  {{ userProfile?.username }}
-</p>
-<div class="description">
-  <p *ngIf="!userProfile">Crie uma conta e comece a codar momentos também!</p>
-  <p *ngIf="userProfile && !perfilCompleted">
-    Conclua seu perfil ver suas notificações!
+  <p class="name">
+    {{ userProfile?.username }}
   </p>
-  <div class="menu">
-    <a
-      href="login"
-      class="butn butn__new"
-      *ngIf="!userProfile && !perfilCompleted"
-      ><span> Entrar</span></a
-    >
-    <a
-      href="profile"
-      class="butn butn__new"
-      *ngIf="userProfile && !perfilCompleted"
-      ><span> Concluir Perfil</span></a
-    >
-    <strong class="notify" href="profile" *ngIf="perfilCompleted"
-      ><span>{{ notifications.length }}</span> <span></span>Notificações</strong
-    >
-    <div
-      *ngIf="userProfile && perfilCompleted && notifications.length"
-      class="notificacoes-wrapper"
-    >
-      <ul class="notificacoes">
-        <li *ngFor="let notification of notifications">
-          <a
-            [routerLink]="getNotificationLink(notification)"
-            class="notification-link"
-          >
-            <div
-              class="notification"
+  <div class="description">
+    <p *ngIf="!userProfile">Crie uma conta e comece a codar momentos também!</p>
+    <p *ngIf="userProfile && !perfilCompleted">
+      Conclua seu perfil ver suas notificações!
+    </p>
+    <div class="menu">
+      <a
+        href="login"
+        class="butn butn__new"
+        *ngIf="!userProfile && !perfilCompleted"
+        (click)="closeMenu()"
+        ><span> Entrar</span></a
+      >
+      <a
+        href="profile"
+        class="butn butn__new"
+        *ngIf="userProfile && !perfilCompleted"
+        (click)="closeMenu()"
+        ><span> Concluir Perfil</span></a
+      >
+      <strong class="notify" href="profile" *ngIf="perfilCompleted"
+        ><span>{{ notifications.length }}</span>
+        <span></span>Notificações</strong
+      >
+      <div
+        *ngIf="userProfile && perfilCompleted && notifications.length"
+        class="notificacoes-wrapper"
+      >
+        <ul class="notificacoes">
+          <li *ngFor="let notification of notifications">
+            <a
+              [routerLink]="getNotificationLink(notification)"
+              class="notification-link"
+              (click)="closeMenu()"
+            >
+              <div
+                class="notification"
+                (click)="clearNotification(notification.id)"
+              >
+                <span class="notification-date">{{
+                  notification.created_at | date: "short"
+                }}</span>
+                <span class="notification-text">{{
+                  notification.message
+                }}</span>
+              </div>
+            </a>
+            <button
+              class="clear-button"
               (click)="clearNotification(notification.id)"
             >
-              <span class="notification-date">{{
-                notification.created_at | date : "short"
-              }}</span>
-              <span class="notification-text">{{ notification.message }}</span>
-            </div>
-          </a>
-          <button
-            class="clear-button"
-            (click)="clearNotification(notification.id)"
-          >
-            <fa-icon class="trash-icon" [icon]="faCheck"></fa-icon>
-          </button>
-        </li>
-      </ul>
-    </div>
-    <div class="sleep" *ngIf="!notifications.length && userProfile">
-      <video autoplay muted loop playsinline width="100%">
-        <source src="../../../assets/tired-good-night.mp4" type="video/mp4" />
-        Seu navegador não suporta vídeo.
-      </video>
-    </div>
+              <fa-icon class="trash-icon" [icon]="faCheck"></fa-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="sleep" *ngIf="!notifications.length && userProfile">
+        <video autoplay muted loop playsinline width="100%">
+          <source src="../../../assets/tired-good-night.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeo.
+        </video>
+      </div>
 
-    <button
-      *ngIf="notifications.length"
-      class="clear-button small"
-      (click)="markAllAsRead()"
-    >
-      Marcar todas como lidas
-    </button>
+      <button
+        *ngIf="notifications.length"
+        class="clear-button small"
+        (click)="markAllAsRead()"
+      >
+        Marcar todas como lidas
+      </button>
+    </div>
   </div>
-</div>
 
-<footer>
-  <a
-    *ngIf="userProfile"
-    class="loggout"
-    type="button"
-    (click)="this.usersService.loggout()"
-  >
-    SAIR
-  </a>
-</footer>
+  <footer>
+    <a
+      *ngIf="userProfile"
+      class="loggout"
+      type="button"
+      (click)="this.usersService.loggout()"
+    >
+      SAIR
+    </a>
+  </footer>
+</div>

@@ -107,6 +107,9 @@
       justify-content: center;
       display: flex;
     }
+    .icon-change {
+      display: flex;
+    }
   }
 }
 
@@ -125,4 +128,27 @@
 
 .friendLink {
   cursor: pointer;
+}
+
+@media (max-width: 425px) {
+  .header-chat {
+    div {
+      .icon-change {
+        display: none;
+      }
+    }
+  }
+  .chat-container {
+    height: 92.5vh;
+    border-radius: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+  .messages-container {
+    max-height: 100%;
+  }
+  .message[_ngcontent-ng-c1462713770] {
+    max-width: 100%;
+    font-size: 14px;
+  }
 }
