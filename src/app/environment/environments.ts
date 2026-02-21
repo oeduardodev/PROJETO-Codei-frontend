@@ -2,7 +2,7 @@ export const environment = {
   // Indica se o ambiente é de produção ou não
   production: false,
 
-  // URL base para o servidor de API local
+  // URL base da API para desenvolvimento local
   endpoint: "http://localhost:3333",
 
   /**
