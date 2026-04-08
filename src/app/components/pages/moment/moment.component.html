@@ -21,6 +21,7 @@
       <img
         class="img-moment"
         [src]="moment.image"
+        appImageFallback="./assets/post-default.png"
         [alt]="moment.title"
         (click)="sendLike()"
         tabindex="0"
@@ -34,9 +35,8 @@
         >
           <img
             class="img-profile"
-            src="{{
-              moment.profile.photo || '../../../assets/profile-default-img.png'
-            }}"
+            [src]="moment.profile.photo || '/assets/profile-default-img.png'"
+            appImageFallback="/assets/profile-default-img.png"
             alt=""
             srcset=""
           />
@@ -105,7 +105,7 @@
         >
           <p class="author">
             <img
-              src="../../../../assets/profile-default-img.png"
+              src="/assets/profile-default-img.png"
               alt="Profile Image"
               class="img-profile"
             />

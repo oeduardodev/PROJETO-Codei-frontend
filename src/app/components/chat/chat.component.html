@@ -3,6 +3,7 @@
     <div class="friendLink" [routerLink]="['/profile/', friendId]">
       <img
         [src]="friend.photo || '/assets/profile-default-img.png'"
+        appImageFallback="/assets/profile-default-img.png"
         alt="Profile image"
         srcset=""
       />

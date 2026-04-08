@@ -19,6 +19,7 @@ import { Chat } from "../../../models/Chat";
 import { Profile } from "../../../models/Profiles";
 import { ChatService } from "../../../services/chat.service";
 import { LoadingComponent } from "../../../loading/loading.component";
+import { ImageFallbackDirective } from "../../../directives/image-fallback.directive";
 
 @Component({
   selector: "app-home",
@@ -30,6 +31,7 @@ import { LoadingComponent } from "../../../loading/loading.component";
     RouterLink,
     NgxTypedJsModule,
     LoadingComponent,
+    ImageFallbackDirective,
   ],
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],

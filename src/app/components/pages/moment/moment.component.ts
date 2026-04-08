@@ -24,6 +24,7 @@ import { UsersService } from "../../../services/users.service";
 import { AsideProfileComponent } from "../../aside-profile/aside-profile.component";
 import { LikeService } from "../../../services/like.service";
 import { User } from "../../../models/User";
+import { ImageFallbackDirective } from "../../../directives/image-fallback.directive";
 
 @Component({
   selector: "app-moment",
@@ -34,6 +35,7 @@ import { User } from "../../../models/User";
     FontAwesomeModule,
     RouterLink,
     ReactiveFormsModule,
+    ImageFallbackDirective,
   ],
   templateUrl: "./moment.component.html",
   styleUrl: "./moment.component.css",

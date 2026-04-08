@@ -21,11 +21,18 @@ import { Chat } from "../../models/Chat";
 import { ProfileService } from "../../services/profile.service";
 import { AuthorizationService } from "../../services/auth.service";
 import { RouterLink } from "@angular/router";
+import { ImageFallbackDirective } from "../../directives/image-fallback.directive";
 
 @Component({
   selector: "app-chat",
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FontAwesomeModule,
+    RouterLink,
+    ImageFallbackDirective,
+  ],
   templateUrl: "./chat.component.html",
   styleUrl: "./chat.component.css",
 })

@@ -5,7 +5,12 @@
       <div class="moments-container">
         <div class="moment" *ngFor="let moment of moments">
           <a routerLink="moments/{{ moment.id }}">
-            <img class="img-moment" [src]="moment.image" [alt]="moment.title" />
+            <img
+              class="img-moment"
+              [src]="moment.image"
+              appImageFallback="/assets/post-default.png"
+              [alt]="moment.title"
+            />
             <div class="details">
               <h3>{{ moment.title }}</h3>
               <div class="counts">

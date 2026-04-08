@@ -22,6 +22,7 @@ import { FormsModule } from "@angular/forms";
 import { Moment } from "../../../models/Moments";
 import { FriendsService } from "../../../services/friends.service";
 import { IconTech } from "../../../models/IconTechs";
+import { ImageFallbackDirective } from "../../../directives/image-fallback.directive";
 
 @Component({
   selector: "app-profile",
@@ -32,6 +33,7 @@ import { IconTech } from "../../../models/IconTechs";
     LoadingComponent,
     FontAwesomeModule,
     FormsModule,
+    ImageFallbackDirective,
   ],
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.css"],
