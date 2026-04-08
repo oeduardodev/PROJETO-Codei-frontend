@@ -10,6 +10,7 @@ export const environment = {
   moments: "/api/moments",
   getMyProfile: "/api/profile/me",
   getProfiles: "/api/profile/",
+  searchProfiles: "/api/profile/search",
   getProfileId: "/api/profile/${id}",
   updateProfile: "/api/profile/${id}",
   getFriends: "/api/friends",

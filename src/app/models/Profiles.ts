@@ -26,3 +26,7 @@ export class Profile {
 export interface ProfileResponse {
   profile: Profile;
 }
+
+export interface ProfilesSearchResponse {
+  profiles: Profile[];
+}

@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { catchError, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, throwError } from "rxjs";
 
 import { environment } from "../environment/environments";
-import { AuthorizationService } from "./auth.service";
-import { ProfileResponse } from "../models/Profiles";
+import { ProfileResponse, ProfilesSearchResponse, Profile } from "../models/Profiles";
 import { IconTech } from "../models/IconTechs";
 import { NotificationUser } from "../models/Notifications";
 
@@ -12,32 +11,46 @@ import { NotificationUser } from "../models/Notifications";
   providedIn: "root",
 })
 export class ProfileService {
-  constructor(
-    private http: HttpClient,
-    private authService: AuthorizationService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getMyProfile(): Observable<ProfileResponse> {
     return this.http.get<ProfileResponse>(
-      `${environment.endpoint}${environment.getMyProfile}`
+      `${environment.endpoint}${environment.getMyProfile}`,
     );
   }
   getProfileById(id: number): Observable<ProfileResponse> {
     return this.http.get<ProfileResponse>(
       `${environment.endpoint}${environment.getProfileId.replace(
         "${id}",
-        id.toString()
-      )}`
+        id.toString(),
+      )}`,
     );
+  }
+
+  searchProfiles(term: string): Observable<Profile[]> {
+    return this.http
+      .get<ProfilesSearchResponse>(
+        `${environment.endpoint}${environment.searchProfiles}`,
+        {
+          params: {
+            term,
+          },
+        },
+      )
+      .pipe(
+        map((response) =>
+          (response.profiles ?? []).map((profile) => new Profile(profile)),
+        ),
+      );
   }
 
   postProfileById(id: number, form: FormData): Observable<ProfileResponse> {
     return this.http.put<ProfileResponse>(
       `${environment.endpoint}${environment.updateProfile.replace(
         "${id}",
-        id.toString()
+        id.toString(),
       )}`,
-      form
+      form,
     );
   }
 
@@ -49,14 +62,14 @@ export class ProfileService {
 
   getNotifications(): Observable<NotificationUser[]> {
     return this.http.get<NotificationUser[]>(
-      `${environment.endpoint}${environment.notifications}`
+      `${environment.endpoint}${environment.notifications}`,
     );
   }
 
   clearNotifications(notificationId: number): Observable<NotificationUser[]> {
     return this.http.post<NotificationUser[]>(
       `${environment.endpoint}${environment.notifications}`,
-      { id: notificationId }
+      { id: notificationId },
     );
   }
 }

@@ -7,7 +7,8 @@
         (click)="openChat(friend)"
       >
         <img
-          [src]="friend.photo || 'assets/profile-default-img.png'"
+          [src]="friend.photo || '/assets/profile-default-img.png'"
+          appImageFallback="/assets/profile-default-img.png"
           [title]="friend.username"
           alt="profile-img"
         />
@@ -16,7 +17,7 @@
           .
         </span>
       </li>
-      <li class="add">+</li>
+      <li class="add" (click)="openProfileSearch()">+</li>
     </ul>
   </div>
   <div class="chats-container">
@@ -25,3 +26,7 @@
     </div>
   </div>
 </aside>
+<app-profile-search
+  *ngIf="isProfileSearchOpen"
+  (closeModal)="closeProfileSearch()"
+></app-profile-search>

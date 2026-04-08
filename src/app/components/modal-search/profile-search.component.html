@@ -1,0 +1,60 @@
+<div class="modal-backdrop" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-button" type="button" (click)="close()">X</button>
+    <h2>Buscar perfis</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Buscar por nome de usuário"
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="searchProfiles()"
+      />
+      <button type="button" (click)="searchProfiles()">Buscar</button>
+    </div>
+
+    <div class="results" *ngIf="profiles.length > 0">
+      <h3>Resultados da Busca</h3>
+      <ul class="results-list">
+        <li
+          class="result-card"
+          *ngFor="let profile of profiles"
+          role="button"
+          tabindex="0"
+          (click)="openProfile(profile)"
+          (keydown.enter)="openProfile(profile)"
+          (keydown.space)="openProfile(profile); $event.preventDefault()"
+        >
+          <img
+            class="result-avatar"
+            [src]="profile.photo || '/assets/profile-default-img.png'"
+            appImageFallback="/assets/profile-default-img.png"
+            [alt]="profile.username || 'perfil'"
+          />
+
+          <div class="result-content">
+            <p class="result-name">{{ profile.username || "sem nome" }}</p>
+            <div class="about-result">
+              <p class="result-status">
+                {{ profile.bio || "Sem status informado." }}
+              </p>
+              <div class="result-stats">
+                <p class="result-meta">
+                  <fa-icon [icon]="faShare" aria-hidden="true"></fa-icon>
+                  <span>{{ getPostsCount(profile) }}</span>
+                </p>
+                <p class="result-friends">
+                  <fa-icon [icon]="faFriends" aria-hidden="true"></fa-icon>
+                  <span>{{ getFriendsCount(profile) }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <p class="empty-state" *ngIf="hasSearched && profiles.length === 0">
+      Nenhum perfil encontrado.
+    </p>
+  </div>
+ </div>

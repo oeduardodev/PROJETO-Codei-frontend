@@ -11,11 +11,12 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { MenuService } from "../../services/menu.service";
 import { Subscription } from "rxjs";
+import { ImageFallbackDirective } from "../../directives/image-fallback.directive";
 
 @Component({
   selector: "app-aside-profile",
   standalone: true,
-  imports: [CommonModule, FaIconComponent, RouterModule],
+  imports: [CommonModule, FaIconComponent, RouterModule, ImageFallbackDirective],
   templateUrl: "./aside-profile.component.html",
   styleUrls: ["./aside-profile.component.css"],
 })

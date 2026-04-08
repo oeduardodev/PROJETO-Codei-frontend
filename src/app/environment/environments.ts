@@ -47,6 +47,8 @@ export const environment = {
 
   getProfiles: "/api/profile/",
 
+  searchProfiles: "/api/profile/search",
+
   getProfileId: "/api/profile/${id}",
 
   updateProfile: "/api/profile/${id}",

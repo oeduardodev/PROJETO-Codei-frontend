@@ -9,11 +9,19 @@ import { ChatService } from "../../services/chat.service";
 import { AuthorizationService } from "../../services/auth.service";
 import { ProfileService } from "../../services/profile.service";
 import { Chat } from "../../models/Chat";
+import { ProfileSearchComponent } from "../modal-search/profile-search.component";
+import { ImageFallbackDirective } from "../../directives/image-fallback.directive";
 
 @Component({
   selector: "app-aside-friends",
   standalone: true,
-  imports: [CommonModule, ChatComponent, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    ChatComponent,
+    FontAwesomeModule,
+    ProfileSearchComponent,
+    ImageFallbackDirective,
+  ],
   templateUrl: "./aside-friends.component.html",
   styleUrls: ["./aside-friends.component.css"],
 })
@@ -33,6 +41,7 @@ export class AsideFriendsComponent implements OnInit {
   profileData!: Profile;
 
   notifications: Record<number, boolean> = {};
+  isProfileSearchOpen = false;
 
   constructor(
     private friendsService: FriendsService,
@@ -100,6 +109,14 @@ export class AsideFriendsComponent implements OnInit {
     this.selectedFriends = this.selectedFriends.filter(
       (f) => f.userId !== friend.userId
     );
+  }
+
+  openProfileSearch() {
+    this.isProfileSearchOpen = true;
+  }
+
+  closeProfileSearch() {
+    this.isProfileSearchOpen = false;
   }
 
   friendMessageNotification(friendId: number) {
