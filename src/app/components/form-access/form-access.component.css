@@ -24,6 +24,23 @@ a:hover {
   border-bottom: 1px solid #5363f3;
 }
 
+.social-login{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d1027;
+  border: 1px solid #5363f3;
+  padding: 1rem;
+  img{
+    width: 2rem;
+    margin-right: 1rem;
+  }
+}
+  .google-btn {
+   text-decoration: none;
+   ;
+  }
 .form-group input,
 input::placeholder {
   max-width: 30rem;

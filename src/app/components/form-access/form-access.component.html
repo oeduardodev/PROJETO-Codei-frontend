@@ -7,10 +7,16 @@
     <label for="password">Senha:</label>
     <input type="password" formControlName="password" />
   </div>
+   <a href="" class="google-btn" (click)="showGoogleUnavailableMessage($event)">
+    <div class="social-login">
+      <img src="../../../assets/2991148.png" alt="" srcset="">
+            Entrar com Google 
+
+    </div>
+    </a>
   <div class="form-group">
     <input class="login" type="submit" value="{{ btnText }}" />
     <div class="cadastrar">
-      <span> ou </span>
       <a routerLink="/register">Crie sua conta.</a>
     </div>
   </div>

@@ -1,13 +1,15 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { RouterModule, Router } from "@angular/router";
+import { RouterModule, Router, ActivatedRoute } from "@angular/router";
 
 import { FormAccessComponent } from "../../form-access/form-access.component";
 import { UsersService } from "../../../services/users.service";
 import { MessageService } from "../../../services/message.service";
 import { Register } from "../../../models/Register";
+import { AuthorizationService } from "../../../services/auth.service";
+import { environment } from "../../../environment/environments";
 
 @Component({
   selector: "app-access",
@@ -22,15 +24,29 @@ import { Register } from "../../../models/Register";
     FormAccessComponent,
   ],
 })
-export class AccessComponent {
+export class AccessComponent implements OnInit {
   btnText = "Entrar";
   private token: string = localStorage.getItem("authToken") || "";
+  googleUrl: string = `${environment.endpoint}/api/auth/google`;
 
   constructor(
     private service: UsersService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthorizationService,
   ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      const token = params['token'];
+      if (token) {
+        this.authService.setToken(token);
+        this.messageService.addMessage('Login via Google bem-sucedido');
+        this.router.navigate(['/']);
+      }
+    });
+  }
 
   createHandler(register: Register) {
     const formData = new FormData();
