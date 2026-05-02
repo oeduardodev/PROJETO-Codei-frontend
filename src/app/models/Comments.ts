@@ -3,6 +3,7 @@ export interface Comment {
   text: string;
   username: string;
   momentId: number;
+  photo?: string;
   created_at?: string;
   updated_at?: string;
 }
