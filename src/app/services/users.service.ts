@@ -40,8 +40,6 @@ export class UsersService {
         tap((response: LoginResponse) => {
           if (response && response.token) {
             this.authService.setToken(response.token);
-          } else {
-            console.error("Token não encontrado na resposta");
           }
         }),
       );

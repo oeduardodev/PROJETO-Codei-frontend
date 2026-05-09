@@ -1,11 +1,10 @@
-﻿<nav>
+<nav>
   <div class="menu" (click)="toggleMenu()">
-    <fa-icon
-      *ngIf="!(menuOpen$ | async)"
-      class="icon"
-      [icon]="faBars"
-    ></fa-icon>
-    <fa-icon *ngIf="menuOpen$ | async" [icon]="faArrowLeft"></fa-icon>
+    @if (!menuOpen()) {
+    <fa-icon class="icon" [icon]="faBars"></fa-icon>
+    } @else {
+    <fa-icon [icon]="faArrowLeft"></fa-icon>
+    }
   </div>
   <div class="logo">
     <a class="brand" routerLink="/">
@@ -24,44 +23,37 @@
   </form>
 
   <ul class="links">
-    <li (click)="closeMenu()" *ngIf="currentRoute !== '/moments/new'">
+    @if (!isMomentEditorRoute()) {
+    <li (click)="closeMenu()">
       <a
         class="butn butn__new button-text"
-        [routerLink]="userLogged ? '/moments/new' : '/login'"
+        [routerLink]="userLogged() ? '/moments/new' : '/login'"
         >Compartilhar</a
       >
     </li>
-    <li (click)="closeMenu()" *ngIf="currentRoute !== '/moments/new'">
+    <li (click)="closeMenu()">
       <fa-icon
         class="butn butn__new button-icon icon share-button"
         routerLink="/moments/new"
         [icon]="faShare"
       ></fa-icon>
     </li>
+    }
     <div class="link-icons">
-      <!-- Exibe faUser apenas na rota '/' -->
-      <li
-        (click)="closeMenu()"
-        *ngIf="currentRoute === '/' || currentRoute === '/moments/new'"
-      >
-        <a [routerLink]="userLogged ? '/profile' : '/login'">
+      @if (showProfileShortcut()) {
+      <li (click)="closeMenu()">
+        <a [routerLink]="userLogged() ? '/profile' : '/login'">
           <fa-icon class="icon user-button" [icon]="faUser"></fa-icon>
         </a>
       </li>
-
-      <!-- Exibe faHouse apenas nas rotas '/profile' ou '/login' -->
-      <li
-        (click)="closeMenu()"
-        *ngIf="
-          currentRoute === '/profile' ||
-          currentRoute === '/login' ||
-          currentRoute === '/moments/new'
-        "
-      >
+      }
+      @if (showHomeShortcut()) {
+      <li (click)="closeMenu()">
         <a routerLink="/">
           <fa-icon class="icon" [icon]="faHouse"></fa-icon>
         </a>
       </li>
+      }
     </div>
   </ul>
 </nav>

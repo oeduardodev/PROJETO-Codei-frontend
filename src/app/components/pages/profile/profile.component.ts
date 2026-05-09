@@ -1,28 +1,26 @@
+import { CommonModule } from "@angular/common";
 import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  ViewChild,
   OnInit,
+  ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Cropper from "cropperjs";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { CommonModule } from "@angular/common";
-
-import { environment } from "../../../environment/environments";
-
-import { Profile } from "../../../models/Profiles";
-import { ProfileService } from "../../../services/profile.service";
 import { LoadingComponent } from "../../../loading/loading.component";
-import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { MomentService } from "../../../services/moment.service";
-import { MessageService } from "../../../services/message.service";
-import { FormsModule } from "@angular/forms";
-import { Moment } from "../../../models/Moments";
-import { FriendsService } from "../../../services/friends.service";
-import { IconTech } from "../../../models/IconTechs";
 import { ImageFallbackDirective } from "../../../directives/image-fallback.directive";
+import { environment } from "../../../environment/environments";
+import { IconTech } from "../../../models/IconTechs";
+import { Moment } from "../../../models/Moments";
+import { Profile } from "../../../models/Profiles";
+import { FriendsService } from "../../../services/friends.service";
+import { MessageService } from "../../../services/message.service";
+import { MomentService } from "../../../services/moment.service";
+import { ProfileService } from "../../../services/profile.service";
 
 @Component({
   selector: "app-profile",
@@ -42,39 +40,27 @@ export class ProfileComponent implements OnInit {
   @ViewChild("imageCropper", { static: false }) imageElement!: ElementRef;
   @ViewChild("fileInput") fileInput!: ElementRef;
 
-  triggerFileInput() {
-    if (!this.editOn) {
-      return;
-    }
-    this.fileInput.nativeElement.click();
-  }
-
-  profileData!: Profile;
-  myProfile!: Profile;
-  friendsList!: Profile[];
+  profileData?: Profile;
+  myProfile?: Profile;
+  friendsList: Profile[] = [];
   id = "";
   externalProfileId = 0;
-  profileName = "";
 
   isFriendDemanded = false;
   isFriendRequested = false;
   isFriends = false;
 
-  moments: Moment[] = [];
   levels: string[] = [];
-  selectedLevel = this.levels[0] || "jovemscript";
-
-  technologies: IconTech[] = [];
+  selectedLevel = "jovemscript";
   newTech = "";
   availableIcons: IconTech[] = [];
   isTechValid = false;
   techListEdit = false;
 
   editOn = false;
-  dateMoment: Date = new Date();
   imageUrl = "";
   originalPhoto = "";
-  cropper!: Cropper;
+  cropper?: Cropper;
 
   endpoint = environment.endpoint;
   faEdit = faEdit;
@@ -87,127 +73,132 @@ export class ProfileComponent implements OnInit {
     private friendsService: FriendsService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchAvailableIcons();
 
     this.service.getMyProfile().subscribe((response) => {
-      const myProfile = new Profile(response.profile);
-      this.myProfile = myProfile;
+      this.myProfile = new Profile(response.profile);
       this.route.paramMap.subscribe((params) => {
         this.id = params.get("id")?.toString() || "";
-        if (this.id !== "" && this.id !== this.myProfile.userId.toString()) {
-          this.externalProfileId = +this.id;
+
+        if (this.id && this.id !== this.myProfile?.userId.toString()) {
+          this.externalProfileId = Number(this.id);
           this.getOthersProfiles();
-        } else {
-          this.externalProfileId = +"";
-          this.getMyProfile();
+          return;
         }
+
+        this.externalProfileId = 0;
+        this.getMyProfile();
       });
     });
   }
 
-  fetchAvailableIcons() {
+  get repeatedTechnologies(): string[] {
+    if (!this.profileData?.technologies?.length) {
+      return [];
+    }
+
+    return [...this.profileData.technologies, ...this.profileData.technologies];
+  }
+
+  triggerFileInput(): void {
+    if (!this.editOn) {
+      return;
+    }
+
+    this.fileInput.nativeElement.click();
+  }
+
+  fetchAvailableIcons(): void {
     this.service.getAvailableIcons().subscribe((data) => {
       this.availableIcons = data;
     });
   }
 
-  getFriendsList() {
-    this.friendsService
-      .friendsById(this.profileData.userId)
-      .subscribe((response) => {
-        this.friendsList = response.myFriends.map(
-          (friend) => new Profile(friend)
-        );
-      });
+  getFriendsList(): void {
+    if (!this.profileData) {
+      this.friendsList = [];
+      return;
+    }
+
+    this.friendsService.friendsById(this.profileData.userId).subscribe((response) => {
+      this.friendsList = response.myFriends.map((friend) => new Profile(friend));
+    });
   }
 
   validateTechnology(): void {
     const techFormatted = this.newTech.toLowerCase().trim();
     this.isTechValid = this.availableIcons.some(
-      (icon) => icon.name.toLowerCase() === techFormatted
+      (icon) => icon.name.toLowerCase() === techFormatted,
     );
   }
 
   addTechnology(): void {
-    if (!this.profileData.technologies.includes(this.newTech)) {
-      this.profileData.technologies.push(this.newTech);
-      this.techListEdit = true;
-      this.newTech = "";
-      this.isTechValid = false;
+    if (!this.profileData || this.profileData.technologies.includes(this.newTech)) {
+      return;
     }
+
+    this.profileData.technologies.push(this.newTech);
+    this.techListEdit = true;
+    this.newTech = "";
+    this.isTechValid = false;
   }
 
   removeTechnology(tech: string): void {
+    if (!this.profileData) {
+      return;
+    }
+
     this.profileData.technologies = this.profileData.technologies.filter(
-      (t) => t !== tech
+      (item) => item !== tech,
     );
     this.techListEdit = true;
   }
 
-  getMyProfile() {
-    this.service.getMyProfile().subscribe(
-      (response) => {
-        this.profileData = new Profile(response.profile);
-        this.originalPhoto = this.profileData.photo; // ← aqui
-        this.verifySolicitation();
-        this.getFriendsList();
-      },
-      (err) => {
-        console.error("Erro ao obter o perfil:", err);
-      }
-    );
+  getMyProfile(): void {
+    this.service.getMyProfile().subscribe((response) => {
+      this.profileData = new Profile(response.profile);
+      this.originalPhoto = this.profileData.photo;
+      this.selectedLevel = this.profileData.levels[0] || "jovemscript";
+      this.verifySolicitation();
+      this.getFriendsList();
+    });
   }
 
-  getOthersProfiles() {
-    this.service.getProfileById(this.externalProfileId).subscribe(
-      (response) => {
-        this.profileData = new Profile(response.profile);
-        this.selectedLevel =
-          this.levels.length > 0 ? this.levels[0] : "jovemscript";
-        this.verifySolicitation();
-        this.getFriendsList();
-      },
-      (err) => {
-        console.error("Erro ao obter o perfil:", err);
-      }
-    );
+  getOthersProfiles(): void {
+    this.service.getProfileById(this.externalProfileId).subscribe((response) => {
+      this.profileData = new Profile(response.profile);
+      this.selectedLevel = this.profileData.levels[0] || "jovemscript";
+      this.verifySolicitation();
+      this.getFriendsList();
+    });
   }
 
-  editChange() {
-    this.editOn = true;
-  }
-
-  removeHandler(id: number) {
+  removeHandler(id: number): void {
     this.momentService.removeMoment(id).subscribe();
-
     this.messagesService.addMessage("Momento excluido com sucesso!");
-    this.router.navigate(["/"]);
+    void this.router.navigate(["/"]);
   }
 
-  async sendProfile() {
-    if (!this.profileData || !this.profileData.userId) {
+  async sendProfile(): Promise<void> {
+    if (!this.profileData?.userId) {
       return;
     }
 
     const formData = new FormData();
-
     formData.append("username", this.profileData.username);
     formData.append("bio", this.profileData.bio);
-    formData.append(
-      "technologies",
-      JSON.stringify(this.profileData.technologies)
-    );
+    formData.append("technologies", JSON.stringify(this.profileData.technologies));
     formData.append("friends", JSON.stringify(this.profileData.friends));
     formData.append(
       "levels",
       JSON.stringify([
         this.selectedLevel,
-        ...this.levels.filter((l) => l !== this.selectedLevel),
-      ])
+        ...this.levels.filter((level) => level !== this.selectedLevel),
+      ]),
     );
 
     const croppedBlob = await this.getCroppedImageBlob();
@@ -215,70 +206,67 @@ export class ProfileComponent implements OnInit {
       formData.append("photo", croppedBlob, "profile.jpg");
     }
 
-    this.service.postProfileById(this.profileData.userId, formData).subscribe(
-      () => this.messagesService.addMessage("Perfil atualizado com sucesso!"),
-      (err) => console.error("Erro ao atualizar perfil:", err)
-    );
-  }
-
-  verifySolicitation() {
-    const myFriendIds = this.myProfile.friends;
-    if (myFriendIds.includes(this.externalProfileId)) {
-      this.isFriendRequested = true;
-    } else {
-      this.isFriendRequested = false;
-    }
-    this.friendsService.friendsList().subscribe((response) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const myFriendIds = response.myFriends.map((f: any) => f.user_id);
-
-      // Verifica se o perfil que estou vendo está entre meus amigos
-      this.isFriends = myFriendIds.includes(this.externalProfileId);
-
-      // Verifica se eu estou na lista de amigos do perfil que estou vendo
-      this.isFriendDemanded = this.profileData.friends.includes(
-        this.myProfile.userId
-      );
+    this.service.postProfileById(this.profileData.userId, formData).subscribe({
+      next: () => {
+        this.messagesService.addMessage("Perfil atualizado com sucesso!");
+      },
+      error: () => {
+        this.messagesService.addMessage("Erro ao atualizar perfil.");
+      },
     });
   }
 
-  removeFriend() {
-    this.friendsService.removeFriend(this.externalProfileId).subscribe(
-      () => {
+  verifySolicitation(): void {
+    if (!this.myProfile || !this.profileData) {
+      return;
+    }
+
+    this.isFriendRequested = this.myProfile.friends.includes(this.externalProfileId);
+
+    this.friendsService.friendsList().subscribe((response) => {
+      const myFriendIds = response.myFriends.map((friend: any) => friend.user_id);
+      this.isFriends = myFriendIds.includes(this.externalProfileId);
+      this.isFriendDemanded = this.profileData?.friends.includes(this.myProfile!.userId) ?? false;
+    });
+  }
+
+  removeFriend(): void {
+    this.friendsService.removeFriend(this.externalProfileId).subscribe({
+      next: () => {
         this.messagesService.addMessage("Amizade removida com sucesso!");
         this.isFriends = false;
       },
-      (err) => {
-        console.error("Erro ao remover amizade:", err);
+      error: () => {
         this.messagesService.addMessage("Erro ao remover amizade.");
-      }
-    );
+      },
+    });
   }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64Image = e.target?.result as string;
+    const file = input.files?.[0];
 
-        // Atualiza o preview imediato na view
-        this.imageUrl = base64Image;
-        this.profileData.photo = base64Image;
-
-        this.cdr.detectChanges();
-        this.initializeCropper();
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  initializeCropper() {
-    if (!this.imageElement?.nativeElement) {
-      console.error("Image element not found.");
+    if (!file || !this.profileData) {
       return;
     }
 
+    const reader = new FileReader();
+    reader.onload = (loadEvent) => {
+      const base64Image = loadEvent.target?.result as string;
+      this.imageUrl = base64Image;
+      this.profileData!.photo = base64Image;
+      this.cdr.detectChanges();
+      this.initializeCropper();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  initializeCropper(): void {
+    if (!this.imageElement?.nativeElement) {
+      return;
+    }
+
+    this.cropper?.destroy();
     this.cropper = new Cropper(this.imageElement.nativeElement, {
       aspectRatio: 1,
       viewMode: 1,
@@ -292,7 +280,10 @@ export class ProfileComponent implements OnInit {
 
   getCroppedImageBlob(): Promise<Blob | null> {
     return new Promise((resolve) => {
-      if (!this.cropper) return resolve(null);
+      if (!this.cropper) {
+        resolve(null);
+        return;
+      }
 
       this.cropper.getCroppedCanvas().toBlob((blob) => {
         resolve(blob);
@@ -301,12 +292,16 @@ export class ProfileComponent implements OnInit {
   }
 
   cancelImageSelection(): void {
+    if (!this.profileData) {
+      return;
+    }
+
     this.imageUrl = "";
     this.profileData.photo = this.originalPhoto;
     this.cdr.detectChanges();
   }
 
-  addFriend() {
+  addFriend(): void {
     this.friendsService.addFriend(this.externalProfileId).subscribe(() => {
       this.messagesService.addMessage("Solicitação enviada com sucesso!");
       this.isFriends = true;

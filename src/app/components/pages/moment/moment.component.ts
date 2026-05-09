@@ -1,36 +1,30 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { Component, computed, signal } from "@angular/core";
 import {
-  FormGroup,
   FormControl,
-  Validators,
+  FormGroup,
   FormGroupDirective,
   ReactiveFormsModule,
+  Validators,
 } from "@angular/forms";
-import { MomentService } from "../../../services/moment.service";
-import { MessageService } from "../../../services/message.service";
-import { Moment } from "../../../models/Moments";
-import { Comment } from "../../../models/Comments";
-import { environment } from "../../../environment/environments";
-import { CommonModule } from "@angular/common";
-import {
-  faTimes,
-  faEdit,
-  faUsersRays,
-} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { CommentService } from "../../../services/comment.service";
-import { UsersService } from "../../../services/users.service";
-import { AsideProfileComponent } from "../../aside-profile/aside-profile.component";
-import { LikeService } from "../../../services/like.service";
+import { Router, RouterLink, ActivatedRoute } from "@angular/router";
+import { faEdit, faTimes, faUsersRays } from "@fortawesome/free-solid-svg-icons";
+import { Comment } from "../../../models/Comments";
+import { Moment } from "../../../models/Moments";
 import { User } from "../../../models/User";
 import { ImageFallbackDirective } from "../../../directives/image-fallback.directive";
+import { environment } from "../../../environment/environments";
+import { CommentService } from "../../../services/comment.service";
+import { LikeService } from "../../../services/like.service";
+import { MessageService } from "../../../services/message.service";
+import { MomentService } from "../../../services/moment.service";
+import { UsersService } from "../../../services/users.service";
 
 @Component({
   selector: "app-moment",
   standalone: true,
   imports: [
-    AsideProfileComponent,
     CommonModule,
     FontAwesomeModule,
     RouterLink,
@@ -40,17 +34,30 @@ import { ImageFallbackDirective } from "../../../directives/image-fallback.direc
   templateUrl: "./moment.component.html",
   styleUrl: "./moment.component.css",
 })
-export class MomentComponent implements OnInit {
-  moment?: Moment;
-  baseApiUrl = environment.endpoint;
+export class MomentComponent {
+  readonly baseApiUrl = environment.endpoint;
+  readonly moment = signal<Moment | null>(null);
+  readonly userNameLog = signal("");
+  readonly likeAtive = signal(false);
+  readonly animateLike = signal(false);
 
-  userNameLog = "";
-  likeAtive = false;
+  readonly likeImage = computed(() =>
+    this.likeAtive()
+      ? "../../../../assets/capilike-ative.png"
+      : "../../../../assets/capilike.png",
+  );
+  readonly comments = computed(() => this.moment()?.comments ?? []);
+  readonly hasComments = computed(() => this.comments().length > 0);
+  readonly commentCount = computed(() => this.comments().length);
 
-  faEdit = faEdit;
-  faTimes = faTimes;
-  faRay = faUsersRays;
-  commentForm!: FormGroup;
+  readonly faEdit = faEdit;
+  readonly faTimes = faTimes;
+  readonly faRay = faUsersRays;
+
+  readonly commentForm = new FormGroup({
+    text: new FormControl("", [Validators.required]),
+    username: new FormControl("", [Validators.required]),
+  });
 
   constructor(
     private momentService: MomentService,
@@ -59,154 +66,134 @@ export class MomentComponent implements OnInit {
     private router: Router,
     private commentService: CommentService,
     private userService: UsersService,
-    private likeService: LikeService
-  ) {}
-
-  ngOnInit(): void {
+    private likeService: LikeService,
+  ) {
     this.getMoment();
-    this.setupCommentForm();
     this.getUser();
-  }
-
-  setupCommentForm() {
-    this.commentForm = new FormGroup({
-      text: new FormControl("", [Validators.required]),
-      username: new FormControl("", [Validators.required]),
-    });
-  }
-
-  getUser() {
-    this.userService.getUser().subscribe((user: User) => {
-      this.userNameLog = user.username ?? "";
-      if (this.userNameLog) {
-        this.commentForm.patchValue({
-          username: this.userNameLog,
-        });
-        this.commentForm.get("username")?.disable();
-      }
-    });
-  }
-
-  getMoment() {
-    const id = Number(this.route.snapshot.paramMap.get("id"));
-
-    this.momentService.getMoment(id).subscribe((item) => {
-      this.moment = new Moment(item.data);
-
-      if (this.moment && this.moment.id !== undefined) {
-        this.likeService.getLike(this.moment.id).subscribe((like) => {
-          this.likeAtive = like.liked;
-        });
-      } else {
-        console.error("Moment or Moment ID is undefined.");
-      }
-    });
   }
 
   get text() {
     return this.commentForm.get("text")!;
   }
 
-  get username() {
-    if (this.userNameLog) {
+  getMoment(): void {
+    const id = Number(this.route.snapshot.paramMap.get("id"));
+
+    if (!id) {
       return;
     }
-    this.commentForm.get("username")!;
+
+    this.momentService.getMoment(id).subscribe((item) => {
+      const loadedMoment = new Moment(item.data);
+      this.moment.set(loadedMoment);
+
+      if (!loadedMoment.id) {
+        return;
+      }
+
+      // Carrega comentários explicitamente para garantir que apareçam
+      this.commentService.getCommentsByMoment(loadedMoment.id).subscribe({
+        next: (res) => {
+          this.moment.update((moment) => {
+            if (!moment) return moment;
+            return { ...moment, comments: res.comments ?? moment.comments };
+          });
+        },
+      });
+
+      this.likeService.getLike(loadedMoment.id).subscribe((like) => {
+        this.likeAtive.set(like.liked);
+      });
+    });
   }
 
-  async onSubmit(formDirective: FormGroupDirective) {
-    if (this.commentForm.invalid) {
+  getUser(): void {
+    this.userService.getUser().subscribe((user: User) => {
+      const username = user.username ?? "";
+      this.userNameLog.set(username);
+
+      if (!username) {
+        return;
+      }
+
+      this.commentForm.patchValue({ username });
+      this.commentForm.get("username")?.disable();
+    });
+  }
+
+  onSubmit(formDirective: FormGroupDirective): void {
+    const currentMoment = this.moment();
+
+    if (this.commentForm.invalid || !currentMoment?.id) {
       return;
     }
 
-    // Habilitar o campo username temporariamente se estiver desabilitado
     const usernameControl = this.commentForm.get("username");
     if (usernameControl?.disabled) {
       usernameControl.enable();
     }
 
-    // Verifica se o campo `username` está vazio e preenche com `userNameLog` se necessário
-    if (!usernameControl || !usernameControl.value.trim()) {
-      this.commentForm.patchValue({ username: this.userNameLog });
+    if (!usernameControl?.value?.trim()) {
+      this.commentForm.patchValue({ username: this.userNameLog() });
     }
 
     const data: Comment = {
-      ...this.commentForm.value,
-      momentId: Number(this.moment!.id),
+      ...(this.commentForm.getRawValue() as Comment),
+      momentId: currentMoment.id,
     };
 
-    // Desabilitar o campo username novamente se necessário
-    if (this.userNameLog) {
+    if (this.userNameLog()) {
       usernameControl?.disable();
     }
 
     this.commentService.createComment(data).subscribe((comment) => {
-      this.moment!.comments!.push(comment.data);
+      this.moment.update((moment) => {
+        if (!moment) {
+          return moment;
+        }
+
+        return {
+          ...moment,
+          comments: [...(moment.comments ?? []), comment.data],
+        };
+      });
     });
 
-    this.messagesService.addMessage("Comentário Adicionado");
-
+    this.messagesService.addMessage("Comentário adicionado");
     this.commentForm.reset();
     formDirective.resetForm();
-    this.getMoment();
-    this.getUser();
+
+    if (this.userNameLog()) {
+      this.commentForm.patchValue({ username: this.userNameLog() });
+      this.commentForm.get("username")?.disable();
+    }
   }
 
-  async removeHandler(id: number) {
+  removeHandler(id: number): void {
     this.momentService.removeMoment(id).subscribe();
-
     this.messagesService.addMessage("Momento excluido com sucesso!");
-    this.router.navigate(["/"]);
+    void this.router.navigate(["/"]);
   }
 
-  sendLike() {
-    if (this.moment && this.moment.id !== undefined) {
-      // Inverta o estado de likeAtive imediatamente
-      this.likeAtive = !this.likeAtive;
+  sendLike(): void {
+    const currentMoment = this.moment();
 
-      // Atualize a imagem imediatamente após a inversão
-      const imageElement = document.querySelector(
-        ".capilike"
-      ) as HTMLImageElement;
-      if (imageElement) {
-        imageElement.src = this.updateLikeImage();
-      }
-
-      // Envie a requisição de like para o servidor
-      this.likeService.sendLike(this.moment.id).subscribe();
-      // Opcional: Atualize o estado de like após obter a resposta do servidor
-      this.likeService.getLike(this.moment.id).subscribe((like) => {
-        this.likeAtive = like.liked;
-        // Atualize a imagem novamente após receber a resposta do servidor
-        if (imageElement) {
-          imageElement.src = this.updateLikeImage();
-        }
-      });
-    } else {
-      console.error("Moment ID is undefined. Cannot send like.");
+    if (!currentMoment?.id) {
+      return;
     }
 
-    // Animação de clique (opcional)
-    const imageElement = document.querySelector(".capilike");
+    this.likeAtive.update((liked) => !liked);
+    this.animateLike.set(true);
 
-    if (imageElement) {
-      imageElement.classList.add("clicked");
-      setTimeout(() => {
-        imageElement.classList.remove("clicked");
+    this.likeService.sendLike(currentMoment.id).subscribe(() => {
+      this.likeService.getLike(currentMoment.id).subscribe((like) => {
+        this.likeAtive.set(like.liked);
         this.getMoment();
-      }, 200);
-    }
-    this.getMoment();
-  }
+      });
+    });
 
-  updateLikeImage(): string {
-    if (this.moment && this.moment.id !== undefined) {
-      return this.likeAtive
-        ? "../../../../assets/capilike-ative.png"
-        : "../../../../assets/capilike.png";
-    } else {
-      console.error("Moment ID is undefined. Cannot get like image.");
-      return "../../../../assets/capilike.png";
-    }
+    setTimeout(() => {
+      this.animateLike.set(false);
+    }, 200);
   }
 }

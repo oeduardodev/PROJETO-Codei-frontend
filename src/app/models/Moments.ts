@@ -10,6 +10,7 @@ export class Moment {
   created_at: string;
   updated_at: string;
   photo: string;
+  image: string;
 
   comments: Comment[] = [];
   user: User;
@@ -21,7 +22,8 @@ export class Moment {
     this.id = data.id;
     this.title = data.title ;
     this.description = data.description;
-    this.photo = data.photo;
+    this.photo = data.photo ?? data.image;
+    this.image = data.image ?? data.photo;
     this.likes_count = data.likes_count || 0;
     this.created_at = data.created_at ;
     this.updated_at = data.updated_at;

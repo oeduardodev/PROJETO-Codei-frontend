@@ -1,20 +1,19 @@
+import { CommonModule } from "@angular/common";
 import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
   ViewChild,
+  computed,
+  effect,
+  input,
+  output,
+  signal,
 } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import Cropper from "cropperjs";
 import { Moment } from "../../models/Moments";
 import { UsersService } from "../../services/users.service";
-import Cropper from "cropperjs";
-import { AuthorizationService } from "../../services/auth.service";
 
 @Component({
   selector: "app-moment-form",
@@ -23,63 +22,74 @@ import { AuthorizationService } from "../../services/auth.service";
   templateUrl: "./moment-form.component.html",
   styleUrls: ["./moment-form.component.css"],
 })
-export class MomentFormComponent implements OnInit {
-  @Output() OnSubmit = new EventEmitter<FormData>();
-  @Input() btnText!: string;
-  @Input() momentData!: Moment;
+export class MomentFormComponent {
+  readonly submitted = output<FormData>();
+  readonly btnText = input.required<string>();
+  readonly momentData = input<Moment | null>(null);
   @ViewChild("imageCropper", { static: false }) imageElement!: ElementRef;
 
-  imageUrl = "";
-  cropper!: Cropper;
-  croppedImage: string | null = null;
+  readonly imageUrl = signal("");
+  readonly hasImage = computed(() => !!this.imageUrl());
+  readonly isImageLoading = signal(false);
+  readonly userId = signal<number | null>(null);
 
-  momentForm!: FormGroup;
-  userId?: number;
-  isImageLoading = false;
+  cropper?: Cropper;
+
+  readonly momentForm = new FormGroup({
+    id: new FormControl(""),
+    title: new FormControl("", Validators.required),
+    description: new FormControl("", Validators.required),
+    image: new FormControl<File | null>(null),
+    user_id: new FormControl(""),
+  });
 
   constructor(
     private usersService: UsersService,
-    private cdr: ChangeDetectorRef
-  ) {}
-
-  ngOnInit(): void {
+    private cdr: ChangeDetectorRef,
+  ) {
     this.getUserInfo();
-    this.momentForm = new FormGroup({
-      id: new FormControl(this.momentData ? this.momentData.id : ""),
-      title: new FormControl(this.momentData ? this.momentData.title : "", [
-        Validators.required,
-      ]),
-      description: new FormControl(
-        this.momentData ? this.momentData.description : "",
-        [Validators.required]
-      ),
-      image: new FormControl(""),
-      user_id: new FormControl(""),
+
+    effect(() => {
+      const moment = this.momentData();
+
+      this.momentForm.patchValue(
+        {
+          id: moment?.id?.toString() ?? "",
+          title: moment?.title ?? "",
+          description: moment?.description ?? "",
+        },
+        { emitEvent: false },
+      );
     });
   }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.isImageLoading = true;
+    const file = input.files?.[0];
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.imageUrl = (e.target?.result as string) || "";
-
-        this.cdr.detectChanges();
-        this.initializeCropper();
-      };
-      reader.readAsDataURL(input.files[0]);
+    if (!file) {
+      return;
     }
+
+    this.isImageLoading.set(true);
+
+    const reader = new FileReader();
+    reader.onload = (loadEvent) => {
+      this.imageUrl.set((loadEvent.target?.result as string) || "");
+      this.momentForm.patchValue({ image: file });
+      this.isImageLoading.set(false);
+      this.cdr.detectChanges();
+      this.initializeCropper();
+    };
+    reader.readAsDataURL(file);
   }
 
   initializeCropper(): void {
     if (!this.imageElement?.nativeElement) {
-      console.error("Image element not found.");
       return;
     }
 
+    this.cropper?.destroy();
     this.cropper = new Cropper(this.imageElement.nativeElement, {
       aspectRatio: 1,
       viewMode: 1,
@@ -91,16 +101,11 @@ export class MomentFormComponent implements OnInit {
     });
   }
 
-  getUserInfo() {
-    this.usersService.getUser().subscribe(
-      (data) => {
-        this.userId = data.id;
-        this.momentForm.patchValue({ user_id: this.userId });
-      },
-      (error) => {
-        console.error("Error fetching user info", error);
-      }
-    );
+  getUserInfo(): void {
+    this.usersService.getUser().subscribe((data) => {
+      this.userId.set(data.id);
+      this.momentForm.patchValue({ user_id: data.id?.toString() ?? "" });
+    });
   }
 
   get title() {
@@ -110,62 +115,56 @@ export class MomentFormComponent implements OnInit {
   get description() {
     return this.momentForm.get("description")!;
   }
+
   async cropImage(): Promise<File | null> {
     return new Promise((resolve) => {
-      if (this.cropper) {
-        const canvas = this.cropper.getCroppedCanvas({
-          width: 1080,
-          height: 1080,
+      if (!this.cropper) {
+        resolve(null);
+        return;
+      }
+
+      const canvas = this.cropper.getCroppedCanvas({
+        width: 1080,
+        height: 1080,
+      });
+
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          resolve(null);
+          return;
+        }
+
+        const file = new File([blob], "cropped-image.jpg", {
+          type: "image/jpeg",
         });
 
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const file = new File([blob], "cropped-image.jpg", {
-              type: "image/jpeg",
-            });
-            this.momentForm.patchValue({ image: file });
-            resolve(file);
-          } else {
-            console.error("Erro ao converter canvas para blob.");
-            resolve(null);
-          }
-        }, "image/jpeg");
-      } else {
-        console.error("Cropper não foi inicializado.");
-        resolve(null);
-      }
+        this.momentForm.patchValue({ image: file });
+        resolve(file);
+      }, "image/jpeg");
     });
   }
 
-  async submit() {
+  async submit(): Promise<void> {
+    if (this.momentForm.invalid || !this.userId()) {
+      return;
+    }
+
     const croppedImageFile = await this.cropImage();
+
     if (!croppedImageFile) {
-      console.error("Erro ao preparar a imagem cortada.");
-      return;
-    }
-
-    if (this.momentForm.invalid) {
-      console.error("O formulário está inválido.");
-      return;
-    }
-
-    if (this.userId === undefined) {
-      console.error("User ID não foi definido.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("id", this.momentForm.get("id")!.value || "");
-    formData.append("title", this.momentForm.get("title")!.value);
-    formData.append("description", this.momentForm.get("description")!.value);
-    formData.append("user_id", this.userId.toString());
+    formData.append("id", this.momentForm.get("id")?.value || "");
+    formData.append("title", this.momentForm.get("title")?.value || "");
+    formData.append(
+      "description",
+      this.momentForm.get("description")?.value || "",
+    );
+    formData.append("user_id", this.userId()!.toString());
+    formData.append("image", croppedImageFile);
 
-    if (croppedImageFile) {
-      formData.append("image", croppedImageFile);
-    } else {
-      console.error("Imagem cortada não está presente no FormData.");
-    }
-
-    this.OnSubmit.emit(formData);
+    this.submitted.emit(formData);
   }
 }

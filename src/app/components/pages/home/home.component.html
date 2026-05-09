@@ -1,34 +1,34 @@
 <div class="layout-container">
   <div class="home-container">
     <h1>Veja o que andam compartilhando por aí</h1>
-    <div *ngIf="moments.length > 0; else noMoments">
-      <div class="moments-container">
-        <div class="moment" *ngFor="let moment of moments">
-          <a routerLink="moments/{{ moment.id }}">
-            <img
-              class="img-moment"
-              [src]="moment.image"
-              appImageFallback="/assets/post-default.png"
-              [alt]="moment.title"
-            />
-            <div class="details">
-              <h3>{{ moment.title }}</h3>
-              <div class="counts">
-                <p>💬{{ moment.comments!.length }}</p>
-                <p>😻{{ moment.likes_count }}</p>
-              </div>
-              <p class="date">{{ moment.created_at }}</p>
+
+    @if (hasMoments()) {
+    <div class="moments-container">
+      @for (moment of moments(); track moment.id) {
+      <div class="moment">
+        <a [routerLink]="['/moments', moment.id]">
+          <img
+            class="img-moment"
+            [src]="moment.image"
+            appImageFallback="/assets/post-default.png"
+            [alt]="moment.title"
+          />
+          <div class="details">
+            <h3>{{ moment.title }}</h3>
+            <div class="counts">
+              <p>💬{{ moment.comments!.length }}</p>
+              <p>😻{{ moment.likes_count }}</p>
             </div>
-          </a>
-        </div>
+            <p class="date">{{ moment.created_at }}</p>
+          </div>
+        </a>
       </div>
+      }
     </div>
-    <div *ngIf="!moments.length" class="loading">
+    } @else {
+    <div class="loading">
       <app-loading></app-loading>
     </div>
-
-    <ng-template #noMoments>
-      <h1>Não há Momentos!</h1>
-    </ng-template>
+    }
   </div>
 </div>

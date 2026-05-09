@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 import { FormRegisterComponent } from "../../form-register/form-register.component";
-import { UsersService } from '../../../services/users.service';
-import { MessageService } from '../../../services/message.service';
-import { Router } from '@angular/router';
-import { Register } from '../../../models/Register';
+import { Register } from "../../../models/Register";
+import { MessageService } from "../../../services/message.service";
+import { UsersService } from "../../../services/users.service";
 
 @Component({
-  selector: 'app-register',
+  selector: "app-register",
   standalone: true,
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
-  imports: [FormRegisterComponent]
+  templateUrl: "./register.component.html",
+  styleUrls: ["./register.component.css"],
+  imports: [FormRegisterComponent],
 })
 export class RegisterComponent {
   btnText = "Cadastrar";
@@ -18,29 +18,30 @@ export class RegisterComponent {
   constructor(
     private service: UsersService,
     private messageService: MessageService,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
-  async createHandler(register: Register) {
+  createHandler(register: Register): void {
     const formData = new FormData();
-    formData.append('username', register.username);
-    formData.append('password', register.password);
+    formData.append("username", register.username);
+    formData.append("password", register.password);
 
     if (register.email) {
-      formData.append('email', register.email);
+      formData.append("email", register.email);
     }
+
     if (register.photo) {
-      formData.append('photo', register.photo);
+      formData.append("photo", register.photo);
     }
-    await this.service.register(formData).subscribe(
-      () => {
+
+    this.service.register(formData).subscribe({
+      next: () => {
         this.messageService.addMessage("Usuário adicionado com sucesso!");
-        this.router.navigate(['/']);
+        void this.router.navigate(["/"]);
       },
-      (error) => {
-        console.error("Erro ao adicionar usuário: ", error);
+      error: () => {
         this.messageService.addMessage("Erro ao adicionar usuário.");
-      }
-    );
+      },
+    });
   }
 }

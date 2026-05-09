@@ -1,10 +1,11 @@
-<div *ngIf="profileData" class="profile">
+@if (profileData; as profile) {
+<div class="profile">
   <div class="container">
     <div>
       <div class="select-photo" [ngClass]="{ 'edit-mode': editOn }">
         <img
           class="profile-image-default"
-          [src]="profileData.photo || '/assets/profile-default-img.png'"
+          [src]="profile.photo || '/assets/profile-default-img.png'"
           appImageFallback="/assets/profile-default-img.png"
           alt="Foto de perfil do usuário"
           (click)="triggerFileInput()"
@@ -23,144 +24,110 @@
 
       <div class="level-container">
         <span>status: </span>
-        <strong *ngIf="!editOn">{{ selectedLevel || "jovemscript" }}</strong>
-        <select *ngIf="editOn" [(ngModel)]="selectedLevel">
-          <option *ngFor="let level of profileData.levels" [value]="level">
-            {{ level }}
-          </option>
+        @if (!editOn) {
+        <strong>{{ selectedLevel || "jovemscript" }}</strong>
+        } @else {
+        <select [(ngModel)]="selectedLevel">
+          @for (level of profile.levels; track level) {
+          <option [value]="level">{{ level }}</option>
+          }
         </select>
+        }
       </div>
     </div>
 
     <div class="header-profile">
       <div class="profile-name">
-        <input type="text" [(ngModel)]="profileData.username" *ngIf="editOn" />
-        <h3 *ngIf="!editOn">{{ profileData.username || "sem nome" }}</h3>
-        <button
-          (click)="addFriend()"
-          *ngIf="externalProfileId && !isFriendRequested"
-          class="butn"
-        >
-          Adicionar
-        </button>
-        <button
-          (click)="addFriend()"
-          *ngIf="externalProfileId && !isFriendRequested"
-          class="butn btn-mobile"
-        >
-          +
-        </button>
-        <button
-          *ngIf="isFriendRequested && !isFriendDemanded"
-          class="butn"
-          style="opacity: 50%"
-        >
-          Pedido Enviada
-        </button>
-        <button
-          *ngIf="isFriendRequested && !isFriendDemanded"
-          class="butn"
-          style="opacity: 50%"
-        >
-          ...
-        </button>
-        <button
-          (click)="removeFriend()"
-          *ngIf="isFriendRequested && isFriendDemanded"
-          class="butn"
-        >
-          Deixar Amigo
-        </button>
-        <button
-          (click)="removeFriend()"
-          *ngIf="isFriendRequested && isFriendDemanded"
-          class="butn btn-mobile"
-        >
-          x
-        </button>
-        <button
-          (click)="editOn = true"
-          *ngIf="!externalProfileId && !editOn"
-          class="butn"
-        >
-          Editar
-        </button>
-        <button
-          (click)="editOn = true"
-          *ngIf="!externalProfileId && !editOn"
-          class="butn btn-mobile"
-        >
+        @if (editOn) {
+        <input type="text" [(ngModel)]="profile.username" />
+        } @else {
+        <h3>{{ profile.username || "sem nome" }}</h3>
+        }
+
+        @if (externalProfileId && !isFriendRequested) {
+        <button (click)="addFriend()" class="butn">Adicionar</button>
+        <button (click)="addFriend()" class="butn btn-mobile">+</button>
+        }
+
+        @if (isFriendRequested && !isFriendDemanded) {
+        <button class="butn" style="opacity: 50%">Pedido Enviada</button>
+        <button class="butn" style="opacity: 50%">...</button>
+        }
+
+        @if (isFriendRequested && isFriendDemanded) {
+        <button (click)="removeFriend()" class="butn">Deixar Amigo</button>
+        <button (click)="removeFriend()" class="butn btn-mobile">x</button>
+        }
+
+        @if (!externalProfileId && !editOn) {
+        <button (click)="editOn = true" class="butn">Editar</button>
+        <button (click)="editOn = true" class="butn btn-mobile">
           <fa-icon class="icon user-button" [icon]="faEdit"></fa-icon>
         </button>
-        <button
-          (click)="sendProfile(); editOn = false"
-          *ngIf="editOn"
-          class="butn"
-        >
+        }
+
+        @if (editOn) {
+        <button (click)="sendProfile(); editOn = false" class="butn">
           Concluir
         </button>
-        <button
-          (click)="sendProfile(); editOn = false"
-          *ngIf="editOn"
-          class="butn btn-mobile"
-        >
+        <button (click)="sendProfile(); editOn = false" class="butn btn-mobile">
           OK
         </button>
+        }
       </div>
-      <p *ngIf="!editOn">
+
+      @if (!editOn) {
+      <p>
         {{
-          profileData.bio ||
-            "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar  dev, e essa não é uma mensagem de descrição padrão! "
+          profile.bio ||
+            "Olá, sou usuario da melhor rede social do mundo pra quem quer se tornar dev, e essa não é uma mensagem de descrição padrão!"
         }}
       </p>
+      } @else {
       <textarea
-        [(ngModel)]="profileData.bio"
-        *ngIf="editOn"
-        name=""
-        id=""
+        [(ngModel)]="profile.bio"
         placeholder="Escreva uma descrição legal para seu perfil."
         maxlength="140"
       ></textarea>
+      }
     </div>
   </div>
+
   <div class="friends-container">
     <h5 class="buget-title">Amigos</h5>
     <div class="friends-list-container">
-      <h4 *ngIf="!friendsList">Sem amigos por aqui</h4>
+      @if (!friendsList.length) {
+      <h4>Sem amigos por aqui</h4>
+      }
+      @for (friend of friendsList; track friend.userId) {
       <div
         [routerLink]="['/profile/', friend.userId]"
         [title]="friend.userId"
         class="friend"
-        *ngFor="let friend of friendsList"
       >
         <img
-          [src]="friend?.photo || '/assets/profile-default-img.png'"
+          [src]="friend.photo || '/assets/profile-default-img.png'"
           appImageFallback="/assets/profile-default-img.png"
-          alt="{{ friend.username }}"
+          [alt]="friend.username"
           width="50"
           height="50"
         />
         <p class="username-friend">{{ friend.username.slice(0, 6) }},,,</p>
       </div>
+      }
     </div>
   </div>
 
   <div class="tech-container">
     <h3>Tecnologias</h3>
     <div class="tech-list-container">
-      <span
-        *ngIf="
-          profileData.technologies &&
-          profileData.technologies.length <= 0 &&
-          !editOn
-        "
-        class="msg-tech-off"
-        >sem tecnologias por aqui.😔</span
-      >
-      <div class="edit-techs" *ngIf="editOn">
-        <span class="msg-tech-off"
-          >Digite a tecnologia que você domina. 😎</span
-        >
+      @if (profile.technologies.length <= 0 && !editOn) {
+      <span class="msg-tech-off">sem tecnologias por aqui.😔</span>
+      }
+
+      @if (editOn) {
+      <div class="edit-techs">
+        <span class="msg-tech-off">Digite a tecnologia que você domina. 😎</span>
         <div>
           <input
             type="text"
@@ -177,69 +144,45 @@
           </button>
         </div>
       </div>
+      }
+
       <div class="container-tech-list">
         <div class="tech-list">
-          <ng-container
-            *ngFor="
-              let tech of profileData.technologies.concat(
-                profileData.technologies
-              )
-            "
-          >
-            <span class="tech-item">
-              <i
-                title="{{ tech }}"
-                class="devicon-{{ tech }}-plain icone-lang"
-              ></i>
-              <button
-                *ngIf="editOn"
-                class="butn butn-remove"
-                (click)="removeTechnology(tech)"
-              >
-                x
-              </button>
-            </span>
-          </ng-container>
-          <ng-container
-            *ngFor="
-              let tech of profileData.technologies.concat(
-                profileData.technologies
-              )
-            "
-          >
-            <span class="tech-item">
-              <i
-                title="{{ tech }}"
-                class="devicon-{{ tech }}-plain icone-lang"
-              ></i>
-              <button
-                *ngIf="editOn"
-                class="butn butn-remove"
-                (click)="removeTechnology(tech)"
-              >
-                x
-              </button>
-            </span>
-          </ng-container>
+          @for (tech of repeatedTechnologies; track tech) {
+          <span class="tech-item">
+            <i title="{{ tech }}" class="devicon-{{ tech }}-plain icone-lang"></i>
+            @if (editOn) {
+            <button
+              class="butn butn-remove"
+              (click)="removeTechnology(tech)"
+            >
+              x
+            </button>
+            }
+          </span>
+          }
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="profileData" class="container-my-moments">
+<div class="container-my-moments">
   <h3>Momentos</h3>
   <div class="moments-container">
-    <div class="moment" *ngFor="let moment of profileData.moments">
-      <a class="link-moment" routerLink="/moments/{{ moment.id }}">
-        <div class="actions" *ngIf="!externalProfileId">
-          <a routerLink="/moments/edit/{{ moment.id }}" class="edit-btn">
+    @for (moment of profile.moments; track moment.id) {
+    <div class="moment">
+      <a class="link-moment" [routerLink]="['/moments', moment.id]">
+        @if (!externalProfileId) {
+        <div class="actions">
+          <a [routerLink]="['/moments/edit', moment.id]" class="edit-btn">
             <fa-icon [icon]="faEdit" class="icone"></fa-icon> Editar
           </a>
           <button class="remove-btn" (click)="removeHandler(moment.id!)">
             <fa-icon [icon]="faTimes"></fa-icon> Excluir
           </button>
         </div>
+        }
         <div class="overlay">
           <span>visualizar</span>
           <img
@@ -253,14 +196,19 @@
 
       <p class="date">Em: {{ moment.created_at | date: "dd/MM/yy" }}</p>
     </div>
-    <div *ngIf="profileData.moments.length === 0" class="container-end-moments">
+    }
+
+    @if (profile.moments.length === 0) {
+    <div class="container-end-moments">
       <p>OPS... sem publicações por aqui.</p>
     </div>
+    }
   </div>
   <button class="butn" routerLink="/">Voltar ao Feed</button>
 </div>
 
-<div class="overlay" *ngIf="imageUrl">
+@if (imageUrl) {
+<div class="overlay">
   <div class="container-image">
     <span
       class="close-btn"
@@ -286,7 +234,9 @@
     </button>
   </div>
 </div>
-
-<div *ngIf="!profileData" class="loading">
+}
+} @else {
+<div class="loading">
   <app-loading></app-loading>
 </div>
+}

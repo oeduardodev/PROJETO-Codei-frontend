@@ -1,27 +1,30 @@
 import { CommonModule } from "@angular/common";
 import {
   Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
   ElementRef,
+  ViewChild,
+  computed,
+  input,
+  output,
+  signal,
   OnInit,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { faPaperPlane, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import {
-  faWindowMinimize,
+  faPaperPlane,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
+import {
   faWindowMaximize,
+  faWindowMinimize,
 } from "@fortawesome/free-regular-svg-icons";
-import { Profile } from "../../models/Profiles";
-import { ChatService } from "../../services/chat.service";
-import { Chat } from "../../models/Chat";
-import { ProfileService } from "../../services/profile.service";
-import { AuthorizationService } from "../../services/auth.service";
 import { RouterLink } from "@angular/router";
+import { Chat } from "../../models/Chat";
+import { Profile } from "../../models/Profiles";
 import { ImageFallbackDirective } from "../../directives/image-fallback.directive";
+import { ChatService } from "../../services/chat.service";
+import { ProfileService } from "../../services/profile.service";
 
 @Component({
   selector: "app-chat",
@@ -37,108 +40,113 @@ import { ImageFallbackDirective } from "../../directives/image-fallback.directiv
   styleUrl: "./chat.component.css",
 })
 export class ChatComponent implements OnInit {
-  @Input() friend = new Profile({});
-  @Output() closeChat = new EventEmitter<Profile>();
+  readonly friend = input.required<Profile>();
+  readonly closed = output<Profile>();
   @ViewChild("messagesContainer") messagesContainer!: ElementRef;
 
-  faPlane = faPaperPlane;
-  faXmark = faXmark;
-  faWindowMinimize = faWindowMinimize;
-  faWindowMaximize = faWindowMaximize;
+  readonly faPlane = faPaperPlane;
+  readonly faXmark = faXmark;
+  readonly faWindowMinimize = faWindowMinimize;
+  readonly faWindowMaximize = faWindowMaximize;
 
-  isMinimized = false;
-
-  chatsMessages: Chat[] = [];
-  newMessage = "";
-
-  myId!: number;
-  friendId!: number;
-
-  profileData!: Profile;
+  readonly isMinimized = signal(false);
+  readonly chatsMessages = signal<Chat[]>([]);
+  readonly newMessage = signal("");
+  readonly myId = signal(0);
+  readonly profileData = signal<Profile | null>(null);
+  readonly friendId = computed(() => this.friend().userId);
 
   constructor(
     private chatService: ChatService,
     private profileService: ProfileService,
-    private authService: AuthorizationService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getMessages();
   }
 
   getMessages(): void {
     this.profileService.getMyProfile().subscribe({
       next: (response) => {
-        this.profileData = new Profile(response.profile);
-        this.myId = this.profileData.userId;
-        this.friendId = this.friend.userId;
+        const profile = new Profile(response.profile);
+        const myId = profile.userId;
+        const friendId = this.friendId();
 
-        this.chatService.joinRoom(this.myId);
+        this.profileData.set(profile);
+        this.myId.set(myId);
+        this.chatService.joinRoom(myId);
 
-        if (!this.friendId || !this.myId) {
-          console.warn("IDs inválidos:", this.myId, this.friendId);
+        if (!friendId || !myId) {
           return;
         }
 
-        this.chatService.getMessages(this.friendId).subscribe({
+        this.chatService.getMessages(friendId).subscribe({
           next: (messages) => {
-            this.chatsMessages = messages;
+            this.chatsMessages.set(messages);
             this.scrollToBottom();
-          },
-          error: (err) => {
-            console.error("Erro ao buscar mensagens:", err);
           },
         });
 
         this.initConversation();
       },
-      error: (err) => {
-        console.error("Erro ao obter perfil:", err);
+    });
+  }
+
+  initConversation(): void {
+    this.chatService.getMessagesStream().subscribe({
+      next: (newMessage: Chat) => {
+        const normalized = this.normalizeMessage(newMessage as any);
+
+        const isConversationMessage =
+          (normalized.sender_id === this.friend().userId &&
+            normalized.receiver_id === this.myId()) ||
+          (normalized.sender_id === this.myId() &&
+            normalized.receiver_id === this.friend().userId);
+
+        if (!isConversationMessage) {
+          return;
+        }
+
+        this.chatsMessages.update((messages) => {
+          if (messages.some((m) => m.id === normalized.id)) return messages;
+          return [...messages, normalized];
+        });
+
+        this.scrollToBottom();
       },
     });
   }
 
-  initConversation() {
-    this.chatService.getMessagesStream().subscribe({
-      next: (newMessage: Chat) => {
-        if (
-          (newMessage.sender_id === this.friend.userId &&
-            newMessage.receiver_id === this.myId) ||
-          (newMessage.sender_id === this.myId &&
-            newMessage.receiver_id === this.friend.userId)
-        ) {
-          this.chatsMessages.push(newMessage);
-          this.scrollToBottom();
-        }
-      },
-      error: (err) => {
-        console.error("Erro no stream de mensagens:", err);
-      },
-    });
-  }
-  sendMessage() {
-    if (!this.newMessage.trim()) {
+  sendMessage(): void {
+    const content = this.newMessage().trim();
+    const profile = this.profileData();
+
+    if (!content || !profile) {
       return;
     }
 
     const message: Chat = {
-      content: this.newMessage,
-      sender: this.profileData.userId,
-      receiver: this.friend.userId,
+      content,
+      sender: profile.userId,
+      receiver: this.friend().userId,
     };
 
     this.chatService.sendMessage(message).subscribe({
-      next: () => {
-        this.newMessage = "";
+      next: (savedMessage: any) => {
+        const normalized = this.normalizeMessage(savedMessage);
+
+        this.chatsMessages.update((messages) => {
+          if (messages.some((m) => m.id === normalized.id)) return messages;
+          return [...messages, normalized];
+        });
+
+        this.newMessage.set("");
         this.scrollToBottom();
-      },
-      error: (err) => {
-        console.error("Erro ao enviar mensagem:", err);
       },
     });
   }
 
-  scrollToBottom() {
+  scrollToBottom(): void {
     setTimeout(() => {
       if (this.messagesContainer) {
         this.messagesContainer.nativeElement.scrollTop =
@@ -147,11 +155,21 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  toggleMinimize() {
-    this.isMinimized = !this.isMinimized;
+  private normalizeMessage(m: any): Chat {
+    return {
+      ...m,
+      sender_id:
+        m.sender_id ?? m.senderId ?? m.sender?.id ?? m.sender?.userId ?? m.sender,
+      receiver_id:
+        m.receiver_id ?? m.receiverId ?? m.receiver?.id ?? m.receiver?.userId ?? m.receiver,
+    } as Chat;
   }
 
-  close() {
-    this.closeChat.emit(this.friend);
+  toggleMinimize(): void {
+    this.isMinimized.update((isMinimized) => !isMinimized);
+  }
+
+  close(): void {
+    this.closed.emit(this.friend());
   }
 }

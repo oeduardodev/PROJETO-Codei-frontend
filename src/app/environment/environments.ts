@@ -3,7 +3,7 @@ export const environment = {
   production: false,
 
   // URL base da API para desenvolvimento local
-  endpoint: "http://localhost:3333",
+  endpoint: "http://127.0.0.1:3333",
 
   /**
    * Rota para autenticação de login

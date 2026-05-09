@@ -1,16 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { FriendsService } from "../../services/friends.service";
 import { CommonModule } from "@angular/common";
-import { ChatComponent } from "../chat/chat.component";
+import { Component, signal } from "@angular/core";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Profile } from "../../models/Profiles";
-import { ChatService } from "../../services/chat.service";
-import { AuthorizationService } from "../../services/auth.service";
-import { ProfileService } from "../../services/profile.service";
-import { Chat } from "../../models/Chat";
-import { ProfileSearchComponent } from "../modal-search/profile-search.component";
 import { ImageFallbackDirective } from "../../directives/image-fallback.directive";
+import { AuthorizationService } from "../../services/auth.service";
+import { ChatService } from "../../services/chat.service";
+import { FriendsService } from "../../services/friends.service";
+import { ProfileService } from "../../services/profile.service";
+import { ChatComponent } from "../chat/chat.component";
+import { ProfileSearchComponent } from "../modal-search/profile-search.component";
 
 @Component({
   selector: "app-aside-friends",
@@ -25,101 +23,90 @@ import { ImageFallbackDirective } from "../../directives/image-fallback.directiv
   templateUrl: "./aside-friends.component.html",
   styleUrls: ["./aside-friends.component.css"],
 })
-export class AsideFriendsComponent implements OnInit {
-  friendsListComplate: Profile[] = [];
-  selectedFriends: Profile[] = [];
-  selectedFriendsChats: Record<number, Profile[]> = {};
-  faArrowLeft = faArrowLeft;
-  faArrowRight = faArrowRight;
-
-  isMinimized = false;
-
-  newMessage = "";
-
-  myId!: number;
-  friendId!: number;
-  profileData!: Profile;
-
-  notifications: Record<number, boolean> = {};
-  isProfileSearchOpen = false;
+export class AsideFriendsComponent {
+  readonly friends = signal<Profile[]>([]);
+  readonly selectedFriends = signal<Profile[]>([]);
+  readonly notifications = signal<Record<number, boolean>>({});
+  readonly isProfileSearchOpen = signal(false);
 
   constructor(
     private friendsService: FriendsService,
     private chatService: ChatService,
     private authService: AuthorizationService,
-    private profileService: ProfileService
-  ) {}
-
-  ngOnInit() {
+    private profileService: ProfileService,
+  ) {
     if (this.authService.isAuthenticated()) {
       this.friendsList();
       this.getMessages();
     }
   }
+
   getMessages(): void {
     this.profileService.getMyProfile().subscribe({
       next: () => {
         this.chatService.getAllMessages().subscribe((messages) => {
-          this.notifications = {};
+          const unreadNotifications: Record<number, boolean> = {};
 
-          messages.forEach((msg: any) => {
-            // Mensagem recebida e não lida
-            if (msg.read !== 1) {
-              this.notifications[msg.sender_id] = true;
+          messages.forEach((message: any) => {
+            const senderId =
+              message.sender_id ?? message.senderId ?? message.sender?.id ?? message.sender?.userId;
+            const isRead = message.read === true || message.read === 1 || message.read === '1';
+
+            if (senderId && !isRead) {
+              unreadNotifications[senderId] = true;
             }
           });
+
+          this.notifications.set(unreadNotifications);
         });
-      },
-      error: (err) => {
-        console.error("Erro ao obter perfil:", err);
       },
     });
   }
 
   hasNotifications(friendId: number): boolean {
-    return !!this.notifications[friendId];
+    return !!this.notifications()[friendId];
   }
 
-  friendsList() {
+  friendsList(): void {
     this.friendsService.friendsList().subscribe((data) => {
-      const friendsData = data;
-      this.friendsListComplate = friendsData.myFriends.map(
-        (f: Profile) => new Profile(f)
-      );
+      this.friends.set(data.myFriends.map((friend: Profile) => new Profile(friend)));
     });
   }
 
-  openChat(friend: Profile) {
-    if (this.selectedFriends.some((f) => f.userId === friend.userId)) {
+  openChat(friend: Profile): void {
+    if (this.selectedFriends().some((item) => item.userId === friend.userId)) {
       return;
     }
 
-    if (this.selectedFriends.length >= 5) {
+    if (this.selectedFriends().length >= 5) {
       return;
     }
 
-    this.selectedFriends = [...this.selectedFriends, friend];
-
-    delete this.notifications[friend.userId];
+    this.selectedFriends.update((selectedFriends) => [...selectedFriends, friend]);
+    this.notifications.update((notifications) => {
+      const updatedNotifications = { ...notifications };
+      delete updatedNotifications[friend.userId];
+      return updatedNotifications;
+    });
 
     this.friendMessageNotification(friend.userId);
   }
 
-  closeChat(friend: Profile) {
-    this.selectedFriends = this.selectedFriends.filter(
-      (f) => f.userId !== friend.userId
+  closeChat(friend: Profile): void {
+    this.selectedFriends.update((selectedFriends) =>
+      selectedFriends.filter((item) => item.userId !== friend.userId),
     );
   }
 
-  openProfileSearch() {
-    this.isProfileSearchOpen = true;
+  openProfileSearch(): void {
+    this.isProfileSearchOpen.set(true);
   }
 
-  closeProfileSearch() {
-    this.isProfileSearchOpen = false;
+  closeProfileSearch(): void {
+    this.isProfileSearchOpen.set(false);
   }
 
-  friendMessageNotification(friendId: number) {
+  friendMessageNotification(friendId: number): void {
     this.chatService.markRead(friendId).subscribe();
   }
 }

@@ -1,15 +1,15 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, computed, output, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { Router } from "@angular/router";
 import {
   faShareFromSquare,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
+import { Router } from "@angular/router";
 import { Profile } from "../../models/Profiles";
-import { ProfileService } from "../../services/profile.service";
 import { ImageFallbackDirective } from "../../directives/image-fallback.directive";
+import { ProfileService } from "../../services/profile.service";
 
 @Component({
   selector: "app-profile-search",
@@ -24,28 +24,30 @@ import { ImageFallbackDirective } from "../../directives/image-fallback.directiv
   styleUrl: "./profile-search.component.css",
 })
 export class ProfileSearchComponent {
-  @Output() closeModal = new EventEmitter<void>();
+  readonly closed = output<void>();
+  readonly faShare = faShareFromSquare;
+  readonly faFriends = faUserGroup;
+  readonly searchTerm = signal("");
+  readonly profiles = signal<Profile[]>([]);
+  readonly hasSearched = signal(false);
+  readonly hasResults = computed(() => this.profiles().length > 0);
 
-  faShare = faShareFromSquare;
-  faFriends = faUserGroup;
-  searchTerm: string = "";
-  profiles: Profile[] = [];
-  hasSearched = false;
   constructor(
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
   ) {}
 
-  searchProfiles() {
-    this.hasSearched = true;
-    this.profiles = [];
-    this.profileService.searchProfiles(this.searchTerm).subscribe((data) => {
-      this.profiles = data;
+  searchProfiles(): void {
+    this.hasSearched.set(true);
+    this.profiles.set([]);
+
+    this.profileService.searchProfiles(this.searchTerm()).subscribe((data) => {
+      this.profiles.set(data);
     });
   }
 
-  close() {
-    this.closeModal.emit();
+  close(): void {
+    this.closed.emit();
   }
 
   getPostsCount(profile: Profile): number {
@@ -56,14 +58,12 @@ export class ProfileSearchComponent {
     return profile.friends?.length ?? 0;
   }
 
-  openProfile(profile: Profile) {
+  openProfile(profile: Profile): void {
     if (!profile?.userId) {
-      console.error("Profile without valid userId:", profile);
       return;
     }
 
     this.close();
-    this.router.navigate(["/profile", profile.userId]);
-    console.log("Navigating to profile with ID:", profile.userId);
+    void this.router.navigate(["/profile", profile.userId]);
   }
 }

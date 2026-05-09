@@ -1,25 +1,23 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Router, NavigationEnd, RouterLink } from "@angular/router";
-import { Subscription } from "rxjs";
-import { Moment } from "../../models/Moments";
-import {
-  faFlaskVial,
-  faHouse,
-  faSearch,
-  faUser,
-  faBars,
-  faShareFromSquare,
-  faRightFromBracket,
-  faArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
-import { MomentService } from "../../services/moment.service";
-import { environment } from "../../environment/environments";
 import { CommonModule } from "@angular/common";
+import { Component, computed, signal } from "@angular/core";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { SearchService } from "../../services/search.service";
-import { UsersService } from "../../services/users.service";
+import {
+  faArrowLeft,
+  faBars,
+  faHouse,
+  faRightFromBracket,
+  faSearch,
+  faShareFromSquare,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { NavigationEnd, Router, RouterLink } from "@angular/router";
+import { filter } from "rxjs";
+import { Moment } from "../../models/Moments";
 import { AuthorizationService } from "../../services/auth.service";
 import { MenuService } from "../../services/menu.service";
+import { MomentService } from "../../services/moment.service";
+import { SearchService } from "../../services/search.service";
+import { UsersService } from "../../services/users.service";
 
 @Component({
   selector: "app-header",
@@ -28,23 +26,33 @@ import { MenuService } from "../../services/menu.service";
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.css"],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  faSearch = faSearch;
-  faHouse = faHouse;
-  faFlaskVial = faFlaskVial;
-  faUser = faUser;
-  faBars = faBars;
-  faShare = faShareFromSquare;
-  faLogout = faRightFromBracket;
-  faArrowLeft = faArrowLeft;
+export class HeaderComponent {
+  readonly faSearch = faSearch;
+  readonly faHouse = faHouse;
+  readonly faUser = faUser;
+  readonly faBars = faBars;
+  readonly faShare = faShareFromSquare;
+  readonly faLogout = faRightFromBracket;
+  readonly faArrowLeft = faArrowLeft;
 
-  allMoments: Moment[] = [];
-  userLogged = false;
-  baseApiUrl = environment.endpoint;
-  currentRoute = "";
-  userName: string = "";
-  private routerSubscription: Subscription = new Subscription();
-  menuOpen$ = this.menuService.menuOpen$;
+  readonly menuOpen = this.menuService.menuOpen;
+  readonly userLogged = signal(false);
+  readonly userName = signal("");
+  readonly currentRoute = signal("");
+  readonly allMoments = signal<Moment[]>([]);
+
+  readonly isMomentEditorRoute = computed(
+    () => this.currentRoute() === "/moments/new",
+  );
+  readonly showProfileShortcut = computed(() => {
+    const route = this.currentRoute();
+    return route === "/" || route === "/moments/new";
+  });
+  readonly showHomeShortcut = computed(() => {
+    const route = this.currentRoute();
+    return route === "/profile" || route === "/login" || route === "/moments/new";
+  });
+
   constructor(
     private momentService: MomentService,
     private searchService: SearchService,
@@ -52,61 +60,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private userService: UsersService,
     private router: Router,
     private menuService: MenuService,
-  ) {}
-
-  ngOnInit(): void {
+  ) {
+    this.currentRoute.set(this.router.url);
     this.checkUserAuthentication();
     this.loadMoments();
     this.setupRouterListener();
   }
 
-  ngOnDestroy(): void {
-    // Limpa a inscrição para evitar memory leaks
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
-  }
-
   private checkUserAuthentication(): void {
-    // Primeiro verifica se há token
     const token = localStorage.getItem("authToken");
 
-    if (token && this.authService.isAuthenticated()) {
-      // Se tem token, tenta buscar dados do usuário
-      this.userService.getUser().subscribe({
-        next: (user) => {
-          this.userLogged = true;
-          this.userName = user.username || "";
-        },
-        error: (error) => {
-          if (error.status === 401) {
-            // Token inválido ou expirado
-            this.handleUnauthorized();
-          }
-          this.userLogged = false;
-          this.userName = "";
-        },
-      });
-    } else {
-      this.userLogged = false;
-      this.userName = "";
+    if (!token || !this.authService.isAuthenticated()) {
+      this.resetUserState();
+      return;
     }
+
+    this.userService.getUser().subscribe({
+      next: (user) => {
+        this.userLogged.set(true);
+        this.userName.set(user.username || "");
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          this.handleUnauthorized();
+          return;
+        }
+
+        this.resetUserState();
+      },
+    });
   }
 
-  public loadMoments(): void {
+  loadMoments(): void {
     this.momentService.getMoments().subscribe({
       next: (items) => {
-        const data = items.data;
-        data.map((item) => {
-          item.created_at = new Date(item.created_at!).toLocaleDateString(
-            "pt-BR",
-          );
-        });
-        this.allMoments = data;
+        const data = items.data.map((item) => ({
+          ...item,
+          created_at: new Date(item.created_at!).toLocaleDateString("pt-BR"),
+        }));
+
+        this.allMoments.set(data);
         this.searchService.setFilteredMoments(data);
       },
       error: (error) => {
-        console.error("Erro ao carregar momentos:", error);
         if (error.status === 401) {
           this.handleUnauthorized();
         }
@@ -115,60 +111,61 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private setupRouterListener(): void {
-    this.routerSubscription = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.urlAfterRedirects;
-
-        // 🔥 FECHA O MENU SEMPRE QUE A ROTA MUDA
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.currentRoute.set(event.urlAfterRedirects);
         this.menuService.closeMenu();
 
         if (
           event.urlAfterRedirects === "/login" ||
           event.urlAfterRedirects === "/register"
         ) {
-          this.userLogged = false;
-        } else if (this.authService.isAuthenticated() && !this.userLogged) {
+          this.resetUserState();
+          return;
+        }
+
+        if (this.authService.isAuthenticated() && !this.userLogged()) {
           this.checkUserAuthentication();
         }
-      }
-    });
+      });
   }
 
-  search(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    const value = target.value.toLowerCase();
-
-    const filteredMoments = this.allMoments.filter((moment) =>
+  search(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.toLowerCase();
+    const filteredMoments = this.allMoments().filter((moment) =>
       moment.title.toLowerCase().includes(value),
     );
+
     this.searchService.setSearchTerm(value);
     this.searchService.setFilteredMoments(filteredMoments);
   }
 
   logout(): void {
     this.authService.clearToken();
-    this.userLogged = false;
-    this.userName = "";
-    this.router.navigate(["/login"]);
+    this.resetUserState();
+    void this.router.navigate(["/login"]);
   }
 
   private handleUnauthorized(): void {
     this.authService.clearToken();
-    this.userLogged = false;
-    this.userName = "";
-    // Se não estiver na página de login, redireciona
-    if (!this.currentRoute.includes("login")) {
-      this.router.navigate(["/login"]);
+    this.resetUserState();
+
+    if (!this.currentRoute().includes("login")) {
+      void this.router.navigate(["/login"]);
     }
+  }
+
+  private resetUserState(): void {
+    this.userLogged.set(false);
+    this.userName.set("");
   }
 
   toggleMenu(): void {
     this.menuService.toggleMenu();
   }
+
   closeMenu(): void {
     this.menuService.closeMenu();
-  }
-  verifyMenuState(): boolean {
-    return this.menuService.isMenuOpen();
   }
 }

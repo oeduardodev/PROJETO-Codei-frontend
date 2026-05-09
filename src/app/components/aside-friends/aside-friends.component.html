@@ -1,11 +1,8 @@
 <aside>
   <div class="friends-continer">
     <ul>
-      <li
-        class="friend"
-        *ngFor="let friend of friendsListComplate"
-        (click)="openChat(friend)"
-      >
+      @for (friend of friends(); track friend.userId) {
+      <li class="friend" (click)="openChat(friend)">
         <img
           [src]="friend.photo || '/assets/profile-default-img.png'"
           appImageFallback="/assets/profile-default-img.png"
@@ -13,20 +10,23 @@
           alt="profile-img"
         />
 
-        <span class="notifications" *ngIf="hasNotifications(friend.userId)">
-          .
-        </span>
+        @if (hasNotifications(friend.userId)) {
+        <span class="notifications">.</span>
+        }
       </li>
+      }
       <li class="add" (click)="openProfileSearch()">+</li>
     </ul>
   </div>
   <div class="chats-container">
-    <div class="chat" *ngFor="let friend of selectedFriends">
-      <app-chat [friend]="friend" (closeChat)="closeChat(friend)"></app-chat>
+    @for (friend of selectedFriends(); track friend.userId) {
+    <div class="chat">
+      <app-chat [friend]="friend" (closed)="closeChat(friend)"></app-chat>
     </div>
+    }
   </div>
 </aside>
-<app-profile-search
-  *ngIf="isProfileSearchOpen"
-  (closeModal)="closeProfileSearch()"
-></app-profile-search>
+
+@if (isProfileSearchOpen()) {
+<app-profile-search (closed)="closeProfileSearch()"></app-profile-search>
+}

@@ -1,5 +1,6 @@
 
 export class Chat {
+  id?: number;
   receiver_id?: number;
   sender_id?: number;
   content?: string;

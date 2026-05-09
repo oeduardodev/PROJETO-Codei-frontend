@@ -2,8 +2,8 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Input,
   OnChanges,
+  input,
 } from "@angular/core";
 
 @Directive({
@@ -11,7 +11,7 @@ import {
   standalone: true,
 })
 export class ImageFallbackDirective implements OnChanges {
-  @Input() appImageFallback = "/assets/profile-default-img.png";
+  readonly appImageFallback = input("/assets/profile-default-img.png");
 
   private fallbackApplied = false;
 
@@ -28,6 +28,6 @@ export class ImageFallbackDirective implements OnChanges {
     }
 
     this.fallbackApplied = true;
-    this.elementRef.nativeElement.src = this.appImageFallback;
+    this.elementRef.nativeElement.src = this.appImageFallback();
   }
 }

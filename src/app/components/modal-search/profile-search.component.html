@@ -6,18 +6,20 @@
       <input
         type="text"
         placeholder="Buscar por nome de usuário"
-        [(ngModel)]="searchTerm"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
         (keyup.enter)="searchProfiles()"
       />
       <button type="button" (click)="searchProfiles()">Buscar</button>
     </div>
 
-    <div class="results" *ngIf="profiles.length > 0">
+    @if (hasResults()) {
+    <div class="results">
       <h3>Resultados da Busca</h3>
       <ul class="results-list">
+        @for (profile of profiles(); track profile.userId) {
         <li
           class="result-card"
-          *ngFor="let profile of profiles"
           role="button"
           tabindex="0"
           (click)="openProfile(profile)"
@@ -50,11 +52,13 @@
             </div>
           </div>
         </li>
+        }
       </ul>
     </div>
+    }
 
-    <p class="empty-state" *ngIf="hasSearched && profiles.length === 0">
-      Nenhum perfil encontrado.
-    </p>
+    @if (hasSearched() && !hasResults()) {
+    <p class="empty-state">Nenhum perfil encontrado.</p>
+    }
   </div>
- </div>
+</div>

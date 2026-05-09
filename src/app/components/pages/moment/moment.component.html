@@ -1,28 +1,29 @@
 <div class="layout-container">
-  <div class="moment" *ngIf="moment">
+  @if (moment(); as currentMoment) {
+  <div class="moment">
     <div class="header-container">
       <div class="capilike-container">
-        <p>{{ moment.likes_count }}</p>
+        <p>{{ currentMoment.likes_count }}</p>
         <img
           class="capilike"
-          [src]="updateLikeImage()"
+          [class.clicked]="animateLike()"
+          [src]="likeImage()"
           alt="Like"
           (click)="sendLike()"
           tabindex="0"
           (keydown.enter)="sendLike()"
-          tabindex="0"
           (keydown.space)="sendLike()"
         />
       </div>
-      <h3>{{ moment.title }}</h3>
+      <h3>{{ currentMoment.title }}</h3>
     </div>
 
     <div class="container-about-comment">
       <img
         class="img-moment"
-        [src]="moment.photo"
+        [src]="currentMoment.photo"
         appImageFallback="./assets/post-default.png"
-        [alt]="moment.title"
+        [alt]="currentMoment.title"
         (click)="sendLike()"
         tabindex="0"
         (keydown.enter)="sendLike()"
@@ -31,18 +32,18 @@
       <div class="comment-about">
         <div
           class="container-profile"
-          [routerLink]="['/profile/', moment.userId]"
+          [routerLink]="['/profile/', currentMoment.userId]"
         >
           <img
             class="img-profile"
-            [src]="moment.profile.photo || '/assets/profile-default-img.png'"
+            [src]="currentMoment.profile.photo || '/assets/profile-default-img.png'"
             appImageFallback="/assets/profile-default-img.png"
             alt=""
             srcset=""
           />
-          <h2>&commat;{{ moment.profile.username }}</h2>
+          <h2>&commat;{{ currentMoment.profile.username }}</h2>
         </div>
-        <p class="description">{{ moment.description }}</p>
+        <p class="description">{{ currentMoment.description }}</p>
         <div class="comment-form">
           <h2>Deixe um comentário</h2>
           <form
@@ -57,12 +58,13 @@
               placeholder="O que você achou?"
               required
             ></textarea>
-            <div
-              *ngIf="text.invalid && formDir.submitted"
-              class="validation-error"
-            >
-              <p *ngIf="text.errors?.['required']">O texto é obrigatório.</p>
+            @if (text.invalid && formDir.submitted) {
+            <div class="validation-error">
+              @if (text.errors?.['required']) {
+              <p>O texto é obrigatório.</p>
+              }
             </div>
+            }
 
             <div class="username-container">
               <input
@@ -72,37 +74,23 @@
               />
               <input class="comment-button" type="submit" value="Comentar!" />
             </div>
-            <!-- Comentado pois a validação de required para o username foi retirada:
-          <div *ngIf="username.invalid && formDir.submitted" class="validation-error">
-            <p *ngIf="username.errors?.['required']">O nome é obrigatório.</p>
-          </div> 
-          --></form>
+          </form>
         </div>
-        <p class="tewt" *ngIf="moment.comments && moment.comments.length > 2">
-          <span
-            >{{ moment.comments.length > 0 ? moment.comments.length : 0 }}
-            Pessoas
-          </span>
+
+        @if (commentCount() > 2) {
+        <p class="tewt">
+          <span>{{ commentCount() }} Pessoas</span>
           comentaram nessa publicação.
         </p>
-        <ng-template #noCommentsTemplate>
-          <p class="noComments">Ninguém comentou ainda, seja o primeiro!</p>
-        </ng-template>
+        }
       </div>
     </div>
 
     <div class="comments">
-      <div
-        class="container"
-        *ngIf="
-          moment.comments && moment.comments.length > 0;
-          else noCommentsTemplate
-        "
-      >
-        <div
-          class="comment-container small"
-          *ngFor="let comment of moment.comments; let i = index"
-        >
+      @if (hasComments()) {
+      <div class="container">
+        @for (comment of comments(); track comment.id) {
+        <div class="comment-container small">
           <p class="author">
             <img
               [src]="comment.photo || '/assets/profile-default-img.png'"
@@ -114,7 +102,12 @@
           </p>
           <p class="comment">{{ comment.text }}</p>
         </div>
+        }
       </div>
+      } @else {
+      <p class="noComments">Ninguém comentou ainda, seja o primeiro!</p>
+      }
     </div>
   </div>
+  }
 </div>
