@@ -6,9 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { Register } from "../../models/Register";
-import { AuthorizationService } from "../../services/auth.service";
 import { MessageService } from "../../services/message.service";
 
 @Component({
@@ -32,12 +31,7 @@ export class FormAccessComponent {
     password: new FormControl("", Validators.required),
   });
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthorizationService,
-    private router: Router,
-    private messageService: MessageService,
-  ) {
+  constructor(private messageService: MessageService) {
     effect(() => {
       const data = this.registerData();
       this.loginForm.patchValue(
@@ -48,18 +42,6 @@ export class FormAccessComponent {
         { emitEvent: false },
       );
     });
-
-    this.route.queryParams.subscribe((params) => {
-      const token = params["token"];
-
-      if (!token) {
-        return;
-      }
-
-      this.authService.setToken(token);
-      this.messageService.addMessage("Login via Google bem-sucedido");
-      void this.router.navigate(["/"]);
-    });
   }
 
   submit(): void {
@@ -68,6 +50,6 @@ export class FormAccessComponent {
 
   showGoogleUnavailableMessage(event: MouseEvent): void {
     event.preventDefault();
-    this.messageService.addMessage("Função ainda não disponível para você.");
+    this.messageService.addMessage("Funcao ainda nao disponivel para voce.");
   }
 }

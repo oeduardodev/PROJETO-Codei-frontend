@@ -5,6 +5,11 @@ import { Router } from "@angular/router";
 import { Observable, tap } from "rxjs";
 import { environment } from "../environment/environments";
 
+interface AuthTokenResponse {
+  token?: string;
+  access_token?: string;
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -15,9 +20,9 @@ export class AuthorizationService {
   ) {}
 
   // Método de login que salva o token
-  login(credentials: FormData): Observable<any> {
-    return this.http.post(`${environment.endpoint}/login`, credentials).pipe(
-      tap((response: any) => {
+  login(credentials: FormData): Observable<AuthTokenResponse> {
+    return this.http.post<AuthTokenResponse>(`${environment.endpoint}${environment.login}`, credentials).pipe(
+      tap((response) => {
         // Salva o token quando o login for bem-sucedido
         if (response.token) {
           this.setToken(response.token);

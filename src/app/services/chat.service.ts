@@ -13,28 +13,26 @@ export class ChatService {
   private messageSubject = new Subject<Chat>();
 
   constructor(private http: HttpClient) {
-    this.socket = io(environment.endpoint);
+    this.socket = io(environment.endpoint, {
+      auth: () => ({
+        token: localStorage.getItem("authToken"),
+      }),
+    });
 
     this.socket.on("connect", () => {
-      console.debug('[ChatService] socket connected', this.socket.id);
-      // Opcional: enviar token para o socket se necessário
-      const token = localStorage.getItem("authToken");
-      if (token) {
-        this.socket.emit("authenticate", { token });
-        console.debug('[ChatService] emitted authenticate');
-      }
+      console.debug("[ChatService] socket connected", this.socket.id);
     });
 
-    this.socket.on('connect_error', (err) => {
-      console.error('[ChatService] socket connect_error', err);
+    this.socket.on("connect_error", (err) => {
+      console.error("[ChatService] socket connect_error", err);
     });
 
-    this.socket.on('disconnect', (reason) => {
-      console.warn('[ChatService] socket disconnected', reason);
+    this.socket.on("disconnect", (reason) => {
+      console.warn("[ChatService] socket disconnected", reason);
     });
 
     this.socket.on("newMessage", (message) => {
-      console.debug('[ChatService] newMessage', message);
+      console.debug("[ChatService] newMessage", message);
       this.messageSubject.next(message);
     });
   }
@@ -45,9 +43,9 @@ export class ChatService {
 
   getAllMessages(): Observable<Chat[]> {
     const url = `${environment.endpoint}${environment.getMessages}`;
-    return this.http.get<Chat[]>(url).pipe(
-      tap((messages) => console.debug('[ChatService] getAllMessages', url, messages)),
-    );
+    return this.http
+      .get<Chat[]>(url)
+      .pipe(tap((messages) => console.debug("[ChatService] getAllMessages", url, messages)));
   }
 
   getMessages(id: number): Observable<Chat[]> {
@@ -55,19 +53,19 @@ export class ChatService {
       "${id}",
       id.toString(),
     )}`;
-    return this.http.get<Chat[]>(url).pipe(
-      tap((messages) => console.debug('[ChatService] getMessages', url, messages)),
-    );
+    return this.http
+      .get<Chat[]>(url)
+      .pipe(tap((messages) => console.debug("[ChatService] getMessages", url, messages)));
   }
 
   sendMessage(data: Chat): Observable<Chat> {
     const url = `${environment.endpoint}${environment.sendMessage}`;
-    return this.http.post<Chat>(url, data).pipe(
-      tap((saved) => console.debug('[ChatService] sendMessage', url, saved)),
-    );
+    return this.http
+      .post<Chat>(url, data)
+      .pipe(tap((saved) => console.debug("[ChatService] sendMessage", url, saved)));
   }
 
-  markRead(id: number): Observable<any> {
+  markRead(id: number): Observable<unknown> {
     const url = `${environment.endpoint}${environment.markAsRead.replace(
       "${id}",
       id.toString(),
@@ -81,13 +79,12 @@ export class ChatService {
   }
 
   joinRoom(userId: number) {
-    this.socket.emit("join", userId);
+    void userId;
+    this.socket.emit("join");
   }
 
   authenticateSocket() {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      this.socket.emit("authenticate", { token });
-    }
+    this.socket.auth = { token: localStorage.getItem("authToken") };
+    this.socket.connect();
   }
 }

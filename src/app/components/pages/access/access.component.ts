@@ -24,7 +24,6 @@ import { UsersService } from "../../../services/users.service";
 })
 export class AccessComponent implements OnInit {
   btnText = "Entrar";
-  private token = localStorage.getItem("authToken") || "";
 
   constructor(
     private service: UsersService,
@@ -35,8 +34,8 @@ export class AccessComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      const token = params["token"];
+    this.route.fragment.subscribe((fragment) => {
+      const token = new URLSearchParams(fragment ?? "").get("token");
 
       if (!token) {
         return;
@@ -44,7 +43,7 @@ export class AccessComponent implements OnInit {
 
       this.authService.setToken(token);
       this.messageService.addMessage("Login via Google bem-sucedido");
-      void this.router.navigate(["/"]);
+      void this.router.navigate(["/"], { replaceUrl: true });
     });
   }
 
@@ -56,13 +55,12 @@ export class AccessComponent implements OnInit {
     this.service.login(formData).subscribe({
       next: (response) => {
         if (!response.token) {
-          this.messageService.addMessage("Não foi possível concluir o login agora.");
+          this.messageService.addMessage("Nao foi possivel concluir o login agora.");
           return;
         }
 
-        localStorage.setItem("authToken", response.token);
-        this.token = response.token;
-        this.messageService.addMessage("Bem-vindo de volta capivara!");
+        this.authService.setToken(response.token);
+        this.messageService.addMessage("Bem-vindo de volta!");
         void this.router.navigate(["/"]);
       },
       error: () => {
