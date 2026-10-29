@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  endpoint: "https://projeto-codei-backend-1.onrender.com",
+  endpoint: "https://projeto-codei-backend.onrender.com",
   login: "/api/auth/login",
   register: "/api/auth/register",
   getUser: "/api/auth/user",
